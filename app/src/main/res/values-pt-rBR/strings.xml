@@ -10,7 +10,7 @@
     <string name="coinPair">%1$s/%2$s</string>
     <string name="buyPriceHint">Preço de Compra %1$s</string>
     <string name="coinDayChanges">%1$.2f%%</string>
-    <string name="marketCap">Cap. de Mercado: %1$s</string>
+    <string name="marketCap">Mkt cap: %1$s</string>
     <string name="tickerActivityTitle">%1$s Mercados</string>
     <string name="newsActivityTitle">%1$s Novidades</string>
 
@@ -36,7 +36,7 @@
     <string name="about">Sobre</string>
     <string name="cd_coin_image">Imagem da Moeda</string>
     <string name="statistics">Estatísticas</string>
-    <string name="open">Abrir</string>
+    <string name="open">Abertura</string>
 
     <string name="today_s_high">Max. Hoje</string>
     <string name="today_s_low">Min. Hoje</string>
@@ -51,7 +51,7 @@
     <string name="proof_type">Tipo de Prova</string>
     <string name="global_avg">Média Global</string>
 
-    <string name="recent_news">Novidades</string>
+    <string name="recent_news">Notícias</string>
     <string name="more">Mais</string>
     <string name="add_transaction">Adicionar Transação</string>
     <string name="portfolio_changed_percentage">(%1$s%%)</string>
@@ -72,7 +72,7 @@
 
     <string name="search_coin">Buscar Moeda</string>
     <string name="crypto_compare_short">CryptoCompare.com</string>
-    <string name="crypto_compare">Powered by CryptoCompare.com</string>
+    <string name="crypto_compare"></string>
     <string name="crypto_compare_url">https://www.cryptocompare.com</string>
     <string name="crypto_panic_short">CryptoPanic.com</string>
     <string name="crypto_panic">Powered by CryptoPanic.com</string>
@@ -145,5 +145,5 @@
     <string name="cdExchange">Exchange</string>
     <string name="attribution">Atribuição</string>
     <string name="top_volume">Moedas com Maior Volume</string>
-    <string name="top_pair">Pares com Maior Volume</string>
+    <string name="top_pair">Moedas com Maior Volume</string>
 </resources>

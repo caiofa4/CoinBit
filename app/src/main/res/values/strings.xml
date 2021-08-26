@@ -70,7 +70,7 @@
 
     <string name="search_coin">Search Coin</string>
     <string name="crypto_compare_short">CryptoCompare.com</string>
-    <string name="crypto_compare">Powered by CryptoCompare.com</string>
+    <string name="crypto_compare"></string>
     <string name="crypto_compare_url">https://www.cryptocompare.com</string>
     <string name="crypto_panic_short">CryptoPanic.com</string>
     <string name="crypto_panic">Powered by CryptoPanic.com</string>
