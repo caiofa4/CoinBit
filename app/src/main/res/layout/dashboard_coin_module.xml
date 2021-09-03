@@ -6,11 +6,24 @@
     android:id="@+id/coinCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/generic14dp"
-    android:layout_marginEnd="@dimen/generic14dp"
-    android:background="@drawable/ripple_background"
-    android:padding="@dimen/generic16dp"
     android:stateListAnimator="@animator/card_down_animation">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="@dimen/generic20dp"
+        android:layout_marginEnd="@dimen/generic20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/ripple_background"
+        android:paddingTop="@dimen/generic10dp"
+        android:paddingBottom="@dimen/generic10dp"
+        android:paddingStart="@dimen/generic24dp"
+        android:paddingEnd="@dimen/generic24dp"
+        >
 
 
     <ImageView
@@ -75,13 +88,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/ivCoin" />
 
-
     <View
         android:id="@+id/dividerView"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/generic8dp"
-        android:background="@color/colorPrimaryDusk"
+        android:background="@color/colorPrimary"
         app:layout_constraintTop_toBottomOf="@id/tvCoinPercentChange" />
 
 
@@ -133,6 +145,8 @@
         android:visibility="gone"
         app:constraint_referenced_ids="dividerView,tvQuantity,tvCurrentValue,tvProfitLoss,tvProfitLossLabel"
         tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -71,10 +71,10 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
 
         val inflate = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
-        val toolbar = inflate.toolbar
-        toolbar?.title = getString(R.string.market)
-
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+//        val toolbar = inflate.toolbar
+//        toolbar?.title = getString(R.string.market)
+//
+//        (activity as AppCompatActivity).setSupportActionBar(toolbar)
 
         coinDashboardPresenter.attachView(this)
 
@@ -124,6 +124,10 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
 
     private fun setupDashBoardAdapter(watchedCoinList: List<WatchedCoin>, coinTransactionList: List<CoinTransaction>) {
 
+        coinDashboardList.add(AddWalletItemView.AddWalletModuleItem)
+
+        coinDashboardList.add(AddCoinItemView.AddCoinModuleItem)
+
         watchedCoinList.forEach { watchedCoin ->
             coinDashboardList.add(
                 CoinItemView.DashboardCoinModuleData(
@@ -132,8 +136,6 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
                 )
             )
         }
-
-        coinDashboardList.add(AddCoinItemView.AddCoinModuleItem)
 
         coinDashboardList.add(GenericFooterItemView.FooterModuleData(getString(R.string.crypto_compare), getString(R.string.crypto_compare_url)))
 
@@ -186,7 +188,8 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
                     it.price
                         ?: "0",
                     it.changePercentage24Hour ?: "0", it.marketCap ?: "0",
-                    it.fromSymbol ?: ""
+                    it.fromSymbol ?: "",
+                        it.imageUrl ?: ""
                 )
             )
         }
@@ -237,17 +240,17 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
                             Carousel.setDefaultGlobalSnapHelperFactory(null)
                         }
                     }
-                    is ShortNewsItemView.ShortNewsModuleData -> shortNewsItemView {
-                        id("shortNews")
-                        newsDate(moduleItem.news.title ?: "")
-                        itemClickListener { _ ->
-                            moduleItem.news.url?.let {
-                                openCustomTab(it, requireContext())
-                                CoinBitCache.updateCryptoCompareNews(moduleItem.news)
-                                coinDashboardPresenter.getLatestNewsFromCryptoCompare()
-                            }
-                        }
-                    }
+//                    is ShortNewsItemView.ShortNewsModuleData -> shortNewsItemView {
+//                        id("shortNews")
+//                        newsDate(moduleItem.news.title ?: "")
+//                        itemClickListener { _ ->
+//                            moduleItem.news.url?.let {
+//                                openCustomTab(it, requireContext())
+//                                CoinBitCache.updateCryptoCompareNews(moduleItem.news)
+//                                coinDashboardPresenter.getLatestNewsFromCryptoCompare()
+//                            }
+//                        }
+//                    }
                     is CoinItemView.DashboardCoinModuleData -> coinItemView {
                         id(moduleItem.watchedCoin.coin.id)
                         dashboardCoinModuleData(moduleItem)
@@ -257,19 +260,28 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
                             }
                         })
                     }
+                    is AddWalletItemView.AddWalletModuleItem -> addWalletItemView {
+                        id("wallet")
+                    }
                     is AddCoinItemView.AddCoinModuleItem -> addCoinItemView {
                         id("add coin")
                         addCoinClickListener { _ ->
                             startActivityForResult(CoinSearchActivity.buildLaunchIntent(requireContext()), COIN_SEARCH_CODE)
                         }
                     }
-                    is GenericFooterItemView.FooterModuleData -> genericFooterItemView {
-                        id("footer")
-                        footerContent(moduleItem)
-                    }
+//                    is GenericFooterItemView.FooterModuleData -> genericFooterItemView {
+//                        id("footer")
+//                        footerContent(moduleItem)
+//                    }
                 }
             }
         }
+    }
+
+    private fun clearList() {
+        val moduleItem = coinDashboardList.first()
+        coinDashboardList = ArrayList()
+        coinDashboardList.add(moduleItem)
     }
 
     override fun onNetworkError(errorMessage: String) {
@@ -280,6 +292,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
 
         if (COIN_SEARCH_CODE == requestCode || COIN_DETAILS_CODE == requestCode) {
             if (resultCode == Activity.RESULT_OK) {
+                clearList()
                 coinDashboardPresenter.loadWatchedCoinsAndTransactions()
             }
         }

@@ -2,6 +2,8 @@ package com.binarybricks.coinbit.features
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
@@ -33,31 +35,46 @@ class HomeActivity : AppCompatActivity() {
         // if fragment exist reuse it
         // if not then add it
 
-        bottomNavigation.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.actionHome -> {
-                    switchToDashboard(savedInstanceState)
-                }
-
-                R.id.actionSearch -> {
-                    switchToSearch(savedInstanceState)
-                }
-
-                R.id.actionSettings -> {
-                    switchToSettings(savedInstanceState)
-                }
-            }
-            return@setOnNavigationItemSelectedListener true
+        tvHome.setOnClickListener {
+            switchToDashboard(savedInstanceState)
         }
+        tvSearchCoins.setOnClickListener {
+            switchToSearch(savedInstanceState)
+        }
+
+//        bottomNavigation.setOnNavigationItemSelectedListener {
+//            when (it.itemId) {
+//                R.id.actionHome -> {
+//                    switchToDashboard(savedInstanceState)
+//                }
+//
+//                R.id.actionSearch -> {
+//                    switchToSearch(savedInstanceState)
+//                }
+//
+////                R.id.actionSettings -> {
+////                    switchToSettings(savedInstanceState)
+////                }
+//            }
+//            return@setOnNavigationItemSelectedListener true
+//        }
 
         supportFragmentManager.addOnBackStackChangedListener {
             if (supportFragmentManager.backStackEntryCount == 0) {
                 finish()
             } else if (!supportFragmentManager.fragments.isNullOrEmpty()) {
                 when (supportFragmentManager.fragments[0]) {
-                    is CoinDashboardFragment -> bottomNavigation.menu.getItem(0).isChecked = true
-                    is CoinDiscoveryFragment -> bottomNavigation.menu.getItem(1).isChecked = true
-                    is SettingsFragment -> bottomNavigation.menu.getItem(2).isChecked = true
+                    is CoinDashboardFragment -> {
+                        tvHome.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+                        tvSearchCoins.paintFlags = 0
+                        tvTitle.text = getString(R.string.market)
+                    }
+                    is CoinDiscoveryFragment -> {
+                        tvSearchCoins.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+                        tvHome.paintFlags = 0
+                        tvTitle.text = getString(R.string.search)
+                    }
+                    //is SettingsFragment -> bottomNavigation.menu.getItem(2).isChecked = true
                 }
             }
         }

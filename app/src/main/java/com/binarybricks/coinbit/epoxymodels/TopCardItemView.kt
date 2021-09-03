@@ -3,15 +3,19 @@ package com.binarybricks.coinbit.epoxymodels
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.binarybricks.coinbit.R
 import com.binarybricks.coinbit.data.PreferenceManager
 import com.binarybricks.coinbit.featurecomponents.ModuleItem
+import com.binarybricks.coinbit.network.BASE_CRYPTOCOMPARE_IMAGE_URL
 import com.binarybricks.coinbit.utils.CoinBitExtendedCurrency
 import com.binarybricks.coinbit.utils.resourcemanager.AndroidResourceManager
 import com.binarybricks.coinbit.utils.resourcemanager.AndroidResourceManagerImpl
@@ -30,6 +34,7 @@ class TopCardItemView @JvmOverloads constructor(
     private val tvPrice: TextView
     private val tvPriceChange: TextView
     private val tvMarketCap: TextView
+    private val ivCoin: ImageView
     private val topCardContainer: View
 
     private val androidResourceManager: AndroidResourceManager by lazy {
@@ -44,6 +49,10 @@ class TopCardItemView @JvmOverloads constructor(
         Currency.getInstance(toCurrency)
     }
 
+    private val cropCircleTransformation by lazy {
+        RoundedCornersTransformation(15F)
+    }
+
     private var onTopItemClickedListener: OnTopItemClickedListener? = null
 
     init {
@@ -53,10 +62,18 @@ class TopCardItemView @JvmOverloads constructor(
         tvPriceChange = findViewById(R.id.tvPriceChange)
         tvMarketCap = findViewById(R.id.tvMarketCap)
         topCardContainer = findViewById(R.id.topCardContainer)
+        ivCoin = findViewById(R.id.ivCoin)
     }
 
     @ModelProp
     fun setTopCardData(topCardsModuleData: TopCardsModuleData) {
+        val imageUrl = BASE_CRYPTOCOMPARE_IMAGE_URL + "${topCardsModuleData.imageUrl}?width=50"
+        ivCoin.load(imageUrl) {
+            crossfade(true)
+            error(R.mipmap.ic_launcher_round)
+            transformations(cropCircleTransformation)
+        }
+
         tvPair.text = topCardsModuleData.pair
         tvPrice.text = topCardsModuleData.price
         tvPriceChange.text = androidResourceManager.getString(
@@ -97,6 +114,7 @@ class TopCardItemView @JvmOverloads constructor(
         val price: String,
         val priceChangePercentage: String,
         val marketCap: String,
-        val coinSymbol: String
+        val coinSymbol: String,
+        val imageUrl: String = ""
     ) : ModuleItem
 }

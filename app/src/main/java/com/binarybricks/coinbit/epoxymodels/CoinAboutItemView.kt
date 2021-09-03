@@ -22,7 +22,7 @@ class CoinAboutItemView @JvmOverloads constructor(
     defStyle: Int = 0,
 ) : ConstraintLayout(context, attributeSet, defStyle) {
 
-    private val tvAboutCoin: TextView
+    //private val tvAboutCoin: TextView
     private val tvWebsiteValue: TextView
     private val tvTwitterValue: TextView
     private val tvRedditValue: TextView
@@ -38,7 +38,7 @@ class CoinAboutItemView @JvmOverloads constructor(
 
     init {
         View.inflate(context, R.layout.coin_about_module, this)
-        tvAboutCoin = findViewById(R.id.tvAboutCoin)
+        //tvAboutCoin = findViewById(R.id.tvAboutCoin)
         tvWebsiteValue = findViewById(R.id.tvWebsiteValue)
         tvTwitterValue = findViewById(R.id.tvTwitterValue)
         tvRedditValue = findViewById(R.id.tvRedditValue)
@@ -48,8 +48,8 @@ class CoinAboutItemView @JvmOverloads constructor(
     @ModelProp(options = [ModelProp.Option.IgnoreRequireHashCode])
     fun setCoin(aboutCoinModuleData: AboutCoinModuleData) {
         val coin = aboutCoinModuleData.coin
-        tvAboutCoin.text = getCleanedUpDescription(coin.description)
-            ?: context.getString(R.string.info_unavailable)
+//        tvAboutCoin.text = getCleanedUpDescription(coin.description)
+//            ?: context.getString(R.string.info_unavailable)
 
         coin.website?.let { url ->
             if (url.isNotEmpty()) {
@@ -99,9 +99,9 @@ class CoinAboutItemView @JvmOverloads constructor(
             }
         }
 
-        tvAboutCoin.setOnClickListener {
-            tvAboutCoin.maxLines = Int.MAX_VALUE
-        }
+//        tvAboutCoin.setOnClickListener {
+//            tvAboutCoin.maxLines = Int.MAX_VALUE
+//        }
     }
 
     private fun getCleanedUpDescription(description: String?): String? {

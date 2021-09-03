@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/now</item>
 
         <!-- default color of ANY text (menu items, labels, etc. ) unless color attribute is overridden -->
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
@@ -19,6 +20,7 @@
 
     <style name="CoinBitText" parent="Base.TextAppearance.AppCompat.Caption">
         <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:fontFamily">@font/now</item>
     </style>
 
 

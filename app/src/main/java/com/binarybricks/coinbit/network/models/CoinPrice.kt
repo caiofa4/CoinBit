@@ -95,5 +95,8 @@ data class CoinPrice(
     val volume24HoursTo: String? = null,
 
     @field:SerializedName("LOWDAY")
-    val lowDay: String? = null
+    val lowDay: String? = null,
+
+    @field:SerializedName("IMAGEURL")
+    val imageUrl: String? = null
 ) : Parcelable

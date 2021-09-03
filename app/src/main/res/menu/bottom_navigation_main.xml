@@ -5,18 +5,12 @@
         android:id="@+id/actionHome"
         android:enabled="true"
         android:icon="@drawable/ic_watchlist"
-        android:title=""
+        android:title="@string/home"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/actionSearch"
         android:enabled="true"
         android:icon="@drawable/search_icon"
-        android:title=""
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/actionSettings"
-        android:enabled="true"
-        android:icon="@drawable/settings_icon"
-        android:title=""
+        android:title="@string/search_coins"
         app:showAsAction="ifRoom" />
 </menu>

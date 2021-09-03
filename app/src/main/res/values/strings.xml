@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CoinBit</string>
+    <string name="app_name">Signal</string>
 
     <!-- formatted strings -->
     <string name="amountWithChangePercentage">%1$s (%2$s%%)</string>
@@ -17,13 +17,13 @@
     <string name="amountMillion">%1$s Million</string>
     <string name="amountBillion">%1$s Billion</string>
 
-    <string name="period_1h">12H</string>
+    <string name="period_1h">1H</string>
     <string name="period_1day">1D</string>
     <string name="period_1week">1W</string>
     <string name="period_1month">1M</string>
     <string name="period_3month">3M</string>
     <string name="period_1year">1Y</string>
-    <string name="period_all">ALL</string>
+    <string name="period_all">&#8734;</string>
 
     <string name="gain">%1$s</string>
     <string name="gainPercentage">%1$.2f%%</string>
@@ -92,6 +92,7 @@
     <string name="choose_currency">Choose Currency</string>
     <string name="cdNewsArticle">News Article</string>
     <string name="add_new_currency">Add new currency</string>
+    <string name="wallet">Wallet</string>
     <string name="cdNewsImage">News image</string>
     <string name="website">Website</string>
     <string name="twitter">Twitter</string>
@@ -144,4 +145,6 @@
     <string name="attribution">Attribution</string>
     <string name="top_volume">Top Volume Coins</string>
     <string name="top_pair">Top Volume Pair</string>
+    <string name="home">home</string>
+    <string name="search_coins">search coins</string>
 </resources>

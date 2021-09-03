@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CoinBit</string>
+    <string name="app_name">Signal</string>
 
     <!-- formatted strings -->
     <string name="amountWithChangePercentage">%1$s (%2$s%%)</string>
@@ -17,13 +17,13 @@
     <string name="amountMillion">%1$s Milhão</string>
     <string name="amountBillion">%1$s Bilhão</string>
 
-    <string name="period_1h">12H</string>
+    <string name="period_1h">1H</string>
     <string name="period_1day">1D</string>
     <string name="period_1week">1S</string>
     <string name="period_1month">1M</string>
     <string name="period_3month">3M</string>
     <string name="period_1year">1A</string>
-    <string name="period_all">TUDO</string>
+    <string name="period_all">&#8734;</string>
 
     <string name="gain">%1$s</string>
     <string name="gainPercentage">%1$.2f%%</string>
@@ -93,7 +93,8 @@
     <string name="na">N/A</string>
     <string name="choose_currency">Escolher Moeda</string>
     <string name="cdNewsArticle">Artigos</string>
-    <string name="add_new_currency">Selecione nova moeda</string>
+    <string name="add_new_currency">adicionar moeda</string>
+    <string name="wallet">Carteira</string>
     <string name="cdNewsImage">Novas imagens</string>
     <string name="website">Website</string>
     <string name="twitter">Twitter</string>
@@ -146,4 +147,6 @@
     <string name="attribution">Atribuição</string>
     <string name="top_volume">Moedas com Maior Volume</string>
     <string name="top_pair">Moedas com Maior Volume</string>
+    <string name="home">home</string>
+    <string name="search_coins">buscar moedas</string>
 </resources>

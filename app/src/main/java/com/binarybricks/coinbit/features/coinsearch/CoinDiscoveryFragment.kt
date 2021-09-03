@@ -52,10 +52,10 @@ class CoinDiscoveryFragment : Fragment(), CoinDiscoveryContract.View {
 
         val inflate = inflater.inflate(R.layout.fragment_discovery, container, false)
 
-        val toolbar = inflate.toolbar
-        toolbar?.title = getString(R.string.discover)
-
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+//        val toolbar = inflate.toolbar
+//        toolbar?.title = getString(R.string.discover)
+//
+//        (activity as AppCompatActivity).setSupportActionBar(toolbar)
 
         rvDashboard = inflate.findViewById<EpoxyRecyclerView>(R.id.rvDashboard)
 
@@ -104,7 +104,8 @@ class CoinDiscoveryFragment : Fragment(), CoinDiscoveryContract.View {
                     it.price
                         ?: "0",
                     it.changePercentage24Hour ?: "0", it.marketCap ?: "0",
-                    it.fromSymbol ?: ""
+                    it.fromSymbol ?: "",
+                        it.imageUrl ?: ""
                 )
             )
         }

@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/generic8dp"
     android:layout_marginEnd="@dimen/generic8dp"
-    android:background="@drawable/top_card_background"
+    android:background="@drawable/ripple_background"
     android:elevation="4dp"
     android:padding="@dimen/generic16dp"
     android:stateListAnimator="@animator/card_down_animation">
@@ -32,6 +32,15 @@
         app:layout_constraintBaseline_toBaselineOf="@id/tvPair"
         app:layout_constraintStart_toEndOf="@id/tvPair"
         tools:text="-2.24 %" />
+
+    <ImageView
+        android:id="@+id/ivCoin"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/cd_coin_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/tvPrice"
