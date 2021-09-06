@@ -2,6 +2,7 @@ package com.binarybricks.coinbit.epoxymodels
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,8 +18,10 @@ import com.binarybricks.coinbit.data.PreferenceManager
 import com.binarybricks.coinbit.featurecomponents.ModuleItem
 import com.binarybricks.coinbit.network.BASE_CRYPTOCOMPARE_IMAGE_URL
 import com.binarybricks.coinbit.utils.CoinBitExtendedCurrency
+import com.binarybricks.coinbit.utils.Formaters
 import com.binarybricks.coinbit.utils.resourcemanager.AndroidResourceManager
 import com.binarybricks.coinbit.utils.resourcemanager.AndroidResourceManagerImpl
+import kotlinx.android.synthetic.main.dashboard_coin_module.view.*
 import timber.log.Timber
 import java.math.BigDecimal
 import java.util.*
@@ -49,11 +52,33 @@ class TopCardItemView @JvmOverloads constructor(
         Currency.getInstance(toCurrency)
     }
 
+    private val formatter by lazy {
+        Formaters(androidResourceManager)
+    }
+
     private val cropCircleTransformation by lazy {
         RoundedCornersTransformation(15F)
     }
 
     private var onTopItemClickedListener: OnTopItemClickedListener? = null
+
+    private fun addFinalZero(value: String): String {
+        if (value.indexOf(".") != value.length - 3) {
+            return "${value}0"
+        }
+        return value
+    }
+
+    private fun removeExtraDigits(value: String): String {
+        val index = value.indexOf(".")
+        return if (index == value.length - 1) {   //dot is last character
+            "${value}00"
+        } else if (index == value.length - 2) {   //dot is second last character
+            "${value}0"
+        } else {   //dot is second last character
+            value.substring(0, index)
+        }
+    }
 
     init {
         View.inflate(context, R.layout.top_card_module, this)
@@ -74,12 +99,17 @@ class TopCardItemView @JvmOverloads constructor(
             transformations(cropCircleTransformation)
         }
 
+        val priceChangeAbsolute = addFinalZero(topCardsModuleData.priceChangeAbsolute.replace(",", "."))
+        val priceChangePercentage = topCardsModuleData.priceChangePercentage.replace(",", ".")
+
         tvPair.text = topCardsModuleData.pair
-        tvPrice.text = topCardsModuleData.price
-        tvPriceChange.text = androidResourceManager.getString(
-            R.string.coinDayChanges,
-            topCardsModuleData.priceChangePercentage.toDouble()
-        )
+        tvPrice.text = formatter.formatAmount(topCardsModuleData.price.replace(",", "."), currency)
+
+        val priceChange = "$priceChangeAbsolute (${androidResourceManager.getString(
+                R.string.coinDayChanges,
+                priceChangePercentage.toDouble()
+        )})"
+        tvPriceChange.text = priceChange
 
         tvMarketCap.text = androidResourceManager.getString(
             R.string.marketCap,
@@ -91,7 +121,7 @@ class TopCardItemView @JvmOverloads constructor(
         }
 
         try {
-            if (topCardsModuleData.priceChangePercentage.toDouble() < 0) {
+            if (priceChangePercentage.toDouble() < 0) {
                 tvPrice.setTextColor(ContextCompat.getColor(context, R.color.colorLoss))
                 tvPriceChange.setTextColor(ContextCompat.getColor(context, R.color.colorLoss))
             }
@@ -113,6 +143,7 @@ class TopCardItemView @JvmOverloads constructor(
         val pair: String,
         val price: String,
         val priceChangePercentage: String,
+        val priceChangeAbsolute: String,
         val marketCap: String,
         val coinSymbol: String,
         val imageUrl: String = ""

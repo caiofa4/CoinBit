@@ -4,6 +4,7 @@ import CoinDashboardContract
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,8 @@ import com.binarybricks.coinbit.utils.resourcemanager.AndroidResourceManagerImpl
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -182,13 +185,18 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
 
         val topCardList = mutableListOf<TopCardItemView.TopCardsModuleData>()
         topCoins.forEach {
+            val percentageDouble = it.changePercentage24Hour?.toDouble() ?: 0.0
+            val priceDouble = it.price?.toDouble() ?: 0.0
+            val absoluteChange = priceDouble * (percentageDouble/100)
+
             topCardList.add(
                 TopCardItemView.TopCardsModuleData(
-                    "${it.fromSymbol}/${it.toSymbol}",
-                    it.price
-                        ?: "0",
-                    it.changePercentage24Hour ?: "0", it.marketCap ?: "0",
-                    it.fromSymbol ?: "",
+                        "${it.fromSymbol}/${it.toSymbol}",
+                        "%.2f".format(it.price?.toDouble()) ?: "0",
+                        "%.2f".format(it.changePercentage24Hour?.toDouble()) ?: "0",
+                        "%.2f".format(absoluteChange) ?: "0",
+                        it.marketCap ?: "0",
+                        it.fromSymbol ?: "",
                         it.imageUrl ?: ""
                 )
             )
@@ -236,7 +244,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
                         carousel {
                             id("topCardList")
                             models(topCards)
-                            numViewsToShowOnScreen(2.5F)
+                            numViewsToShowOnScreen(2.25F)
                             Carousel.setDefaultGlobalSnapHelperFactory(null)
                         }
                     }

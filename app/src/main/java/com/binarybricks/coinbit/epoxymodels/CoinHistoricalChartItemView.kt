@@ -166,6 +166,7 @@ class CoinHistoricalChartItemView @JvmOverloads constructor(
             HOURS24 -> androidResourceManager.getString(R.string.past_day)
             WEEK -> androidResourceManager.getString(R.string.past_week)
             MONTH -> androidResourceManager.getString(R.string.past_month)
+            MONTH3 -> androidResourceManager.getString(R.string.past_month_3)
             YEAR -> androidResourceManager.getString(R.string.past_year)
             ALL -> androidResourceManager.getString(R.string.all_time)
             else -> androidResourceManager.getString(R.string.past_hour)

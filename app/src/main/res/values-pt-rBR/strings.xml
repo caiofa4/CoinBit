@@ -31,6 +31,7 @@
     <string name="past_day">Último Dia</string>
     <string name="past_week">Última Semana</string>
     <string name="past_month">Último Mês</string>
+    <string name="past_month_3">Últimos 3 Meses</string>
     <string name="past_year">Último Ano</string>
     <string name="all_time">Sempre</string>
     <string name="about">Sobre</string>

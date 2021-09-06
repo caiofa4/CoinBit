@@ -2,6 +2,7 @@ package com.binarybricks.coinbit.features.coinsearch
 
 import CoinDiscoveryContract
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -98,13 +99,18 @@ class CoinDiscoveryFragment : Fragment(), CoinDiscoveryContract.View {
 
         val topCardList = mutableListOf<TopCardItemView.TopCardsModuleData>()
         topCoins.forEach {
+            val percentageDouble = it.changePercentage24Hour?.toDouble() ?: 0.0
+            val priceDouble = it.price?.toDouble() ?: 0.0
+            val absoluteChange = String.format("%.2f", priceDouble * (percentageDouble/100)).toDouble()
+
             topCardList.add(
                 TopCardItemView.TopCardsModuleData(
-                    "${it.fromSymbol}/${it.toSymbol}",
-                    it.price
-                        ?: "0",
-                    it.changePercentage24Hour ?: "0", it.marketCap ?: "0",
-                    it.fromSymbol ?: "",
+                        "${it.fromSymbol}/${it.toSymbol}",
+                        "%.2f".format(it.price?.toDouble()) ?: "0",
+                        "%.2f".format(it.changePercentage24Hour?.toDouble()) ?: "0",
+                        "%.2f".format(absoluteChange) ?: "0",
+                        it.marketCap ?: "0",
+                        it.fromSymbol ?: "",
                         it.imageUrl ?: ""
                 )
             )

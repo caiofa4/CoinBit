@@ -31,6 +31,7 @@
     <string name="past_day">Past Day</string>
     <string name="past_week">Past Week</string>
     <string name="past_month">Past Month</string>
+    <string name="past_month_3">Past 3 Months</string>
     <string name="past_year">Past Year</string>
     <string name="all_time">All Time</string>
     <string name="about">About</string>
