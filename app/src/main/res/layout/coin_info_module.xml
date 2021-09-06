@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/generic14dp"
-        android:background="@drawable/background_rounded_all"
+        android:background="@drawable/ripple_background"
         android:padding="@dimen/generic14dp">
 
             <TextView

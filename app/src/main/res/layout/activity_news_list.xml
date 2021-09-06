@@ -31,6 +31,7 @@
         android:clickable="true"
         android:focusable="true"
         android:padding="@dimen/generic16dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
