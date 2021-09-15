@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/home_background"
     tools:context="com.binarybricks.coinbit.features.exchangesearch.ExchangeSearchActivity">
 
 
@@ -22,7 +23,7 @@
         android:layout_marginStart="@dimen/generic14dp"
         android:layout_marginTop="@dimen/generic14dp"
         android:layout_marginEnd="@dimen/generic14dp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/home_background"
         android:hint="@string/search_hint"
         android:importantForAutofill="no"
         android:inputType="text"
@@ -39,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="@dimen/generic14dp"
-        android:background="@drawable/background_rounded_all"
+        android:background="@drawable/home_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

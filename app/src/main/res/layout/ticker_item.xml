@@ -7,8 +7,19 @@
     android:background="?attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:padding="@dimen/generic16dp"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clMarketInfo"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="@dimen/generic10dp"
+        android:layout_margin="@dimen/generic10dp"
+        android:background="@drawable/ripple_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     <ImageView
         android:id="@+id/ivExchange"
@@ -70,5 +81,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvPrice"
         tools:text="$2.4 million" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

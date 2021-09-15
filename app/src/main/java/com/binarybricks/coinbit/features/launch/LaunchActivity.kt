@@ -128,14 +128,14 @@ class LaunchActivity : AppCompatActivity(), LaunchContract.View {
                     return newInstance
                 }
 
-                1 -> {
-                    val newInstance = IntroFragment.newInstance(
-                        R.raw.graph, getString(R.string.intro_track_title),
-                        getString(R.string.intro_track_message), position, false
-                    ) // Track transactions
-                    currentFragment = newInstance
-                    return newInstance
-                }
+//                1 -> {
+//                    val newInstance = IntroFragment.newInstance(
+//                        R.raw.graph, getString(R.string.intro_track_title),
+//                        getString(R.string.intro_track_message), position, false
+//                    ) // Track transactions
+//                    currentFragment = newInstance
+//                    return newInstance
+//                }
 
                 else -> {
                     val newInstance = IntroFragment.newInstance(
@@ -149,7 +149,7 @@ class LaunchActivity : AppCompatActivity(), LaunchContract.View {
         }
 
         override fun getCount(): Int {
-            return 3
+            return 2
         }
     }
 }

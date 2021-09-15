@@ -99,7 +99,7 @@ class TopCardItemView @JvmOverloads constructor(
             transformations(cropCircleTransformation)
         }
 
-        val priceChangeAbsolute = addFinalZero(topCardsModuleData.priceChangeAbsolute.replace(",", "."))
+        val priceChangeAbsolute = formatter.formatAmount(addFinalZero(topCardsModuleData.priceChangeAbsolute.replace(",", ".")), currency)
         val priceChangePercentage = topCardsModuleData.priceChangePercentage.replace(",", ".")
 
         tvPair.text = topCardsModuleData.pair

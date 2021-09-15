@@ -12,7 +12,7 @@
     <string name="coinDayChanges">%1$.2f%%</string>
     <string name="marketCap">Mkt cap: %1$s</string>
     <string name="tickerActivityTitle">%1$s Mercados</string>
-    <string name="newsActivityTitle">%1$s Novidades</string>
+    <string name="newsActivityTitle">%1$s Notícias</string>
 
     <string name="amountMillion">%1$s Milhão</string>
     <string name="amountBillion">%1$s Bilhão</string>
@@ -87,12 +87,12 @@
     <string name="add_to_watchlist">Adicionar aos favoritos</string>
     <string name="remove_to_watchlist">Remover dos favoritos</string>
 
-    <string name="coin_added_to_watchlist">Observação Iniciada %1$s</string>
-    <string name="coin_removed_to_watchlist">Observação Encerrada %1$s</string>
+    <string name="coin_added_to_watchlist">%1$s inserida na carteira</string>
+    <string name="coin_removed_to_watchlist">%1$s removida da carteira</string>
     <string name="coin_already_purchased">Moedas compradas não podem ser removidas das favoritas</string>
     <string name="info_unavailable">Informação da Moeda não disponível</string>
     <string name="na">N/A</string>
-    <string name="choose_currency">Escolher Moeda</string>
+    <string name="choose_currency">Escolha a Moeda do seu País</string>
     <string name="cdNewsArticle">Artigos</string>
     <string name="add_new_currency">adicionar moeda</string>
     <string name="wallet">Carteira</string>
@@ -121,12 +121,12 @@
     <string name="share_app">Compartilhar App</string>
     <string name="feedback">Feedback</string>
     <string name="privacy_policy">Política de privacidade</string>
-    <string name="intro_coin_title">5000 Moedas</string>
-    <string name="intro_coin_message">Rastreie 4000+ moedas, em 100+ exchanges.</string>
+    <string name="intro_coin_title">4000 Moedas</string>
+    <string name="intro_coin_message">Acompanhe mais de 4000 moedas, em mais de 100 exchanges.</string>
     <string name="intro_track_title">Rastreie Ganhos</string>
     <string name="intro_track_message">Adicione transações, rastreie lucros e prejuízos. Tudo em 1 lugar.</string>
     <string name="intro_secure_title">Altamente Seguro</string>
-    <string name="intro_secure_message">Totalmente offline e seguro. Seus dados nunca deixam o aparelho.</string>
+    <string name="intro_secure_message">Totalmente seguro. Seus dados nunca deixam o aparelho.</string>
     <string name="loading_coins">Carregando Moedas e preparando o app..</string>
     <string name="ticker_error">Sem Informações Disponíveis</string>
     <string name="news_error">Sem Novidades Disponíveis</string>
