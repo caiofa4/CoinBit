@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Signal</string>
+    <string name="default_web_cli_id">92184874560-2o37ql1qui5419ar2bmdo3kaakdsecn8.apps.googleusercontent.com</string>
 
     <!-- formatted strings -->
     <string name="amountWithChangePercentage">%1$s (%2$s%%)</string>

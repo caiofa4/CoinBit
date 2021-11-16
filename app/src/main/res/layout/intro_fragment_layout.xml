@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/home_background"
+    android:padding="@dimen/generic14dp"
     >
 
 
@@ -55,7 +56,7 @@
         android:layout_marginTop="@dimen/generic24dp"
         android:gravity="center"
         android:text="@string/choose_currency"
-        android:backgroundTint="@color/backgroundGradientColorEnd"
+        android:backgroundTint="@color/bubble_gum_pink"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

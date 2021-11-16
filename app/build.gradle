@@ -11,7 +11,7 @@ apply plugin: "com.github.ben-manes.versions"
 android {
     compileSdkVersion versions.compileSdk
     defaultConfig {
-        applicationId "com.binarybricks.coinbit"
+        applicationId "com.signal.research"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
         multiDexEnabled true
@@ -58,6 +58,8 @@ tasks.named("dependencyUpdates").configure {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
+
 
     // for testing
     testImplementation "junit:junit:${versions.junit}"
@@ -121,10 +123,13 @@ dependencies {
     implementation "com.github.ittianyu:BottomNavigationViewEx:${versions.bottomNav}"
 
     // firebase
+    implementation platform('com.google.firebase:firebase-bom:26.0.0')
+    implementation 'com.google.firebase:firebase-auth-ktx'
     implementation "com.google.firebase:firebase-core:${versions.firebaseCore}"
     implementation "com.google.firebase:firebase-crashlytics:${versions.firebaseCrashlytics}"
     implementation "com.google.firebase:firebase-analytics:${versions.firebaseAnalytics}"
     implementation "com.google.firebase:firebase-perf:${versions.firebasePerf}"
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
 
     // epoxy
     implementation 'com.airbnb.android:epoxy:4.2.0'

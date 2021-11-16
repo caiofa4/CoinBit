@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.binarybricks.coinbit.features.transaction.CoinTransactionActivity">
+    tools:context="com.signal.research.features.transaction.CoinTransactionActivity">
 
     <include
         android:id="@+id/toolbar"

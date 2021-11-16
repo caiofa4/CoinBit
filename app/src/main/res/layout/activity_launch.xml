@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_background"
-    tools:context="com.binarybricks.coinbit.features.launch.LaunchActivity">
+    android:background="@color/backgroundGradientColorStart"
+    tools:context="com.signal.research.features.launch.LaunchActivity">
 
 
     <ImageView
         android:id="@+id/ivLogo"
-        android:layout_width="256dp"
-        android:layout_height="256dp"
+        android:layout_width="144dp"
+        android:layout_height="144dp"
         android:contentDescription="@string/cdLogo"
         android:src="@mipmap/ic_launcher_foreground"
+        android:layout_marginBottom="@dimen/generic32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,9 +34,7 @@
         android:id="@+id/introPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/generic16dp"
-        android:layout_marginTop="@dimen/generic48dp"
-        android:layout_marginEnd="@dimen/generic16dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
