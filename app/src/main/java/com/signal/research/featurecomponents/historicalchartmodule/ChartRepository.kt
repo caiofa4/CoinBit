@@ -61,7 +61,7 @@ class ChartRepository {
 
         val historicalData = api.getCryptoHistoricalData(histoPeriod, fromCurrencySymbol, toCurrencySymbol, limit, aggregate)
         Timber.d("Size of response %s", historicalData.data.size)
-        val maxClosingValueFromHistoricalData = historicalData.data.maxBy { it.close.toFloat() }
+        val maxClosingValueFromHistoricalData = historicalData.data.maxByOrNull { it.close.toFloat() }
         return Pair(historicalData.data, maxClosingValueFromHistoricalData)
     }
 }

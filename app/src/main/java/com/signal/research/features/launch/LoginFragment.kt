@@ -20,6 +20,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.signal.research.R
 import com.signal.research.data.SavedPreference
 import com.signal.research.features.HomeActivity
+import kotlinx.android.synthetic.main.fragment_login.*
 
 /**
  * A simple [Fragment] subclass.
@@ -29,8 +30,14 @@ import com.signal.research.features.HomeActivity
 class LoginFragment : Fragment() {
 
     lateinit var mGoogleSignInClient: GoogleSignInClient
-    val Req_Code:Int=123
-    var firebaseAuth= FirebaseAuth.getInstance()
+    val Req_Code:Int = 123
+    var firebaseAuth = FirebaseAuth.getInstance()
+
+    companion object {
+        fun newInstance(): LoginFragment {
+            return LoginFragment()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +63,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.apply {
-            findViewById<TextView>(R.id.signin).setOnClickListener {
+            signin.setOnClickListener {
                 signInGoogle()
             }
         }

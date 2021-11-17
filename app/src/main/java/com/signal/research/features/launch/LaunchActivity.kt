@@ -16,6 +16,7 @@ import com.signal.research.utils.CoinBitExtendedCurrency
 import com.signal.research.utils.ui.IntroPageTransformer
 import com.google.android.material.snackbar.Snackbar
 import com.mynameismidori.currencypicker.CurrencyPicker
+import com.signal.research.features.dashboard.CoinDashboardFragment
 import kotlinx.android.synthetic.main.activity_launch.*
 import timber.log.Timber
 
@@ -37,7 +38,20 @@ class LaunchActivity : AppCompatActivity(), LaunchContract.View {
         launchPresenter.attachView(this)
         lifecycle.addObserver(launchPresenter)
 
-        initializeLogin()
+
+        val LoginFragment = supportFragmentManager.findFragmentByTag("LoginFragment")
+                ?: LoginFragment()
+
+        // if we switch to home clear everything
+        supportFragmentManager.popBackStack(HomeActivity.FRAGMENT_OTHER, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.loginLayout, LoginFragment, "LoginFragment")
+                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                .commit()
+
+
+        //initializeLogin()
 
         // determine if this is first time, if yes then show the animations else move away
 //        if (!PreferencesManager.getPreference(this, PreferencesManager.IS_LAUNCH_FTU_SHOWN, false)) {
@@ -63,6 +77,18 @@ class LaunchActivity : AppCompatActivity(), LaunchContract.View {
 
         // Set an Adapter on the ViewPager
         introPager.adapter = LoginAdapter(supportFragmentManager)
+
+        val loginFragment = supportFragmentManager.findFragmentByTag("LoginFragment")
+                ?: LoginFragment()
+
+        // if we switch to home clear everything
+        supportFragmentManager.popBackStack(HomeActivity.FRAGMENT_OTHER, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.introPager, loginFragment, "LoginFragment")
+                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                .addToBackStack(HomeActivity.FRAGMENT_HOME)
+                .commit()
     }
 
     override fun onCoinsLoaded() {
@@ -172,13 +198,13 @@ class LaunchActivity : AppCompatActivity(), LaunchContract.View {
         override fun getItem(position: Int): Fragment {
             when (position) {
                 0 -> {
-                    val newInstance = LoginFragment() // 5000 curencies
+                    val newInstance = LoginFragment.newInstance() // 5000 curencies
                     currentFragment = newInstance
                     return newInstance
                 }
 
                 else -> {
-                    val newInstance = LoginFragment() // 5000 curencies
+                    val newInstance = LoginFragment.newInstance() // 5000 curencies
                     currentFragment = newInstance
                     return newInstance
                 }
@@ -187,7 +213,7 @@ class LaunchActivity : AppCompatActivity(), LaunchContract.View {
         }
 
         override fun getCount(): Int {
-            return 1
+            return 2
         }
     }
 }
