@@ -149,6 +149,8 @@ class LoginFragment : Fragment() {
             Toast.makeText(context, getString(R.string.no_user_found), Toast.LENGTH_SHORT).show()
         } else if (message.contains("blocked all requests from this device")) {
             Toast.makeText(context, getString(R.string.account_temporarily_disabled), Toast.LENGTH_SHORT).show()
+        } else if (message.contains("network error")) {
+            Toast.makeText(context, getString(R.string.network_error), Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(context, getString(R.string.generic_error), Toast.LENGTH_SHORT).show()
         }
