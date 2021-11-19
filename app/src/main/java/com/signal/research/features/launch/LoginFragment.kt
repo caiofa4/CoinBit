@@ -27,9 +27,6 @@ import androidx.annotation.NonNull
 
 import com.google.android.gms.tasks.OnCompleteListener
 
-
-
-
 /**
  * A simple [Fragment] subclass.
  * Use the [LoginFragment.newInstance] factory method to
@@ -40,6 +37,7 @@ class LoginFragment : Fragment() {
     lateinit var mGoogleSignInClient: GoogleSignInClient
     private val googleSignInReqCode:Int = 123
     var firebaseAuth = FirebaseAuth.getInstance()
+    val firebaseUser = firebaseAuth.currentUser
 
     companion object {
         fun newInstance(): LoginFragment {
@@ -50,6 +48,8 @@ class LoginFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //sendToHomeActivity()
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_cli_id))
                 .requestEmail()
@@ -58,8 +58,7 @@ class LoginFragment : Fragment() {
         // getting the value of gso inside the GoogleSigninClient
         mGoogleSignInClient = activity?.let { GoogleSignIn.getClient(it, gso) }!!
         // initialize the firebaseAuth variable
-        firebaseAuth= FirebaseAuth.getInstance()
-
+        firebaseAuth = FirebaseAuth.getInstance()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -105,6 +104,9 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         if (GoogleSignIn.getLastSignedInAccount(context) != null) {
+            //startActivity(Intent(context, HomeActivity::class.java))
+            //activity?.finish()
+        } else if (firebaseUser != null) {
             //startActivity(Intent(context, HomeActivity::class.java))
             //activity?.finish()
         }
@@ -219,6 +221,5 @@ class LoginFragment : Fragment() {
         startActivity(intent)
         activity?.finish()
     }
-
 
 }

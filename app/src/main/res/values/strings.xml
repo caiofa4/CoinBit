@@ -157,6 +157,7 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
     <string name="sign_up">Sign up</string>
     <string name="enter_proper_email">Enter proper Email</string>
     <string name="enter_proper_password">Enter proper Password</string>

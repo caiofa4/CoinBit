@@ -158,6 +158,7 @@
     <string name="confirm_password">Confirmar Senha</string>
     <string name="forgot_password">Esqueci a senha</string>
     <string name="login">Login</string>
+    <string name="logout">Sair</string>
     <string name="sign_up">Cadastrar</string>
     <string name="enter_proper_email">Insira um email válido</string>
     <string name="enter_proper_password">Insira uma senha válida (min 6 caracteres)</string>

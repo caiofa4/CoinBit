@@ -4,14 +4,24 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.signal.research.R
 import com.signal.research.features.coinsearch.CoinDiscoveryFragment
 import com.signal.research.features.dashboard.CoinDashboardFragment
 import com.signal.research.features.settings.SettingsFragment
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.signal.research.features.launch.LaunchActivity
 import kotlinx.android.synthetic.main.activity_home.*
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+
 
 class HomeActivity : AppCompatActivity() {
 
@@ -39,6 +49,9 @@ class HomeActivity : AppCompatActivity() {
         }
         tvSearchCoins.setOnClickListener {
             switchToSearch(savedInstanceState)
+        }
+        tvLogout.setOnClickListener {
+            logout()
         }
 
 //        bottomNavigation.setOnNavigationItemSelectedListener {
@@ -81,6 +94,30 @@ class HomeActivity : AppCompatActivity() {
         FirebaseCrashlytics.getInstance().log("HomeScreen")
     }
 
+    private fun logout() {
+        val firebaseAuth = FirebaseAuth.getInstance()
+        val user = firebaseAuth.currentUser
+
+        if (user != null) {
+            firebaseAuth.signOut()
+
+            if (GoogleSignIn.getLastSignedInAccount(this) != null) {
+                getGmailUser().signOut()
+            }
+
+            sendToLaunchActivity()
+        }
+    }
+
+    private fun getGmailUser(): GoogleSignInClient {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_cli_id))
+                .requestEmail()
+                .build()
+
+        return GoogleSignIn.getClient(this, gso)
+    }
+
     private fun switchToDashboard(savedInstanceState: Bundle?) {
 
         val coinDashboardFragment = supportFragmentManager.findFragmentByTag(CoinDashboardFragment.TAG)
@@ -118,5 +155,11 @@ class HomeActivity : AppCompatActivity() {
             .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
             .addToBackStack(FRAGMENT_OTHER)
             .commit()
+    }
+
+    private fun sendToLaunchActivity() {
+        val intent = Intent(this, LaunchActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
