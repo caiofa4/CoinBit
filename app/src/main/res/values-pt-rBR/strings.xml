@@ -151,4 +151,23 @@
     <string name="top_pair">Moedas com Maior Volume</string>
     <string name="home">home</string>
     <string name="search_coins">buscar moedas</string>
+    <string name="sign_in_with_google">Entrar com Google</string>
+    <string name="google_logo">Google Logo</string>
+    <string name="email">Email</string>
+    <string name="password">Senha</string>
+    <string name="confirm_password">Confirmar Senha</string>
+    <string name="forgot_password">Esqueci a senha</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Cadastrar</string>
+    <string name="enter_proper_email">Insira um email válido</string>
+    <string name="enter_proper_password">Insira uma senha válida (min 6 caracteres)</string>
+    <string name="password_not_matching">Senhas diferentes</string>
+    <string name="registration_successful">Cadastro efetuado com sucesso</string>
+    <string name="login_successful">Login realizado com sucesso</string>
+    <string name="check_your_connection">Sem internet. Verifique sua conexão</string>
+    <string name="invalid_password">Senha inválida</string>
+    <string name="no_user_found">Usuário não cadastrado. Usuário pode ter sido deletado</string>
+    <string name="account_temporarily_disabled">Acesso a essa conta foi desativado temporariamente devido a várias tentativas. Reinicie sua senha ou tente novamente mais tarde</string>
+    <string name="generic_error">Tente mais tarde novamente</string>
+
 </resources>

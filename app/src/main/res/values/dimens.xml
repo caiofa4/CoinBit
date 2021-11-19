@@ -11,6 +11,8 @@
     <dimen name="generic32dp">32dp</dimen>
     <dimen name="generic48dp">48dp</dimen>
 
+    <dimen name="mainTextSize">14sp</dimen>
+
 
     <dimen name="cell_height">64dp</dimen>
 </resources>

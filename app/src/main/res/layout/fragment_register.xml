@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/home_background"
-    tools:context=".features.launch.LoginFragment"
+    tools:context=".features.launch.RegisterFragment"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,16 +44,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_email" />
 
-        <!--Forgot Password-->
-        <TextView
-            android:id="@+id/text_forgot_password"
-            style="@style/CoinBitText.Title"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/edit_confirm_password"
+            style="@style/editTextStyleBlack"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/forgot_password"
-            android:layout_marginTop="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="@string/confirm_password"
+            android:autofillHints="@string/confirm_password"
+            android:inputType="numberPassword"
+            android:maxLength="40"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_password" />
 
         <!--Sign In-->
@@ -65,9 +66,9 @@
             app:cardElevation="30dp"
             android:clickable="true"
             android:focusable="true"
-            android:id="@+id/login"
+            android:id="@+id/sign_up"
             android:backgroundTint="@color/colorPrimary"
-            app:layout_constraintTop_toBottomOf="@id/text_forgot_password"
+            app:layout_constraintTop_toBottomOf="@id/edit_confirm_password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -78,86 +79,33 @@
                 android:padding="8dp">
 
                 <TextView
-                    android:id="@+id/txt_login"
+                    android:id="@+id/txt_sign_up"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/login"
+                    android:text="@string/sign_up"
                     android:textAlignment="center"
                     android:textSize="16sp"
                     android:textColor="@android:color/white"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
 
                 <ProgressBar
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:id="@+id/sign_in_progress_bar"
+                    android:id="@+id/sign_up_progress_bar"
                     android:visibility="gone"
-                    app:layout_constraintTop_toTopOf="@+id/txt_login"
-                    app:layout_constraintBottom_toBottomOf="@+id/txt_login"
-                    app:layout_constraintStart_toEndOf="@+id/txt_login"
+                    app:layout_constraintTop_toTopOf="@+id/txt_sign_up"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_sign_up"
+                    app:layout_constraintStart_toEndOf="@+id/txt_sign_up"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
 
-        <!--Sign In with Google-->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="30dp"
-            android:layout_marginTop="15dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:id="@+id/signin"
-            app:layout_constraintTop_toBottomOf="@id/login"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/black"
-                android:gravity="center"
-                android:padding="6dp">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="start"
-                    android:src="@drawable/google_button"
-                    android:layout_marginEnd="5dp"
-                    android:contentDescription="@string/google_logo" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/sign_in_with_google"
-                    android:textAlignment="center"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/white"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!--Sign Up-->
-    <TextView
-        android:id="@+id/text_sign_up"
-        style="@style/CoinBitText.Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_up"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

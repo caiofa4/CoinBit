@@ -150,6 +150,23 @@
     <string name="top_pair">Top Volume Pair</string>
     <string name="home">home</string>
     <string name="search_coins">search coins</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="google_logo">Google Logo</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="enter_proper_email">Enter proper Email</string>
+    <string name="enter_proper_password">Enter proper Password</string>
+    <string name="password_not_matching">Password not matching</string>
+    <string name="registration_successful">Registration successful</string>
+    <string name="login_successful">Login Successful</string>
+    <string name="check_your_connection">No internet. Check your connection</string>
+    <string name="invalid_password">The password is invalid or the user does not have a password</string>
+    <string name="no_user_found">There is no user record corresponding to this identifier. The user may have been deleted</string>
+    <string name="account_temporarily_disabled">Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.</string>
+    <string name="generic_error">Error unknown. Try again later</string>
 
 </resources>

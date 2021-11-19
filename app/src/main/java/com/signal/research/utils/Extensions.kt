@@ -1,5 +1,7 @@
 package com.signal.research.utils
 
+import android.view.View
+import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.annotation.ColorInt
@@ -18,4 +20,10 @@ fun RadioGroup.changeChildrenColor(@ColorInt color: Int) {
         }
         i++
     }
+}
+
+fun View.setEnabledRecursively(enabled: Boolean) {
+    isEnabled = enabled
+    if (this is ViewGroup)
+        (0 until childCount).map(::getChildAt).forEach { it.setEnabledRecursively(enabled) }
 }

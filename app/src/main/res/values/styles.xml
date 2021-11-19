@@ -98,4 +98,13 @@
         <item name="colorControlActivated">@color/bubble_gum_pink</item>
     </style>
 
+    <style name="editTextStyleBlack" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textColorHint">@color/primaryTextColor</item>
+        <item name="android:textSize">@dimen/mainTextSize</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:backgroundTint">@color/colorBlack</item>
+        <item name="android:drawablePadding">20dp</item>
+    </style>
+
 </resources>

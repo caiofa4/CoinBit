@@ -3,7 +3,12 @@ package com.signal.research.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
+import android.os.Build
+import android.text.TextUtils
+import android.util.Patterns
 import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
 import androidx.browser.customtabs.CustomTabsIntent
@@ -124,4 +129,28 @@ fun rateSignal(context: Context) {
         setPackage("com.android.vending")
     }
     context.startActivity(intent)
+}
+
+fun isValidEmail(target: CharSequence): Boolean {
+    return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
+}
+
+fun isOnline(mContext: Context): Boolean {
+    val connectivityManager =
+            mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    // For 29 api or above
+    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val capabilities =
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        if(capabilities != null) {
+            if(capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) return true
+            if(capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) return true
+            if(capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) return true
+        }
+    } else {
+        if(connectivityManager.activeNetwork != null && connectivityManager.activeNetworkInfo?.isConnectedOrConnecting ?: false) {
+            return true
+        }
+    }
+    return false
 }
