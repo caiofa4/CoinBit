@@ -170,5 +170,7 @@
     <string name="account_temporarily_disabled">Acesso a essa conta foi desativado temporariamente devido a várias tentativas. Reinicie sua senha ou tente novamente mais tarde</string>
     <string name="network_error">Um erro ocorreu em sua rede. Verifique e tente novamente</string>
     <string name="generic_error">Tente mais tarde novamente</string>
+    <string name="reset_password_success">Foi enviado um email com instruções para reiniciar sua senha</string>
+    <string name="reset_password_fail">Falha ao reiniciar senha. Tente novamente</string>
 
 </resources>

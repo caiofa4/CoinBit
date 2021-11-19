@@ -169,5 +169,7 @@
     <string name="account_temporarily_disabled">Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.</string>
     <string name="network_error">A network error (such as timeout, interrupted connection or unreachable host) has occurred</string>
     <string name="generic_error">Error unknown. Try again later</string>
+    <string name="reset_password_success">We have sent you instructions to reset your password</string>
+    <string name="reset_password_fail">Failed to send reset email. Try again later</string>
 
 </resources>

@@ -23,6 +23,12 @@ import com.signal.research.utils.isOnline
 import com.signal.research.utils.isValidEmail
 import com.signal.research.utils.setEnabledRecursively
 import kotlinx.android.synthetic.main.fragment_login.*
+import androidx.annotation.NonNull
+
+import com.google.android.gms.tasks.OnCompleteListener
+
+
+
 
 /**
  * A simple [Fragment] subclass.
@@ -74,7 +80,25 @@ class LoginFragment : Fragment() {
             text_sign_up.setOnClickListener {
                 signUp()
             }
+            text_forgot_password.setOnClickListener {
+                resetPassword()
+            }
+        }
+    }
 
+    private fun resetPassword() {
+        val email = edit_email.text.toString()
+        if (!isValidEmail(email)) {
+            edit_email.error = getString(R.string.enter_proper_email)
+        } else {
+            firebaseAuth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(context,  getString(R.string.reset_password_success), Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context,  getString(R.string.reset_password_fail), Toast.LENGTH_SHORT).show()
+                        }
+                    }
         }
     }
 
@@ -178,7 +202,7 @@ class LoginFragment : Fragment() {
 
     // UpdateUI() function - this is where we specify what UI updation are needed after google signin has taken place.
     private fun updateUI(account: GoogleSignInAccount) {
-        val credential= GoogleAuthProvider.getCredential(account.idToken,null)
+        val credential = GoogleAuthProvider.getCredential(account.idToken,null)
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 context?.let {
