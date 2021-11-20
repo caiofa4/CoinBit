@@ -1,7 +1,10 @@
 package com.signal.research.features.launch
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,8 +27,14 @@ import com.signal.research.utils.isValidEmail
 import com.signal.research.utils.setEnabledRecursively
 import kotlinx.android.synthetic.main.fragment_login.*
 import androidx.annotation.NonNull
+import androidx.fragment.app.FragmentPagerAdapter
 
 import com.google.android.gms.tasks.OnCompleteListener
+import com.signal.research.CoinBitApplication
+import com.signal.research.data.PreferencesManager
+import com.signal.research.features.CryptoCompareRepository
+import com.signal.research.utils.ui.IntroPageTransformer
+import kotlinx.android.synthetic.main.activity_launch.*
 
 /**
  * A simple [Fragment] subclass.
@@ -38,6 +47,14 @@ class LoginFragment : Fragment() {
     private val googleSignInReqCode:Int = 123
     var firebaseAuth = FirebaseAuth.getInstance()
     val firebaseUser = firebaseAuth.currentUser
+
+    private val coinRepo by lazy {
+        CryptoCompareRepository(CoinBitApplication.database)
+    }
+
+    private val launchPresenter: LaunchPresenter by lazy {
+        LaunchPresenter(coinRepo)
+    }
 
     companion object {
         fun newInstance(): LoginFragment {
@@ -103,17 +120,16 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        if (GoogleSignIn.getLastSignedInAccount(context) != null) {
-            //startActivity(Intent(context, HomeActivity::class.java))
-            //activity?.finish()
-        } else if (firebaseUser != null) {
-            //startActivity(Intent(context, HomeActivity::class.java))
-            //activity?.finish()
+        if (GoogleSignIn.getLastSignedInAccount(context) != null || firebaseUser != null) {
+            startActivity(Intent(context, HomeActivity::class.java))
+            activity?.finish()
         }
     }
 
     // signInGoogle() function
     private fun signInGoogle() {
+        view?.setEnabledRecursively(false)
+        sign_in_google_progress_bar.visibility = View.VISIBLE
         val signInIntent: Intent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, googleSignInReqCode)
     }
@@ -160,8 +176,10 @@ class LoginFragment : Fragment() {
             view?.setEnabledRecursively(true)
             sign_in_progress_bar.visibility = View.GONE
             if (task.isSuccessful) {
-                Toast.makeText(context, getString(R.string.login_successful), Toast.LENGTH_SHORT).show()
-                sendToHomeActivity()
+                context?.let {
+                    Toast.makeText(it, getString(R.string.login_successful), Toast.LENGTH_SHORT).show()
+                    checkIfFirstLogin(it)
+                }
             } else {
                 task.exception?.localizedMessage?.let { it -> getErrorMessage(it) };
             }
@@ -184,7 +202,9 @@ class LoginFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == googleSignInReqCode) {
+        view?.setEnabledRecursively(true)
+        sign_in_google_progress_bar.visibility = View.GONE
+        if (requestCode == googleSignInReqCode && resultCode == Activity.RESULT_OK) {
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleResult(task)
         }
@@ -210,9 +230,25 @@ class LoginFragment : Fragment() {
                 context?.let {
                     SavedPreference.setEmail(it, account.email.toString())
                     SavedPreference.setUsername(it, account.displayName.toString())
+
+                    checkIfFirstLogin(it)
                 }
-                sendToHomeActivity()
             }
+        }
+    }
+
+    private fun checkIfFirstLogin(context: Context) {
+        // determine if this is first time, if yes then show the animations else move away
+        if (!PreferencesManager.getPreference(context, PreferencesManager.IS_LAUNCH_FTU_SHOWN, false)) {
+            (activity as? LaunchActivity)?.runPostLogin()
+
+            val fragmentTransaction = fragmentManager?.beginTransaction()
+
+            fragmentTransaction?.remove(this)
+            fragmentTransaction?.commit()
+
+        } else {
+            sendToHomeActivity()
         }
     }
 

@@ -2,6 +2,7 @@ package com.signal.research.features.launch
 
 import LaunchContract
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -42,9 +43,6 @@ class LaunchActivity : AppCompatActivity(), LaunchContract.View {
         val LoginFragment = supportFragmentManager.findFragmentByTag("LoginFragment")
                 ?: LoginFragment()
 
-        // if we switch to home clear everything
-        supportFragmentManager.popBackStack(HomeActivity.FRAGMENT_OTHER, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-
         supportFragmentManager.beginTransaction()
                 .replace(R.id.loginLayout, LoginFragment, "LoginFragment")
                 .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
@@ -52,16 +50,17 @@ class LaunchActivity : AppCompatActivity(), LaunchContract.View {
 
 
         //initializeLogin()
+    }
 
+    fun runPostLogin() {
         // determine if this is first time, if yes then show the animations else move away
-//        if (!PreferencesManager.getPreference(this, PreferencesManager.IS_LAUNCH_FTU_SHOWN, false)) {
-//            initializeUI()
-//
-//            launchPresenter.loadAllCoins()
-//        } else {
-//            startActivity(HomeActivity.buildLaunchIntent(this))
-//            finish()
-//        }
+        if (!PreferencesManager.getPreference(this, PreferencesManager.IS_LAUNCH_FTU_SHOWN, false)) {
+            initializeUI()
+            launchPresenter.loadAllCoins()
+        } else {
+            startActivity(HomeActivity.buildLaunchIntent(this))
+            finish()
+        }
     }
 
     private fun initializeUI() { // show  list of all currencies and option to choose one, default on phone locale

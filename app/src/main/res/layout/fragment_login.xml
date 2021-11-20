@@ -118,11 +118,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/black"
-                android:gravity="center"
                 android:padding="6dp">
 
                 <ImageView
@@ -131,18 +130,37 @@
                     android:layout_gravity="start"
                     android:src="@drawable/google_button"
                     android:layout_marginEnd="5dp"
-                    android:contentDescription="@string/google_logo" />
+                    android:contentDescription="@string/google_logo"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/txt_login_google"/>
 
                 <TextView
+                    android:id="@+id/txt_login_google"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/sign_in_with_google"
                     android:textAlignment="center"
                     android:textSize="16sp"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/white"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
 
-            </LinearLayout>
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:id="@+id/sign_in_google_progress_bar"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="@+id/txt_login_google"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_login_google"
+                    app:layout_constraintStart_toEndOf="@+id/txt_login_google"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
 

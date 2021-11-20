@@ -21,7 +21,6 @@ import com.signal.research.utils.setEnabledRecursively
 class RegisterFragment : Fragment() {
 
     var firebaseAuth = FirebaseAuth.getInstance()
-    var firebaseUser = firebaseAuth.currentUser
 
     companion object {
         fun newInstance(): LoginFragment {
