@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.signal.research.R
 import kotlinx.android.synthetic.main.fragment_register.*
-import android.text.TextUtils
-import android.util.Patterns
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -17,12 +15,12 @@ import com.signal.research.features.HomeActivity
 import com.signal.research.utils.isValidEmail
 import com.signal.research.utils.setEnabledRecursively
 
-
 class RegisterFragment : Fragment() {
 
     var firebaseAuth = FirebaseAuth.getInstance()
 
     companion object {
+        const val FRAGMENT_REGISTER = "FRAGMENT_REGISTER"
         fun newInstance(): LoginFragment {
             return LoginFragment()
         }
@@ -83,6 +81,5 @@ class RegisterFragment : Fragment() {
     private fun showSnackBar(message: String) {
         view?.let { Snackbar.make(it, message, Snackbar.LENGTH_SHORT).show() }
     }
-
 
 }

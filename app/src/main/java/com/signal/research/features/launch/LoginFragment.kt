@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.FragmentManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -26,15 +25,10 @@ import com.signal.research.utils.isOnline
 import com.signal.research.utils.isValidEmail
 import com.signal.research.utils.setEnabledRecursively
 import kotlinx.android.synthetic.main.fragment_login.*
-import androidx.annotation.NonNull
-import androidx.fragment.app.FragmentPagerAdapter
 
-import com.google.android.gms.tasks.OnCompleteListener
 import com.signal.research.CoinBitApplication
 import com.signal.research.data.PreferencesManager
 import com.signal.research.features.CryptoCompareRepository
-import com.signal.research.utils.ui.IntroPageTransformer
-import kotlinx.android.synthetic.main.activity_launch.*
 
 /**
  * A simple [Fragment] subclass.
@@ -57,6 +51,7 @@ class LoginFragment : Fragment() {
     }
 
     companion object {
+        const val FRAGMENT_LOGIN = "FRAGMENT_LOGIN"
         fun newInstance(): LoginFragment {
             return LoginFragment()
         }
@@ -136,18 +131,7 @@ class LoginFragment : Fragment() {
 
     // signUp() function
     private fun signUp() {
-        fragmentManager?.let {
-            val registerFragment = it.findFragmentByTag("RegisterFragment")
-                    ?: RegisterFragment()
-
-            // if we switch to home clear everything
-            it.popBackStack(HomeActivity.FRAGMENT_OTHER, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-
-            it.beginTransaction()
-                    .replace(R.id.loginLayout, registerFragment, "RegisterFragment")
-                    .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                    .commit()
-        }
+        (activity as? LaunchActivity)?.sendToRegisterFragment()
     }
 
     // validateLogin() function

@@ -2,7 +2,6 @@ package com.signal.research.features.launch
 
 import LaunchContract
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -47,9 +46,6 @@ class LaunchActivity : AppCompatActivity(), LaunchContract.View {
                 .replace(R.id.loginLayout, LoginFragment, "LoginFragment")
                 .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 .commit()
-
-
-        //initializeLogin()
     }
 
     fun runPostLogin() {
@@ -72,31 +68,17 @@ class LaunchActivity : AppCompatActivity(), LaunchContract.View {
         introPager.setPageTransformer(false, IntroPageTransformer())
     }
 
-    private fun initializeLogin() { // show  list of all currencies and option to choose one, default on phone locale
-
-        // Set an Adapter on the ViewPager
-        introPager.adapter = LoginAdapter(supportFragmentManager)
-
-        val loginFragment = supportFragmentManager.findFragmentByTag("LoginFragment")
-                ?: LoginFragment()
-
-        // if we switch to home clear everything
-        supportFragmentManager.popBackStack(HomeActivity.FRAGMENT_OTHER, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.introPager, loginFragment, "LoginFragment")
-                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                .addToBackStack(HomeActivity.FRAGMENT_HOME)
-                .commit()
-    }
-
     override fun onCoinsLoaded() {
         splashGroup.visibility = View.GONE
         viewpagerGroup.visibility = View.VISIBLE
     }
 
     override fun onBackPressed() {
-        Timber.i("Suppressing back press")
+        val count = supportFragmentManager.backStackEntryCount
+
+        if (count > 0) {
+            supportFragmentManager.popBackStack()
+        }
     }
 
     override fun onNetworkError(errorMessage: String) {
@@ -186,33 +168,16 @@ class LaunchActivity : AppCompatActivity(), LaunchContract.View {
         }
     }
 
-    private inner class LoginAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+    fun sendToRegisterFragment() {
+        supportFragmentManager.let {
+            val registerFragment = it.findFragmentByTag(RegisterFragment.FRAGMENT_REGISTER)
+                    ?: RegisterFragment()
 
-        private var currentFragment: Fragment? = null
-
-        fun getCurrentFragment(): Fragment? {
-            return currentFragment
-        }
-
-        override fun getItem(position: Int): Fragment {
-            when (position) {
-                0 -> {
-                    val newInstance = LoginFragment.newInstance() // 5000 curencies
-                    currentFragment = newInstance
-                    return newInstance
-                }
-
-                else -> {
-                    val newInstance = LoginFragment.newInstance() // 5000 curencies
-                    currentFragment = newInstance
-                    return newInstance
-                }
-
-            }
-        }
-
-        override fun getCount(): Int {
-            return 2
+            it.beginTransaction()
+                    .replace(R.id.loginLayout, registerFragment)
+                    .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                    .addToBackStack(LoginFragment.FRAGMENT_LOGIN)
+                    .commit()
         }
     }
 }
