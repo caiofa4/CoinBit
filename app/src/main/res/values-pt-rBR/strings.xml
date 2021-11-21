@@ -173,5 +173,6 @@
     <string name="generic_error">Tente mais tarde novamente</string>
     <string name="reset_password_success">Foi enviado um email com instruções para reiniciar sua senha</string>
     <string name="reset_password_fail">Falha ao reiniciar senha. Tente novamente</string>
+    <string name="email_already_used">Esse email já está sendo usado por outra conta</string>
 
 </resources>

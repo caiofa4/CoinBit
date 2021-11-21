@@ -103,8 +103,50 @@
         <item name="android:textColorHint">@color/primaryTextColor</item>
         <item name="android:textSize">@dimen/mainTextSize</item>
         <item name="android:paddingBottom">20dp</item>
-        <item name="android:backgroundTint">@color/colorBlack</item>
+        <item name="android:backgroundTint">@color/secondaryTextColor</item>
         <item name="android:drawablePadding">20dp</item>
+    </style>
+
+    <style name="Widget.Design.TextInputLayout" parent="AppTheme">
+        <item name="hintTextAppearance">@style/AppTheme.TextFloatLabelAppearance</item>
+        <item name="errorTextAppearance">@style/AppTheme.TextErrorAppearance</item>
+        <item name="counterTextAppearance">@style/TextAppearance.Design.Counter</item>
+        <item name="counterOverflowTextAppearance">@style/TextAppearance.Design.Counter.Overflow</item>
+    </style>
+
+    <style name="AppTheme.TextFloatLabelAppearance" parent="TextAppearance.Design.Hint">
+        <!-- Floating label appearance here -->
+        <item name="android:textColor">@color/cerise</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AppTheme.TextErrorAppearance" parent="TextAppearance.Design.Error">
+        <!-- Error message appearance here -->
+        <item name="android:textColor">#ff0000</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Theme.App.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">#c5c5c5</item>
+        <item name="colorControlActivated">@color/colorLoss</item>
+        <item name="colorControlHighlight">@color/colorGain</item>
+    </style>
+
+    <style name="MyEditTextTheme">
+        <!-- Used for the bottom line when not selected / focused -->
+        <item name="colorControlNormal">@color/colorGain</item>
+        <item name="colorControlActivated">@color/colorLoss</item>
+        <item name="colorControlHighlight">@color/colorGain</item>
+        <!-- colorControlActivated & colorControlHighlight use the colorAccent color by default -->
+    </style>
+
+    <style name="EditTextHintWhite" parent="@style/AppTheme">
+        <item name="color">@color/colorGain</item>
+        <item name="android:textColorHint">@color/primaryTextColor</item>
+        <item name="colorControlNormal">@color/secondaryTextColor</item>
+        <item name="colorControlActivated">@color/colorLoss</item>
+        <item name="colorError">@color/cerise</item>
+        <item name="boxStrokeColor">@color/bottomNavSelected</item>
     </style>
 
 </resources>

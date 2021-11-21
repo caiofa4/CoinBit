@@ -1,33 +1,32 @@
 package com.signal.research.features.launch
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import com.signal.research.R
 import kotlinx.android.synthetic.main.fragment_register.*
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.signal.research.features.HomeActivity
 import com.signal.research.utils.isValidEmail
 import com.signal.research.utils.setEnabledRecursively
+import kotlinx.android.synthetic.main.fragment_login.view.*
 
 class RegisterFragment : Fragment() {
 
-    var firebaseAuth = FirebaseAuth.getInstance()
+    private var firebaseAuth = FirebaseAuth.getInstance()
 
     companion object {
         const val FRAGMENT_REGISTER = "FRAGMENT_REGISTER"
         fun newInstance(): LoginFragment {
             return LoginFragment()
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -73,13 +72,19 @@ class RegisterFragment : Fragment() {
                 startActivity(Intent(context, HomeActivity::class.java))
                 activity?.finish()
             } else {
-                task.exception?.localizedMessage?.let { it -> Toast.makeText(context, it, Toast.LENGTH_SHORT).show() };
+                task.exception?.localizedMessage?.let { it -> getRegisterErrorMessage(it) }
             }
         }
     }
 
-    private fun showSnackBar(message: String) {
-        view?.let { Snackbar.make(it, message, Snackbar.LENGTH_SHORT).show() }
+    private fun getRegisterErrorMessage(message: String) {
+        if (message.contains("email address is already in use")) {
+            Toast.makeText(context, getString(R.string.email_already_used), Toast.LENGTH_SHORT).show()
+        } else if (message.contains("network error")) {
+            Toast.makeText(context, getString(R.string.network_error), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, getString(R.string.generic_error), Toast.LENGTH_SHORT).show()
+        }
     }
 
 }
