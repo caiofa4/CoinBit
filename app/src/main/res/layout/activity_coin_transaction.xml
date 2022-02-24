@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/home_background"
     tools:context="com.signal.research.features.transaction.CoinTransactionActivity">
 
     <include
@@ -12,7 +13,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/cell_height"
                 android:animateLayoutChanges="true"
-                android:background="@color/backgroundColor"
+                android:background="@drawable/home_background"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/cell_height"
                 android:animateLayoutChanges="true"
-                android:background="@color/backgroundColor"
+                android:background="@drawable/home_background"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
@@ -137,7 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/cell_height"
                 android:animateLayoutChanges="true"
-                android:background="@color/backgroundColor"
+                android:background="@drawable/home_background"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
@@ -197,7 +197,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/cell_height"
                 android:animateLayoutChanges="true"
-                android:background="@color/backgroundColor"
+                android:background="@drawable/home_background"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
@@ -246,7 +246,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/cell_height"
                 android:animateLayoutChanges="true"
-                android:background="@color/backgroundColor"
+                android:background="@drawable/home_background"
                 android:clickable="true"
                 android:focusable="true"
                 android:paddingStart="@dimen/generic16dp"
@@ -299,7 +299,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/cell_height"
                 android:animateLayoutChanges="true"
-                android:background="@color/backgroundColor"
+                android:background="@drawable/home_background"
                 android:clickable="true"
                 android:focusable="true"
                 android:paddingStart="@dimen/generic16dp"
@@ -366,7 +366,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/cell_height"
                 android:animateLayoutChanges="true"
-                android:background="@color/backgroundColor"
+                android:background="@drawable/home_background"
                 android:clickable="true"
                 android:focusable="true"
                 android:paddingStart="@dimen/generic16dp"

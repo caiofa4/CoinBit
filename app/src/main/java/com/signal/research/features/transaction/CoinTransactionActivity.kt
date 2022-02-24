@@ -77,7 +77,7 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
     private val transactionType = TRANSACTION_TYPE_BUY
 
     companion object {
-        private const val COIN = "COIN"
+        const val COIN = "COIN"
         private const val EXCHANGE_REQUEST = 100
         private const val PAIR_REQUEST = 101
 
