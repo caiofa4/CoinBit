@@ -58,9 +58,9 @@
     <string name="add_transaction">Adicionar Transação</string>
     <string name="portfolio_changed_percentage">(%1$s%%)</string>
     <string name="search_hint">Nome ou Símbolo da Moeda</string>
-    <string name="trading_pair">Par Transação</string>
-    <string name="buy_price">Preço de Compra Price</string>
-    <string name="amount_bought">Montante Comprado</string>
+    <string name="trading_pair">Par Moeda</string>
+    <string name="buy_price">Preço</string>
+    <string name="amount_bought">Quantidade</string>
     <string name="date_time"><![CDATA[Data e Hora]]></string>
     <string name="buy">Comprar</string>
     <string name="sell">Vender</string>

@@ -29,40 +29,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
 
-            <RadioGroup
-                android:id="@+id/rgBuySell"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/cell_height"
-                android:animateLayoutChanges="true"
-                android:background="@drawable/home_background"
-                android:gravity="center"
-                android:orientation="horizontal">
+            >
 
-                <RadioButton
-                    android:id="@+id/rbBuy"
-                    style="@style/CoinBitText.Body2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/generic16dp"
-                    android:buttonTint="@color/colorAccent"
-                    android:checked="true"
-                    android:paddingStart="@dimen/generic4dp"
-                    android:paddingEnd="@dimen/generic4dp"
-                    android:text="@string/buy" />
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swBuySell"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:paddingTop="@dimen/generic20dp"
+                android:paddingBottom="@dimen/generic20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/dividerBuySell" />
+
+            <TextView
+                android:id="@+id/tvSell"
+                style="@style/CoinBitText.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/generic10dp"
+                android:text="@string/sell"
+                app:layout_constraintEnd_toStartOf="@+id/swBuySell"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/dividerBuySell"/>
+
+            <TextView
+                android:id="@+id/tvBuy"
+                style="@style/CoinBitText.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/generic10dp"
+                android:text="@string/buy"
+                app:layout_constraintStart_toEndOf="@+id/swBuySell"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/dividerBuySell"/>
 
 
-                <RadioButton
-                    android:id="@+id/rbSell"
-                    style="@style/CoinBitText.Body2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/colorPrimaryDusk"
-                    android:paddingStart="@dimen/generic4dp"
-                    android:paddingEnd="@dimen/generic4dp"
-                    android:text="@string/sell" />
-            </RadioGroup>
 
             <View
                 android:id="@+id/dividerBuySell"
@@ -71,17 +76,15 @@
                 android:background="@color/colorPrimaryDusk"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rgBuySell" />
+                app:layout_constraintTop_toBottomOf="@id/swBuySell" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerExchange"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/cell_height"
+                android:layout_height="@dimen/cell_height_alternate"
                 android:animateLayoutChanges="true"
                 android:background="@drawable/home_background"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
+
                 android:paddingStart="@dimen/generic16dp"
                 android:paddingEnd="@dimen/generic16dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -93,10 +96,8 @@
                     style="@style/CoinBitText.TitleAlternate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/generic4dp"
                     android:text="@string/exchange"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@+id/tvExchange"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed"
@@ -104,22 +105,25 @@
 
                 <TextView
                     android:id="@+id/tvExchange"
-                    style="@style/CoinBitText.Body"
-                    android:layout_width="wrap_content"
+                    style="@style/CoinBitText.Body1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/exchange"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvExchangeLabel" />
-
-                <TextView
-                    style="@style/CoinBitText.Body2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/arrow"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:gravity="end"
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintStart_toEndOf="@+id/tvExchangeLabel"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+<!--                <TextView-->
+<!--                    style="@style/CoinBitText.Body2"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/arrow"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
@@ -135,7 +139,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerPair"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/cell_height"
+                android:layout_height="@dimen/cell_height_alternate"
                 android:animateLayoutChanges="true"
                 android:background="@drawable/home_background"
                 android:clickable="true"
@@ -154,8 +158,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/generic4dp"
                     android:text="@string/trading_pair"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@+id/tvPair"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed"
@@ -163,23 +166,26 @@
 
                 <TextView
                     android:id="@+id/tvPair"
-                    style="@style/CoinBitText.Body"
-                    android:layout_width="wrap_content"
+                    style="@style/CoinBitText.Body1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/trading_pair"
+                    android:gravity="end"
+                    android:layout_marginStart="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvPairLabel" />
-
-                <TextView
-                    android:id="@+id/tvArrow"
-                    style="@style/CoinBitText.Body2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/arrow"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tvPairLabel"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tvArrow"-->
+<!--                    style="@style/CoinBitText.Body2"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/arrow"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -195,7 +201,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerDate"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/cell_height"
+                android:layout_height="@dimen/cell_height_alternate"
                 android:animateLayoutChanges="true"
                 android:background="@drawable/home_background"
                 android:clickable="true"
@@ -214,8 +220,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/generic4dp"
                     android:text="@string/date_time"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@+id/tvDatetime"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed"
@@ -223,13 +228,16 @@
 
                 <TextView
                     android:id="@+id/tvDatetime"
-                    style="@style/CoinBitText.Body"
-                    android:layout_width="wrap_content"
+                    style="@style/CoinBitText.Body1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/date_time"
+                    android:gravity="end"
+                    android:layout_marginStart="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDatetimeLabel" />
+                    app:layout_constraintStart_toEndOf="@+id/tvDatetimeLabel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
@@ -244,7 +252,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerBuyPrice"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/cell_height"
+                android:layout_height="@dimen/cell_height_alternate"
                 android:animateLayoutChanges="true"
                 android:background="@drawable/home_background"
                 android:clickable="true"
@@ -263,8 +271,7 @@
                     android:labelFor="@id/etBuyPrice"
                     android:paddingBottom="@dimen/generic4dp"
                     android:text="@string/buy_price"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@+id/etBuyPrice"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed"
@@ -272,17 +279,20 @@
 
                 <EditText
                     android:id="@+id/etBuyPrice"
-                    style="@style/CoinBitText.Body"
-                    android:layout_width="wrap_content"
+                    style="@style/CoinBitText.Body1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="@string/buy_price"
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
                     android:textColorHint="@color/primaryTextColor"
+                    android:gravity="end"
+                    android:layout_marginStart="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvBuyPriceLabel" />
+                    app:layout_constraintStart_toEndOf="@+id/tvBuyPriceLabel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
@@ -297,7 +307,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerAmount"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/cell_height"
+                android:layout_height="@dimen/cell_height_alternate"
                 android:animateLayoutChanges="true"
                 android:background="@drawable/home_background"
                 android:clickable="true"
@@ -316,8 +326,7 @@
                     android:labelFor="@id/etBuyPrice"
                     android:paddingBottom="@dimen/generic4dp"
                     android:text="@string/amount_bought"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@+id/etAmount"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed"
@@ -325,17 +334,20 @@
 
                 <EditText
                     android:id="@+id/etAmount"
-                    style="@style/CoinBitText.Body"
-                    android:layout_width="wrap_content"
+                    style="@style/CoinBitText.Body1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="@string/amount_bought"
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
                     android:textColorHint="@color/primaryTextColor"
+                    android:gravity="end"
+                    android:layout_marginStart="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvBuyAmountLabel" />
+                    app:layout_constraintStart_toEndOf="@+id/tvBuyAmountLabel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
@@ -348,52 +360,52 @@
                 app:layout_constraintTop_toBottomOf="@id/containerAmount" />
 
 
-            <TextView
-                android:id="@+id/tvAdditionalOptionLabel"
-                style="@style/CoinBitText.Body1Alternate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/generic4dp"
-                android:layout_marginBottom="@dimen/generic4dp"
-                android:padding="@dimen/generic8dp"
-                android:text="@string/additional_options"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dividerAmount"
-                tools:visibility="visible" />
+<!--            <TextView-->
+<!--                android:id="@+id/tvAdditionalOptionLabel"-->
+<!--                style="@style/CoinBitText.Body1Alternate"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/generic4dp"-->
+<!--                android:layout_marginBottom="@dimen/generic4dp"-->
+<!--                android:padding="@dimen/generic8dp"-->
+<!--                android:text="@string/additional_options"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/dividerAmount"-->
+<!--                tools:visibility="visible" />-->
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerDeduct"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/cell_height"
-                android:animateLayoutChanges="true"
-                android:background="@drawable/home_background"
-                android:clickable="true"
-                android:focusable="true"
-                android:paddingStart="@dimen/generic16dp"
-                android:paddingEnd="@dimen/generic16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvAdditionalOptionLabel">
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:id="@+id/containerDeduct"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/cell_height"-->
+<!--                android:animateLayoutChanges="true"-->
+<!--                android:background="@drawable/home_background"-->
+<!--                android:clickable="true"-->
+<!--                android:focusable="true"-->
+<!--                android:paddingStart="@dimen/generic16dp"-->
+<!--                android:paddingEnd="@dimen/generic16dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/dividerAmount">-->
 
 
-                <TextView
-                    android:id="@+id/tvDeductionLabel"
-                    style="@style/CoinBitText.Body"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/deduct_from_usd_holdings"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+<!--                <TextView-->
+<!--                    android:id="@+id/tvDeductionLabel"-->
+<!--                    style="@style/CoinBitText.Body"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/deduct_from_usd_holdings"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/swDeduction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@id/tvDeductionLabel"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tvDeductionLabel" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+<!--                <androidx.appcompat.widget.SwitchCompat-->
+<!--                    android:id="@+id/swDeduction"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@id/tvDeductionLabel"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/tvDeductionLabel" />-->
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
             <TextView
@@ -405,7 +417,7 @@
                 android:padding="@dimen/generic8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/containerDeduct"
+                app:layout_constraintTop_toBottomOf="@+id/dividerAmount"
                 tools:text="Total Value $100" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

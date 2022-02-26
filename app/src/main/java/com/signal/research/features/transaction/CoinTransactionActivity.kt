@@ -301,7 +301,7 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
                 if (data != null) {
                     exchangeName = ExchangeSearchActivity.getResultFromIntent(data)
                     tvExchangeLabel.visibility = View.VISIBLE
-                    tvExchange.text = exchangeName.toUpperCase()
+                    //tvExchange.text = exchangeName.toUpperCase()
 
                     tvPair.text = getString(R.string.trading_pair)
                     pairName = ""
