@@ -31,6 +31,8 @@ class CoinPositionItemView @JvmOverloads constructor(
     private val tvNoOfCoins: TextView
     private val tvCoinLabel: TextView
     private val tvCoinValue: TextView
+    private val tvTotalCostValueLabel: TextView
+    private val tvTotalCostValue: TextView
     private val tvAvgCostValue: TextView
     private val tvTotalReturnValue: TextView
 
@@ -54,6 +56,8 @@ class CoinPositionItemView @JvmOverloads constructor(
         tvNoOfCoins = findViewById(R.id.tvNoOfCoins)
         tvCoinLabel = findViewById(R.id.tvCoinLabel)
         tvCoinValue = findViewById(R.id.tvCoinValue)
+        tvTotalCostValueLabel = findViewById(R.id.tvTotalCostValueLabel)
+        tvTotalCostValue = findViewById(R.id.tvTotalCostValue)
         tvAvgCostValue = findViewById(R.id.tvAvgCostValue)
         tvTotalReturnValue = findViewById(R.id.tvTotalReturnValue)
     }
@@ -74,6 +78,8 @@ class CoinPositionItemView @JvmOverloads constructor(
             tvCoinValue.text = formatter.formatAmount(totalCurrentValue.toPlainString(), currency)
         }
 
+        tvTotalCostValueLabel.text = context.getString(R.string.cost)
+        tvTotalCostValue.text = formatter.formatAmount(totalCost.toPlainString(), currency)
         tvAvgCostValue.text = formatter.formatAmount(totalCost.divide(noOfCoins, mc).toPlainString(), currency)
 
         val totalReturnAmount = totalCurrentValue?.subtract(totalCost)

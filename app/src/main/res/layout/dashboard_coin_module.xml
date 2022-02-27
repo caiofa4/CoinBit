@@ -26,125 +26,169 @@
         >
 
 
-    <ImageView
-        android:id="@+id/ivCoin"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:contentDescription="@string/cd_coin_image"
-        app:layout_constraintBottom_toBottomOf="@+id/tvCoinPercentChange"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvCoinName"
-        tools:src="@mipmap/ic_launcher" />
+        <ImageView
+            android:id="@+id/ivCoin"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/cd_coin_image"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCoinPercentChange"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvCoinName"
+            tools:src="@mipmap/ic_launcher" />
 
-    <TextView
-        android:id="@+id/tvCoinName"
-        style="@style/CoinBitText.Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/generic16dp"
-        app:layout_constraintStart_toEndOf="@+id/ivCoin"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Bitcoin" />
+        <TextView
+            android:id="@+id/tvCoinName"
+            style="@style/CoinBitText.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/generic16dp"
+            app:layout_constraintStart_toEndOf="@+id/ivCoin"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Bitcoin" />
 
-    <TextView
-        android:id="@+id/tvCoinPercentChange"
-        style="@style/CoinBitText.Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/generic16dp"
-        android:layout_marginTop="@dimen/generic4dp"
-        app:layout_constraintStart_toEndOf="@+id/ivCoin"
-        app:layout_constraintTop_toBottomOf="@id/tvCoinName"
-        tools:text="BitCoin" />
+        <TextView
+            android:id="@+id/tvCoinPercentChange"
+            style="@style/CoinBitText.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/generic16dp"
+            android:layout_marginTop="@dimen/generic4dp"
+            app:layout_constraintStart_toEndOf="@+id/ivCoin"
+            app:layout_constraintTop_toBottomOf="@id/tvCoinName"
+            tools:text="BitCoin" />
 
-    <TextView
-        android:id="@+id/tvCost"
-        style="@style/CoinBitText.Body2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:tag="0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="$100" />
+        <TextView
+            android:id="@+id/tvCost"
+            style="@style/CoinBitText.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="$100" />
 
-    <TextView
-        android:id="@+id/tvCoinMarketCap"
-        style="@style/CoinBitText.TitleAlternate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/generic16dp"
-        android:layout_marginTop="@dimen/generic4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCost"
-        tools:text="BitCoin" />
+        <TextView
+            android:id="@+id/tvCoinMarketCap"
+            style="@style/CoinBitText.TitleAlternate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/generic16dp"
+            android:layout_marginTop="@dimen/generic4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCost"
+            tools:text="BitCoin" />
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/pbCoinLoading"
-        style="?android:attr/progressBarStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        app:layout_constraintBottom_toBottomOf="@id/ivCoin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/ivCoin" />
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/pbCoinLoading"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="@id/ivCoin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivCoin" />
 
-    <View
-        android:id="@+id/dividerView"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/generic8dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/tvCoinPercentChange" />
+        <View
+            android:id="@+id/dividerView"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/generic8dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintTop_toBottomOf="@id/tvCoinPercentChange" />
+        
+        <TextView
+            android:id="@+id/tvQuantityLabel"
+            style="@style/CoinBitText.TitleAlternate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/generic8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dividerView"
+            tools:text="@string/amount" />
+
+        <TextView
+            android:id="@+id/tvQuantity"
+            style="@style/CoinBitText.Body4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/generic8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dividerView"
+            tools:text="0.23456" />
+
+        <TextView
+            android:id="@+id/tvCurrentValueLabel"
+            style="@style/CoinBitText.TitleAlternate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/generic4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvQuantity"
+            tools:text="@string/market_value" />
+
+        <TextView
+            android:id="@+id/tvCurrentValue"
+            style="@style/CoinBitText.Body4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/generic4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvQuantity"
+            tools:text="$500" />
 
 
-    <TextView
-        android:id="@+id/tvQuantity"
-        style="@style/CoinBitText.Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/generic8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dividerView"
-        tools:text="0.23456" />
-
-    <TextView
-        android:id="@+id/tvCurrentValue"
-        style="@style/CoinBitText.BodyAlternate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvQuantity"
-        tools:text="$500" />
-
-    <TextView
-        android:id="@+id/tvProfitLoss"
-        style="@style/CoinBitText.Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/generic8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dividerView"
-        tools:text="+2.7%" />
 
 
-    <TextView
-        android:id="@+id/tvProfitLossLabel"
-        style="@style/CoinBitText.TitleAlternate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/generic4dp"
-        android:text="@string/profit_loss"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvProfitLoss" />
+        <TextView
+            android:id="@+id/tvTotalCostLabel"
+            style="@style/CoinBitText.TitleAlternate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/generic4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCurrentValue"
+            tools:text="@string/cost" />
+
+        <TextView
+            android:id="@+id/tvTotalCost"
+            style="@style/CoinBitText.Body4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/generic4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCurrentValue"
+            tools:text="$500" />
 
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/purchaseItemsGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="dividerView,tvQuantity,tvCurrentValue,tvProfitLoss,tvProfitLossLabel"
-        tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tvProfitLossLabel"
+            style="@style/CoinBitText.TitleAlternate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/generic4dp"
+            android:text="@string/profit_loss"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTotalCost" />
+
+        <TextView
+            android:id="@+id/tvProfitLoss"
+            style="@style/CoinBitText.Body4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/generic4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalCost"
+            tools:text="+2.7%" />
+
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/purchaseItemsGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="dividerView, tvQuantityLabel, tvQuantity, tvCurrentValueLabel, tvCurrentValue, tvTotalCostLabel, tvTotalCost, tvProfitLossLabel, tvProfitLoss"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

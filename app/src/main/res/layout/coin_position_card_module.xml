@@ -29,11 +29,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
+            app:layout_constraintGuide_percent="0.45" />
 
         <TextView
             android:id="@+id/tvNoOfCoins"
-            style="@style/CoinBitText.Body1"
+            style="@style/CoinBitText.Body4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/generic16dp"
@@ -55,7 +55,7 @@
 
         <TextView
             android:id="@+id/tvCoinValue"
-            style="@style/CoinBitText.Body1"
+            style="@style/CoinBitText.Body4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/generic16dp"
@@ -85,20 +85,44 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvVolumeLabel" />
 
+
+
+        <TextView
+            android:id="@+id/tvTotalCostValueLabel"
+            style="@style/CoinBitText.TitleAlternate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/generic16dp"
+            android:layout_marginTop="@dimen/generic24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            tools:text="@string/cost" />
+
+        <TextView
+            android:id="@+id/tvTotalCostValue"
+            style="@style/CoinBitText.Body4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/generic16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTotalCostValueLabel"
+            app:layout_constraintStart_toStartOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/tvTotalCostValueLabel"
+            tools:text="$500" />
+
         <TextView
             android:id="@+id/tvAvgCostLabel"
             style="@style/CoinBitText.TitleAlternate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/generic16dp"
-            android:layout_marginTop="@dimen/generic24dp"
+            android:layout_marginTop="@dimen/generic20dp"
             android:text="@string/average_cost"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
+            app:layout_constraintTop_toBottomOf="@id/tvTotalCostValue" />
 
         <TextView
             android:id="@+id/tvAvgCostValue"
-            style="@style/CoinBitText.Body1"
+            style="@style/CoinBitText.Body4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/generic16dp"
@@ -120,7 +144,7 @@
 
         <TextView
             android:id="@+id/tvTotalReturnValue"
-            style="@style/CoinBitText.Body1"
+            style="@style/CoinBitText.Body4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/generic16dp"

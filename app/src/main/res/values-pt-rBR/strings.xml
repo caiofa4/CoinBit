@@ -60,6 +60,7 @@
     <string name="search_hint">Nome ou Símbolo da Moeda</string>
     <string name="trading_pair">Par Moeda</string>
     <string name="buy_price">Preço</string>
+    <string name="amount">Quantidade</string>
     <string name="amount_bought">Quantidade</string>
     <string name="date_time"><![CDATA[Data e Hora]]></string>
     <string name="buy">Comprar</string>
@@ -136,6 +137,7 @@
     <string name="additional_options">Opções Adicionais</string>
     <string name="deduct_from_usd_holdings">Deduzir das participações em dólares</string>
     <string name="search">Buscar</string>
+    <string name="cost">Custo</string>
     <string name="average_cost">Custo Médio</string>
     <string name="portfolio_down">▼</string>
     <string name="portfolio_up">▲</string>

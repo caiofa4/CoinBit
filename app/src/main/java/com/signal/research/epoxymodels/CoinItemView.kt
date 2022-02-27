@@ -65,8 +65,12 @@ class CoinItemView @JvmOverloads constructor(
     private val tvCoinName: TextView
     private val tvCoinPercentChange: TextView
     private val tvCoinMarketCap: TextView
+    private val tvQuantityLabel: TextView
     private val tvQuantity: TextView
+    private val tvCurrentValueLabel: TextView
     private val tvCurrentValue: TextView
+    private val tvTotalCostLabel: TextView
+    private val tvTotalCost: TextView
     private val tvProfitLoss: TextView
     private val pbLoading: ContentLoadingProgressBar
     private val purchaseItemsGroup: View
@@ -77,8 +81,12 @@ class CoinItemView @JvmOverloads constructor(
         ivCoin = findViewById(R.id.ivCoin)
         tvCoinName = findViewById(R.id.tvCoinName)
         tvCoinMarketCap = findViewById(R.id.tvCoinMarketCap)
+        tvQuantityLabel = findViewById(R.id.tvQuantityLabel)
         tvQuantity = findViewById(R.id.tvQuantity)
+        tvCurrentValueLabel = findViewById(R.id.tvCurrentValueLabel)
         tvCurrentValue = findViewById(R.id.tvCurrentValue)
+        tvTotalCostLabel = findViewById(R.id.tvTotalCostLabel)
+        tvTotalCost = findViewById(R.id.tvTotalCost)
         tvCoinPercentChange = findViewById(R.id.tvCoinPercentChange)
         tvProfitLoss = findViewById(R.id.tvProfitLoss)
         pbLoading = findViewById(R.id.pbCoinLoading)
@@ -126,10 +134,15 @@ class CoinItemView @JvmOverloads constructor(
                 purchaseItemsGroup.visibility = View.VISIBLE
                 tvQuantity.text = purchaseQuantity.toPlainString()
 
+                tvQuantityLabel.text = context.getString(R.string.amount)
+                tvCurrentValueLabel.text = context.getString(R.string.market_value)
+                tvTotalCostLabel.text = context.getString(R.string.cost)
+
                 val currentWorth = purchaseQuantity.multiply(BigDecimal(coinPrice.price))
                 val totalCost = getTotalCost(dashboardCoinModuleData.coinTransactionList, coin.symbol)
 
                 tvCurrentValue.text = formatter.formatAmount(currentWorth.toPlainString(), currency)
+                tvTotalCost.text = formatter.formatAmount(totalCost.toPlainString(), currency)
 
                 // do the profit or loss things here.
                 val totalReturnAmount = currentWorth?.subtract(totalCost)
