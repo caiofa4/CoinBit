@@ -1,6 +1,5 @@
 package com.signal.research.features.transaction
 
-import CoinTransactionContract
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -28,6 +27,7 @@ import com.signal.research.utils.dismissKeyboard
 import com.signal.research.utils.resourcemanager.AndroidResourceManagerImpl
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.signal.research.utils.TRANSACTION_TYPE_SELL
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.activity_coin_transaction.*
@@ -35,6 +35,12 @@ import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
 import java.util.*
+import android.widget.CompoundButton
+
+import CoinTransactionContract
+
+
+
 
 class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.View, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -76,7 +82,7 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
     private var buyPriceInHomeCurrency = BigDecimal.ZERO
     private var prices: MutableMap<String, BigDecimal> = hashMapOf()
 
-    private val transactionType = TRANSACTION_TYPE_BUY
+    private var transactionType = TRANSACTION_TYPE_BUY
 
     companion object {
         const val COIN = "COIN"
@@ -120,6 +126,30 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
         svContainer.setOnClickListener {
             dismissKeyboard(this)
         }
+
+        swBuySell.setOnCheckedChangeListener{ _, isChecked ->
+            if (isChecked) {
+                tvBuy.visibility = View.VISIBLE
+                tvSell.visibility = View.GONE
+                transactionType = TRANSACTION_TYPE_BUY
+            } else {
+                tvBuy.visibility = View.GONE
+                tvSell.visibility = View.VISIBLE
+                transactionType = TRANSACTION_TYPE_SELL
+            }
+        }
+
+//        swBuySell.setOnClickListener {
+//            if (it.isEnabled) {
+//                tvBuy.visibility = View.VISIBLE
+//                tvSell.visibility = View.GONE
+//                transactionType = TRANSACTION_TYPE_BUY
+//            } else {
+//                tvBuy.visibility = View.GONE
+//                tvSell.visibility = View.VISIBLE
+//                transactionType = TRANSACTION_TYPE_SELL
+//            }
+//        }
 
         containerExchange.setOnClickListener {
             val exchangeList = exchangeCoinMap?.get(coin?.symbol?.uppercase())

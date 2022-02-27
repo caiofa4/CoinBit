@@ -95,7 +95,7 @@
             android:layout_marginTop="@dimen/generic8dp"
             android:background="@color/colorPrimary"
             app:layout_constraintTop_toBottomOf="@id/tvCoinPercentChange" />
-        
+
         <TextView
             android:id="@+id/tvQuantityLabel"
             style="@style/CoinBitText.TitleAlternate"
