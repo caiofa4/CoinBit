@@ -96,19 +96,23 @@ class CoinPositionItemView @JvmOverloads constructor(
 
     private fun getNoOfCoinsAndTotalCost(coinTransactionList: List<CoinTransaction>): Pair<BigDecimal, BigDecimal> {
         var noOfCoins = BigDecimal.ZERO
-        var totalCost = BigDecimal.ZERO
+        //var totalCost = BigDecimal.ZERO
+
+        var totalCost = 0.0
 
         coinTransactionList.forEach { coinTransaction ->
             if (coinTransaction.transactionType == TRANSACTION_TYPE_BUY) {
                 noOfCoins += coinTransaction.quantity
-                totalCost += totalCost.add(coinTransaction.cost.toBigDecimal())
+                //totalCost += totalCost.add(coinTransaction.cost.toBigDecimal())
+                totalCost += coinTransaction.cost.toDouble()
             } else {
                 noOfCoins -= coinTransaction.quantity
-                totalCost -= totalCost.add(coinTransaction.cost.toBigDecimal())
+                //totalCost -= totalCost.add(coinTransaction.cost.toBigDecimal())
+                totalCost -= coinTransaction.cost.toDouble()
             }
         }
 
-        return Pair<BigDecimal, BigDecimal>(noOfCoins, totalCost)
+        return Pair<BigDecimal, BigDecimal>(noOfCoins, totalCost.toBigDecimal())
     }
 
     data class CoinPositionCardModuleData(val coinPrice: CoinPrice, val coinTransactionList: List<CoinTransaction>) : ModuleItem
