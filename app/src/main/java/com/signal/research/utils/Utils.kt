@@ -70,19 +70,21 @@ fun dismissKeyboard(activity: Activity) {
 }
 
 fun getTotalCost(coinTransactionList: List<CoinTransaction>, coinSymbol: String): BigDecimal {
-    var totalCost = BigDecimal.ZERO
+    var totalCost = 0.0
 
     coinTransactionList.forEach { coinTransaction ->
         if (coinTransaction.coinSymbol.equals(coinSymbol, true)) {
             if (coinTransaction.transactionType == TRANSACTION_TYPE_BUY) {
-                totalCost += totalCost.add(coinTransaction.cost.toBigDecimal())
+                //totalCost += totalCost.add(coinTransaction.cost.toBigDecimal())
+                totalCost += coinTransaction.cost.toDouble()
             } else {
-                totalCost -= totalCost.add(coinTransaction.cost.toBigDecimal())
+                //totalCost -= totalCost.add(coinTransaction.cost.toBigDecimal())
+                totalCost -= coinTransaction.cost.toDouble()
             }
         }
     }
 
-    return totalCost
+    return totalCost.toBigDecimal()
 }
 
 fun getUrlWithoutParameters(url: String): String {
