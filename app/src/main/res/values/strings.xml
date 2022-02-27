@@ -15,6 +15,7 @@
     <string name="marketCap">Mkt cap: %1$s</string>
     <string name="tickerActivityTitle">%1$s Markets</string>
     <string name="newsActivityTitle">%1$s News</string>
+    <string name="transactionsDetailsActivityTitle">Transactions - %1$s </string>
 
     <string name="amountMillion">%1$s Million</string>
     <string name="amountBillion">%1$s Billion</string>

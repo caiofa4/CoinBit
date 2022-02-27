@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.signal.research.R
@@ -15,6 +16,7 @@ import com.signal.research.utils.Formaters
 import com.signal.research.utils.TRANSACTION_TYPE_SELL
 import com.signal.research.utils.resourcemanager.AndroidResourceManager
 import com.signal.research.utils.resourcemanager.AndroidResourceManagerImpl
+import java.io.Serializable
 import java.util.*
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
@@ -25,8 +27,8 @@ class CoinTransactionHistoryItemView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attributeSet, defStyle) {
 
     private val tvFirstTxnTypeAndQuantity: TextView
-    private val tvFirstTxnCost: TextView
     private val tvFirstTxnTimeAndExchange: TextView
+    private val tvFirstTxnCost: TextView
     private val clFirstTransaction: View
 
     private val tvSecondTxnTypeAndQuantity: TextView
@@ -76,13 +78,15 @@ class CoinTransactionHistoryItemView @JvmOverloads constructor(
         val coinTransactionList = coinTransactionHistoryModuleData.coinTransactionList
         val currency = Currency.getInstance(PreferencesManager.getDefaultCurrency(context))
 
-        var transactionType = androidResourceManager.getString(R.string.buy)
+        var transactionType: String
 
         if (coinTransactionList.isNotEmpty()) {
-            val coinTransaction = coinTransactionList[0]
+            val coinTransaction = coinTransactionList[coinTransactionList.size - 1]
 
-            if (coinTransaction.transactionType == TRANSACTION_TYPE_SELL) {
-                transactionType = androidResourceManager.getString(R.string.sell)
+            transactionType = if (coinTransaction.transactionType == TRANSACTION_TYPE_SELL) {
+                androidResourceManager.getString(R.string.sell)
+            } else {
+                androidResourceManager.getString(R.string.buy)
             }
 
             tvFirstTxnTypeAndQuantity.text = androidResourceManager.getString(
@@ -101,10 +105,12 @@ class CoinTransactionHistoryItemView @JvmOverloads constructor(
         }
 
         if (coinTransactionList.size > 1) {
-            val coinTransaction = coinTransactionList[1]
+            val coinTransaction = coinTransactionList[coinTransactionList.size - 2]
 
-            if (coinTransaction.transactionType == TRANSACTION_TYPE_SELL) {
-                transactionType = androidResourceManager.getString(R.string.sell)
+            transactionType = if (coinTransaction.transactionType == TRANSACTION_TYPE_SELL) {
+                androidResourceManager.getString(R.string.sell)
+            } else {
+                androidResourceManager.getString(R.string.buy)
             }
 
             tvSecondTxnTypeAndQuantity.text = androidResourceManager.getString(
@@ -122,10 +128,12 @@ class CoinTransactionHistoryItemView @JvmOverloads constructor(
         }
 
         if (coinTransactionList.size > 2) {
-            val coinTransaction = coinTransactionList[2]
+            val coinTransaction = coinTransactionList[coinTransactionList.size - 3]
 
-            if (coinTransaction.transactionType == TRANSACTION_TYPE_SELL) {
-                transactionType = androidResourceManager.getString(R.string.sell)
+            transactionType = if (coinTransaction.transactionType == TRANSACTION_TYPE_SELL) {
+                androidResourceManager.getString(R.string.sell)
+            } else {
+                androidResourceManager.getString(R.string.buy)
             }
 
             tvThirdTxnTypeAndQuantity.text = androidResourceManager.getString(
@@ -147,5 +155,10 @@ class CoinTransactionHistoryItemView @JvmOverloads constructor(
         }
     }
 
-    class CoinTransactionHistoryModuleData(val coinTransactionList: List<CoinTransaction>) : ModuleItem
+    @CallbackProp
+    fun setMoreClickListener(listener: OnClickListener?) {
+        tvMore.setOnClickListener(listener)
+    }
+
+    class CoinTransactionHistoryModuleData(val coinTransactionList: List<CoinTransaction>) : ModuleItem, Serializable
 }

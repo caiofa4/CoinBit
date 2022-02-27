@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.signal.research.CoinBitApplication"
+        android:name=".CoinBitApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,7 +15,10 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity android:name="com.signal.research.features.launch.LaunchActivity">
+        <activity
+            android:name=".features.transactiondetails.TransactionDetailsActivity"
+            android:exported="true" />
+        <activity android:name=".features.launch.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,38 +36,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.signal.research.features.HomeActivity"
+            android:name=".features.HomeActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name="com.signal.research.features.coindetails.CoinDetailsPagerActivity"
+            android:name=".features.coindetails.CoinDetailsPagerActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="com.signal.research.features.HomeActivity" />
+            android:parentActivityName=".features.HomeActivity" />
         <activity
-            android:name="com.signal.research.features.newslist.NewsListActivity"
-            android:parentActivityName="com.signal.research.features.coindetails.CoinDetailsPagerActivity" />
+            android:name=".features.newslist.NewsListActivity"
+            android:parentActivityName=".features.coindetails.CoinDetailsPagerActivity" />
         <activity
-            android:name="com.signal.research.features.transaction.CoinTransactionActivity"
+            android:name=".features.transaction.CoinTransactionActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.signal.research.features.exchangesearch.ExchangeSearchActivity"
+            android:name=".features.exchangesearch.ExchangeSearchActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.signal.research.features.pairsearch.PairSearchActivity"
+            android:name=".features.pairsearch.PairSearchActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.signal.research.features.coinsearch.CoinSearchActivity"
+            android:name=".features.coinsearch.CoinSearchActivity"
             android:label="@string/search_coin"
-            android:parentActivityName="com.signal.research.features.HomeActivity"
+            android:parentActivityName=".features.HomeActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.signal.research.features.coindetails.CoinDetailsActivity"
+            android:name=".features.coindetails.CoinDetailsActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="com.signal.research.features.coinsearch.CoinSearchActivity" />
-
+            android:parentActivityName=".features.coinsearch.CoinSearchActivity" />
         <activity
-            android:name="com.signal.research.features.ticker.CoinTickerActivity"
-            android:parentActivityName="com.signal.research.features.coindetails.CoinDetailsPagerActivity" />
-
+            android:name=".features.ticker.CoinTickerActivity"
+            android:parentActivityName=".features.coindetails.CoinDetailsPagerActivity" />
     </application>
 
 </manifest>

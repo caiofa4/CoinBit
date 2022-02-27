@@ -14,6 +14,7 @@
     <string name="marketCap">Mkt cap: %1$s</string>
     <string name="tickerActivityTitle">%1$s Mercados</string>
     <string name="newsActivityTitle">%1$s Notícias</string>
+    <string name="transactionsDetailsActivityTitle">Transações - %1$s</string>
 
     <string name="amountMillion">%1$s Milhão</string>
     <string name="amountBillion">%1$s Bilhão</string>
@@ -63,8 +64,8 @@
     <string name="amount">Quantidade</string>
     <string name="amount_bought">Quantidade</string>
     <string name="date_time"><![CDATA[Data e Hora]]></string>
-    <string name="buy">Comprar</string>
-    <string name="sell">Vender</string>
+    <string name="buy">Compra</string>
+    <string name="sell">Venda</string>
     <string name="arrow"><![CDATA[>]]></string>
     <string name="change_exchange">Exchange</string>
     <string name="change_trading_pair">Mudar par de transação</string>
