@@ -80,12 +80,12 @@ class TopCardItemView @JvmOverloads constructor(
 
     init {
         View.inflate(context, R.layout.top_card_module, this)
-        tvPair = findViewById(R.id.tvPair)
-        tvPrice = findViewById(R.id.tvPrice)
-        tvPriceChange = findViewById(R.id.tvPriceChange)
-        tvMarketCap = findViewById(R.id.tvMarketCap)
+        tvPair = findViewById(R.id.tvTopPair)
+        tvPrice = findViewById(R.id.tvTopPrice)
+        tvPriceChange = findViewById(R.id.tvTopPriceChange)
+        tvMarketCap = findViewById(R.id.tvTopMarketCap)
         topCardContainer = findViewById(R.id.topCardContainer)
-        ivCoin = findViewById(R.id.ivCoin)
+        ivCoin = findViewById(R.id.ivTopCoin)
     }
 
     @ModelProp

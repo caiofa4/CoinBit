@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelView
@@ -18,19 +19,21 @@ class ExchangePairItemView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attributeSet, defStyle) {
 
     private val tvSearchItemName: TextView
+    private val containerExchangeSearch: ConstraintLayout
 
     init {
         View.inflate(context, R.layout.exchange_pair_search_item, this)
-        tvSearchItemName = findViewById(R.id.tvArticleTitle)
+        tvSearchItemName = findViewById(R.id.tvSearchItemName)
+        containerExchangeSearch = findViewById(R.id.containerExchangeSearch)
     }
 
     @TextProp
-    fun setExchangeName(exchnageName: CharSequence) {
-        tvSearchItemName.text = exchnageName
+    fun setExchangeName(exchangeName: CharSequence) {
+        tvSearchItemName.text = exchangeName
     }
 
     @CallbackProp
     fun setItemClickListener(listener: OnClickListener?) {
-        setOnClickListener(listener)
+        containerExchangeSearch.setOnClickListener(listener)
     }
 }

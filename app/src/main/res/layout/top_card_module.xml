@@ -13,7 +13,7 @@
     android:stateListAnimator="@animator/card_down_animation">
 
     <ImageView
-        android:id="@+id/ivCoin"
+        android:id="@+id/ivTopCoin"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:contentDescription="@string/cd_coin_image"
@@ -22,7 +22,7 @@
         tools:src="@mipmap/ic_launcher" />
 
     <TextView
-        android:id="@+id/tvPair"
+        android:id="@+id/tvTopPair"
         style="@style/CoinBitText.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,11 +30,11 @@
         android:textSize="14sp"
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivCoin"
+        app:layout_constraintTop_toBottomOf="@+id/ivTopCoin"
         tools:text="BTC/USD" />
 
     <TextView
-        android:id="@+id/tvPrice"
+        android:id="@+id/tvTopPrice"
         style="@style/CoinBitText.Body3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,22 +44,22 @@
         android:textStyle="bold"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvPair"
+        app:layout_constraintTop_toBottomOf="@id/tvTopPair"
         tools:text="8360.90" />
 
     <TextView
-        android:id="@+id/tvPriceChange"
+        android:id="@+id/tvTopPriceChange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorGain"
         android:textStyle="bold"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvPrice"
+        app:layout_constraintTop_toBottomOf="@id/tvTopPrice"
         tools:text="-2.24 %" />
 
     <TextView
-        android:id="@+id/tvMarketCap"
+        android:id="@+id/tvTopMarketCap"
         style="@style/CoinBitText.CaptionAlternate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
         android:maxLines="1"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvPriceChange"
+        app:layout_constraintTop_toBottomOf="@id/tvTopPriceChange"
         android:visibility="gone"
         tools:text="Mkt cap : 8360.90" />
 

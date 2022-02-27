@@ -79,7 +79,7 @@
         tools:text="BitCoin" />
 
     <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/pbLoading"
+        android:id="@+id/pbCoinLoading"
         style="?android:attr/progressBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

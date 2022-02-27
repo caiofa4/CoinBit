@@ -45,7 +45,7 @@ class ExchangeSearchActivity : AppCompatActivity() {
 
         checkNotNull(searchList)
 
-        val toolbar = findViewById<View>(R.id.toolbar)
+        val toolbar = findViewById<View>(R.id.exchangePairSearchToolbar)
         setSupportActionBar(toolbar as Toolbar?)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 

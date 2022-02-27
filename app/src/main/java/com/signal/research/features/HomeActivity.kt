@@ -79,12 +79,12 @@ class HomeActivity : AppCompatActivity() {
                     is CoinDashboardFragment -> {
                         tvHome.paintFlags = Paint.UNDERLINE_TEXT_FLAG
                         tvSearchCoins.paintFlags = 0
-                        tvTitle.text = getString(R.string.market)
+                        tvHomeTitle.text = getString(R.string.market)
                     }
                     is CoinDiscoveryFragment -> {
                         tvSearchCoins.paintFlags = Paint.UNDERLINE_TEXT_FLAG
                         tvHome.paintFlags = 0
-                        tvTitle.text = getString(R.string.search)
+                        tvHomeTitle.text = getString(R.string.search)
                     }
                     //is SettingsFragment -> bottomNavigation.menu.getItem(2).isChecked = true
                 }

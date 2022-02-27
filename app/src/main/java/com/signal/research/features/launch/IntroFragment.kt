@@ -83,7 +83,7 @@ class IntroFragment : Fragment() {
     fun showLoadingScreen() {
         contentGroup.visibility = View.GONE
         btnChooseCurrency.visibility = View.GONE
-        pbLoading.visibility = View.VISIBLE
+        pbIntroLoading.visibility = View.VISIBLE
         tvLoading.visibility = View.VISIBLE
     }
 }

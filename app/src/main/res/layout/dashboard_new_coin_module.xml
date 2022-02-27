@@ -12,7 +12,7 @@
 
 
     <TextView
-        android:id="@+id/tvCoinName"
+        android:id="@+id/tvAddCurrency"
         style="@style/CoinBitText.Body1Alternate"
         android:layout_width="wrap_content"
         android:layout_height="0dp"

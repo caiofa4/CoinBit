@@ -14,7 +14,10 @@
         style="@style/CoinBitText.Body1Alternate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/markets" />
+        android:text="@string/markets"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -129,6 +132,7 @@
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@id/tvSecondExchange"
                 app:layout_constraintTop_toTopOf="@id/tvSecondToPrice"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:visibility="visible" />
 
             <TextView
@@ -208,6 +212,7 @@
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@id/tvThirdExchange"
                 app:layout_constraintTop_toTopOf="@id/tvThirdToPrice"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:visibility="visible" />
 
             <TextView

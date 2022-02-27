@@ -8,7 +8,7 @@
     tools:context="com.signal.research.features.transaction.CoinTransactionActivity">
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/coinTransactionToolbar"
         layout="@layout/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,9 +20,9 @@
         android:paddingTop="@dimen/generic4dp"
         android:paddingBottom="@dimen/generic8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnAddTransaction"
+        app:layout_constraintBottom_toTopOf="@id/btnFinishTransaction"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/coinTransactionToolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/svContainer"
@@ -426,7 +426,7 @@
 
 
     <Button
-        android:id="@+id/btnAddTransaction"
+        android:id="@+id/btnFinishTransaction"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:text="@string/add_transaction"
@@ -438,13 +438,14 @@
         android:id="@+id/loading"
         style="?android:attr/progressBarStyleSmall"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:elevation="2dp"
         android:indeterminate="true"
         android:indeterminateTint="@color/primaryTextColor"
-        app:layout_constraintBottom_toBottomOf="@id/btnAddTransaction"
-        app:layout_constraintEnd_toEndOf="@id/btnAddTransaction"
-        app:layout_constraintStart_toStartOf="@id/btnAddTransaction"
-        app:layout_constraintTop_toTopOf="@id/btnAddTransaction" />
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,7 @@
 
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/coinSearchToolbar"
         layout="@layout/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,7 +17,7 @@
 
 
     <EditText
-        android:id="@+id/etSearchBar"
+        android:id="@+id/etCoinSearchBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginStart="@dimen/generic14dp"
@@ -33,7 +33,7 @@
         android:textColorHint="@color/secondaryTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/coinSearchToolbar" />
 
 
     <FrameLayout
@@ -44,16 +44,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etSearchBar">
+        app:layout_constraintTop_toBottomOf="@id/etCoinSearchBar">
 
         <com.airbnb.epoxy.EpoxyRecyclerView
-            android:id="@+id/rvSearchList"
+            android:id="@+id/rvCoinSearchList"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
 
     <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/pbLoading"
+        android:id="@+id/pbCoinSearchLoading"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

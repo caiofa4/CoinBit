@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/ivCoin"
+            android:id="@+id/ivSearchCoin"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:contentDescription="@string/cd_coin_image"
@@ -33,29 +33,29 @@
             tools:src="@mipmap/ic_launcher" />
 
         <TextView
-            android:id="@+id/tvCoinName"
+            android:id="@+id/tvSearchCoinName"
             style="@style/CoinBitText.Body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/generic16dp"
-            app:layout_constraintBottom_toTopOf="@+id/tvCoinPercentChange"
+            app:layout_constraintBottom_toTopOf="@+id/tvSearchCoinPercentChange"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toEndOf="@+id/ivCoin"
+            app:layout_constraintStart_toEndOf="@+id/ivSearchCoin"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/scWatched"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="BTC" />
 
         <TextView
-            android:id="@+id/tvCoinPercentChange"
+            android:id="@+id/tvSearchCoinPercentChange"
             style="@style/CoinBitText.Body1Alternate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/generic16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/ivCoin"
+            app:layout_constraintStart_toEndOf="@+id/ivSearchCoin"
             app:layout_constraintEnd_toStartOf="@+id/scWatched"
-            app:layout_constraintTop_toBottomOf="@+id/tvCoinName"
+            app:layout_constraintTop_toBottomOf="@+id/tvSearchCoinName"
             tools:text="BitCoin" />
 
         <androidx.appcompat.widget.SwitchCompat

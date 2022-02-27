@@ -16,7 +16,6 @@ import com.signal.research.utils.CoinBitExtendedCurrency
 import com.signal.research.utils.ui.IntroPageTransformer
 import com.google.android.material.snackbar.Snackbar
 import com.mynameismidori.currencypicker.CurrencyPicker
-import com.signal.research.features.dashboard.CoinDashboardFragment
 import kotlinx.android.synthetic.main.activity_launch.*
 import timber.log.Timber
 
@@ -39,11 +38,11 @@ class LaunchActivity : AppCompatActivity(), LaunchContract.View {
         lifecycle.addObserver(launchPresenter)
 
 
-        val LoginFragment = supportFragmentManager.findFragmentByTag("LoginFragment")
+        val loginFragment = supportFragmentManager.findFragmentByTag("LoginFragment")
                 ?: LoginFragment()
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.loginLayout, LoginFragment, "LoginFragment")
+                .replace(R.id.loginLayout, loginFragment, "LoginFragment")
                 .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 .commit()
     }

@@ -8,7 +8,7 @@
     tools:context="com.signal.research.features.coin.CoinFragment">
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/coinDetailsToolbar"
         layout="@layout/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,13 +18,52 @@
         android:id="@+id/flCoinDetails"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/clFooterCoinDetails"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/coinDetailsToolbar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clFooterCoinDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/home_background"
+        android:padding="5dp"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btnAddNewTransaction"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardCornerRadius="3dp"
+            android:backgroundTint="@color/backgroundColor"
+            android:layout_marginStart="@dimen/generic8dp"
+            android:layout_marginEnd="@dimen/generic8dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_transaction"
+                android:layout_gravity="center"
+                android:padding="@dimen/generic12dp"
+                android:textColor="@color/primaryTextColor"
+                />
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/pbLoading"
+        android:id="@+id/pbLoading3"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

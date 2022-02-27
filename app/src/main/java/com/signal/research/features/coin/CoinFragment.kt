@@ -3,10 +3,9 @@ package com.signal.research.features.coin
 import CoinContract
 import CoinTickerContract
 import CryptoNewsContract
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import com.signal.research.CoinBitApplication
 import com.signal.research.R
@@ -37,8 +36,6 @@ import com.signal.research.utils.resourcemanager.AndroidResourceManagerImpl
 import com.signal.research.utils.ui.OnVerticalScrollListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.signal.research.features.launch.LaunchActivity
-import com.signal.research.features.transaction.CoinTransactionActivity
 import kotlinx.android.synthetic.main.fragment_coin_details.*
 import java.math.BigDecimal
 
@@ -142,18 +139,6 @@ class CoinFragment : Fragment(), CoinContract.View, CryptoNewsContract.View, Coi
                 isCoinWatched = true
             }
         }
-
-        clFooterCoinDetails.setOnClickListener {
-            addTransaction()
-        }
-    }
-
-    private fun addTransaction() {
-        watchedCoin?.coin?.let {
-            val intent = Intent(context, CoinTransactionActivity::class.java)
-            intent.putExtra(CoinTransactionActivity.COIN, it)
-            startActivity(intent)
-        } ?: Toast.makeText(context, getString(R.string.generic_error), Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -189,10 +174,10 @@ class CoinFragment : Fragment(), CoinContract.View, CryptoNewsContract.View, Coi
     private fun changeCoinMenu(isCoinWatched: Boolean, isCoinPurchased: Boolean) {
         if (!isCoinPurchased) {
             if (isCoinWatched) {
-                watchedMenuItem?.icon = context?.getDrawable(R.drawable.ic_watching)
+                watchedMenuItem?.icon = context?.let { AppCompatResources.getDrawable(it, R.drawable.ic_watching) }
                 watchedMenuItem?.title = context?.getString(R.string.remove_to_watchlist)
             } else {
-                watchedMenuItem?.icon = context?.getDrawable(R.drawable.ic_watch)
+                watchedMenuItem?.icon = context?.let { AppCompatResources.getDrawable(it, R.drawable.ic_watch) }
                 watchedMenuItem?.title = context?.getString(R.string.add_to_watchlist)
             }
         } else {
@@ -247,7 +232,7 @@ class CoinFragment : Fragment(), CoinContract.View, CryptoNewsContract.View, Coi
         coinDetailList.add(CoinAboutItemView.AboutCoinModuleData(watchedCoin.coin))
 
         coinPresenter.loadHistoricalData(HOUR, watchedCoin.coin.symbol, toCurrency)
-        coinTickerPresenter.getCryptoTickers(watchedCoin.coin.coinName.toLowerCase())
+        coinTickerPresenter.getCryptoTickers(watchedCoin.coin.coinName.lowercase())
         cryptoNewsPresenter.getCryptoNews(watchedCoin.coin.symbol)
         coinPresenter.loadRecentTransaction(watchedCoin.coin.symbol)
 
@@ -362,11 +347,13 @@ class CoinFragment : Fragment(), CoinContract.View, CryptoNewsContract.View, Coi
         if (coinTransactionList.isNotEmpty()) {
             coinPrice?.let {
                 // add position module
+                coinDetailList.removeAt(2)
                 coinDetailList.add(2, CoinPositionItemView.CoinPositionCardModuleData(it, coinTransactionList))
             }
 
             // add transaction module
-            coinDetailList.add(4, CoinTransactionHistoryItemView.CoinTransactionHistoryModuleData(coinTransactionList))
+            coinDetailList.removeAt(3)
+            coinDetailList.add(3, CoinTransactionHistoryItemView.CoinTransactionHistoryModuleData(coinTransactionList))
             showCoinDataInView(coinDetailList)
         }
     }

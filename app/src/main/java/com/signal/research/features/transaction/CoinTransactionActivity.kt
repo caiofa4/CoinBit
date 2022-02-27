@@ -1,6 +1,7 @@
 package com.signal.research.features.transaction
 
 import CoinTransactionContract
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -93,7 +95,7 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_transaction)
 
-        val toolbar = findViewById<View>(R.id.toolbar)
+        val toolbar = findViewById<View>(R.id.coinTransactionToolbar)
         setSupportActionBar(toolbar as Toolbar?)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -106,9 +108,9 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
         coinTransactionPresenter.attachView(this)
         lifecycle.addObserver(coinTransactionPresenter)
 
-        initializeUI()
-
         coinTransactionPresenter.getAllSupportedExchanges()
+
+        initializeUI()
 
         FirebaseCrashlytics.getInstance().log("CoinTransactionActivity")
     }
@@ -120,20 +122,21 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
         }
 
         containerExchange.setOnClickListener {
-            val exchangeList = exchangeCoinMap?.get(coin?.symbol?.toUpperCase())
-            if (exchangeList != null) {
-
+            val exchangeList = exchangeCoinMap?.get(coin?.symbol?.uppercase())
+            exchangeList?.let {
                 startActivityForResult(
-                    ExchangeSearchActivity.buildLaunchIntent(this, getExchangeNameList(exchangeList), getString(R.string.change_exchange)),
+                    ExchangeSearchActivity.buildLaunchIntent(this, getExchangeNameList(it), getString(R.string.change_exchange)),
                     EXCHANGE_REQUEST
                 )
+            } ?: kotlin.run {
+                Toast.makeText(this, getString(R.string.try_again_exchange), Toast.LENGTH_SHORT).show()
             }
         }
 
         containerPair.setOnClickListener {
             val symbol = coin?.symbol
 
-            val exchangeList = exchangeCoinMap?.get(symbol?.toUpperCase())
+            val exchangeList = exchangeCoinMap?.get(symbol?.uppercase())
             if (exchangeList != null && symbol != null && exchangeName.isNotEmpty()) {
                 startActivityForResult(
                     PairSearchActivity.buildLaunchIntent(this, getTopPair(exchangeList), symbol),
@@ -187,11 +190,11 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
             }
         })
 
-        btnAddTransaction.setOnClickListener {
+        btnFinishTransaction.setOnClickListener {
             val coinTransaction = validateAndMakeTransaction()
-            if (coinTransaction != null) {
+            coinTransaction?.let {
                 loading.show()
-                coinTransactionPresenter.addTransaction(coinTransaction)
+                coinTransactionPresenter.addTransaction(it)
             }
         }
     }
@@ -202,11 +205,12 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
     }
 
     override fun onCoinPriceLoaded(prices: MutableMap<String, BigDecimal>) {
-        etBuyPrice.setText(prices[pairName.toUpperCase()].toString())
+        etBuyPrice.setText(prices[pairName.uppercase()].toString())
         this.prices = prices
     }
 
     override fun onTransactionAdded() {
+        setResult(Activity.RESULT_OK)
         loading.hide()
         finish()
     }
@@ -217,14 +221,14 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
             buyPriceInHomeCurrency = buyPrice
 
             // this means the pair is not home currency one
-            if (prices.size > 1 && prices.containsKey(defaultCurrency.toUpperCase())) {
+            if (prices.size > 1 && prices.containsKey(defaultCurrency.uppercase())) {
                 // get rate
-                val rate = BigDecimal(etBuyPrice.text.toString()).divide(prices[pairName.toUpperCase()], mc)
-                buyPriceInHomeCurrency = (prices[defaultCurrency.toUpperCase()]?.multiply(rate, mc))
+                val rate = BigDecimal(etBuyPrice.text.toString()).divide(prices[pairName.uppercase()], mc)
+                buyPriceInHomeCurrency = (prices[defaultCurrency.uppercase()]?.multiply(rate, mc))
 
                 // cal cost
                 cost = buyPriceInHomeCurrency.multiply(BigDecimal(etAmount.text.toString()), mc)
-                tvTotalAmountInCurrencyLabel.text = getString(R.string.transactionCost, cost, defaultCurrency.toUpperCase())
+                tvTotalAmountInCurrencyLabel.text = getString(R.string.transactionCost, cost, defaultCurrency.uppercase())
             } else {
                 cost = buyPrice.multiply(BigDecimal(etAmount.text.toString()), mc)
                 tvTotalAmountInCurrencyLabel.text = getString(R.string.transactionCost, cost, pairName)
@@ -298,27 +302,22 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             EXCHANGE_REQUEST -> {
-                if (data != null) {
-                    exchangeName = ExchangeSearchActivity.getResultFromIntent(data)
-                    tvExchangeLabel.visibility = View.VISIBLE
-                    //tvExchange.text = exchangeName.toUpperCase()
+                data?.let { receivedData ->
+                    exchangeName = ExchangeSearchActivity.getResultFromIntent(receivedData)
+                    tvExchange.text = exchangeName
 
-                    tvPair.text = getString(R.string.trading_pair)
                     pairName = ""
-                    etBuyPrice.setText("")
-                    etAmount.setText("")
                     tvTotalAmountInCurrencyLabel.text = ""
                 }
             }
             PAIR_REQUEST -> {
-                if (data != null) {
-                    pairName = PairSearchActivity.getResultFromIntent(data)
-                    tvPairLabel.visibility = View.VISIBLE
+                data?.let { receivedData ->
+                    pairName = PairSearchActivity.getResultFromIntent(receivedData)
 
-                    if (coin != null) {
+                    coin?.let {
                         tvPair.text = getString(
                             R.string.coinPair,
-                            coin?.symbol, pairName.toUpperCase()
+                            it.symbol, pairName.uppercase()
                         )
 
                         getCoinPrice()
@@ -326,7 +325,6 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
 
                     tvBuyPriceLabel.text = getString(R.string.buyPriceHint, pairName)
                     etBuyPrice.hint = getString(R.string.buyPriceHint, pairName)
-                    etAmount.setText("")
                     tvTotalAmountInCurrencyLabel.text = ""
                 }
             }

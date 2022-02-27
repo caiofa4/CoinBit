@@ -40,9 +40,9 @@ class CoinSearchItemView @JvmOverloads constructor(
 
     init {
         View.inflate(context, R.layout.coin_search_item, this)
-        tvCoinName = findViewById(R.id.tvCoinPercentChange)
-        tvCoinSymbol = findViewById(R.id.tvCoinName)
-        ivCoin = findViewById(R.id.ivCoin)
+        tvCoinName = findViewById(R.id.tvSearchCoinPercentChange)
+        tvCoinSymbol = findViewById(R.id.tvSearchCoinName)
+        ivCoin = findViewById(R.id.ivSearchCoin)
         cbWatched = findViewById(R.id.scWatched)
         clCoinInfo = findViewById(R.id.clCoinInfo)
     }

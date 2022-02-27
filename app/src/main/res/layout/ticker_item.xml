@@ -28,6 +28,7 @@
             android:contentDescription="@string/cdExchange"
             app:layout_constraintBottom_toBottomOf="@id/tvExchange"
             app:layout_constraintTop_toTopOf="@id/tvToPrice"
+            app:layout_constraintStart_toStartOf="parent"
             tools:src="@mipmap/ic_launcher" />
 
         <TextView

@@ -46,11 +46,11 @@ class CoinSearchActivity : AppCompatActivity(), CoinSearchContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_search)
 
-        val toolbar = findViewById<View>(R.id.toolbar)
+        val toolbar = findViewById<View>(R.id.coinSearchToolbar)
         setSupportActionBar(toolbar as Toolbar?)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        rvSearchList.layoutManager = LinearLayoutManager(this)
+        rvCoinSearchList.layoutManager = LinearLayoutManager(this)
 
         coinSearchPresenter.attachView(this)
 
@@ -63,23 +63,23 @@ class CoinSearchActivity : AppCompatActivity(), CoinSearchContract.View {
 
     override fun showOrHideLoadingIndicator(showLoading: Boolean) {
         if (!showLoading) {
-            pbLoading.hide()
+            pbCoinSearchLoading.hide()
         } else {
-            pbLoading.show()
+            pbCoinSearchLoading.show()
         }
     }
 
     override fun onNetworkError(errorMessage: String) {
-        Snackbar.make(rvSearchList, errorMessage, Snackbar.LENGTH_LONG)
+        Snackbar.make(rvCoinSearchList, errorMessage, Snackbar.LENGTH_LONG).show()
     }
 
     override fun onCoinsLoaded(coinList: List<WatchedCoin>) {
 
         showCoinsInTheList(coinList)
 
-        etSearchBar.addTextChangedListener(object : TextWatcher {
+        etCoinSearchBar.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(filterText: Editable?) {
-                val filterString = filterText.toString().trim().toLowerCase()
+                val filterString = filterText.toString().trim().lowercase()
 
                 showCoinsInTheList(
                     coinList.filter { watchedCoin ->
@@ -98,7 +98,7 @@ class CoinSearchActivity : AppCompatActivity(), CoinSearchContract.View {
     }
 
     private fun showCoinsInTheList(coinList: List<WatchedCoin>) {
-        rvSearchList.withModels {
+        rvCoinSearchList.withModels {
             coinList.forEach { watchedCoin ->
                 coinSearchItemView {
                     id(watchedCoin.coin.id)
@@ -113,7 +113,7 @@ class CoinSearchActivity : AppCompatActivity(), CoinSearchContract.View {
                                 coinSearchPresenter.updateCoinWatchedStatus(watched, watchedCoin.coin.id, watchedCoin.coin.symbol)
                                 isCoinInfoChanged = true
                             } else {
-                                Snackbar.make(rvSearchList, getString(R.string.coin_already_purchased), Snackbar.LENGTH_LONG).show()
+                                Snackbar.make(rvCoinSearchList, getString(R.string.coin_already_purchased), Snackbar.LENGTH_LONG).show()
                             }
                         }
                     })
@@ -130,7 +130,7 @@ class CoinSearchActivity : AppCompatActivity(), CoinSearchContract.View {
             getString(R.string.coin_removed_to_watchlist, coinSymbol)
         }
 
-        Snackbar.make(rvSearchList, statusText, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(rvCoinSearchList, statusText, Snackbar.LENGTH_LONG).show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

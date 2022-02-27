@@ -1,6 +1,5 @@
 package com.signal.research.features.dashboard
 
-import CoinDashboardContract
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -32,13 +31,15 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 import java.util.*
 import kotlin.collections.ArrayList
+import CoinDashboardContract
 
 class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
 
     companion object {
         const val TAG = "CoinDashboardFragment"
         private const val COIN_SEARCH_CODE = 100
-        private const val COIN_DETAILS_CODE = 101
+        private const val COIN_DETAILS_PAGER_CODE = 101
+        private const val COIN_DETAILS_CODE = 102
     }
 
     private var coinDashboardList: MutableList<ModuleItem> = ArrayList()
@@ -96,9 +97,9 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
 
     private fun initializeUI(inflatedView: View) {
 
-        rvDashboard = inflatedView.rvDashboard
+        rvDashboard = inflatedView.rvCoinDashboard
 
-        inflatedView.swipeContainer.setOnRefreshListener {
+        inflatedView.swipeDashboardContainer.setOnRefreshListener {
             coinDashboardList.clear()
 
             // get top coins
@@ -106,7 +107,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
 
             coinDashboardPresenter.loadWatchedCoinsAndTransactions()
 
-            inflatedView.swipeContainer.isRefreshing = false
+            inflatedView.swipeDashboardContainer.isRefreshing = false
         }
     }
 
@@ -165,8 +166,8 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
     override fun onCoinPricesLoaded(coinPriceListMap: HashMap<String, CoinPrice>) {
 
         coinDashboardList.forEachIndexed { index, item ->
-            if (item is CoinItemView.DashboardCoinModuleData && coinPriceListMap.contains(item.watchedCoin.coin.symbol.toUpperCase())) {
-                coinDashboardList[index] = item.copy(coinPrice = coinPriceListMap[item.watchedCoin.coin.symbol.toUpperCase()])
+            if (item is CoinItemView.DashboardCoinModuleData && coinPriceListMap.contains(item.watchedCoin.coin.symbol.uppercase())) {
+                coinDashboardList[index] = item.copy(coinPrice = coinPriceListMap[item.watchedCoin.coin.symbol.uppercase()])
             } else if (item is DashboardHeaderItemView.DashboardHeaderModuleData) {
                 coinDashboardList[index] = item.copy(coinPriceListMap = coinPriceListMap)
             }
@@ -187,9 +188,9 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
             topCardList.add(
                 TopCardItemView.TopCardsModuleData(
                         "${it.fromSymbol}/${it.toSymbol}",
-                        "%.2f".format(it.price?.toDouble()) ?: "0",
-                        "%.2f".format(it.changePercentage24Hour?.toDouble()) ?: "0",
-                        "%.2f".format(absoluteChange) ?: "0",
+                        "%.2f".format(it.price?.toDouble()),
+                        "%.2f".format(it.changePercentage24Hour?.toDouble()),
+                        "%.2f".format(absoluteChange),
                         it.marketCap ?: "0",
                         it.fromSymbol ?: "",
                         it.imageUrl ?: ""
@@ -219,30 +220,36 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
     }
 
     private fun showDashboardData(coinList: List<ModuleItem>) {
-        rvDashboard.withModels {
-            coinList.forEachIndexed { index, moduleItem ->
-                when (moduleItem) {
-                    is TopCardList -> {
-                        val topCards = mutableListOf<TopCardItemViewModel_>()
-                        moduleItem.topCardList.forEach {
-                            topCards.add(
-                                TopCardItemViewModel_()
-                                    .id(it.pair).topCardData(it).itemClickListener(object : TopCardItemView.OnTopItemClickedListener {
-                                        override fun onItemClicked(coinSymbol: String) {
-                                            context?.startActivity(
-                                                CoinDetailsActivity.buildLaunchIntent(requireContext(), coinSymbol)
-                                            )
-                                        }
-                                    })
-                            )
+        //isResumed is used to avoid update screen if fragment is not the one showing on screen
+        if (isResumed) {
+            rvDashboard.withModels {
+                coinList.forEachIndexed { _, moduleItem ->
+                    when (moduleItem) {
+                        is TopCardList -> {
+                            val topCards = mutableListOf<TopCardItemViewModel_>()
+                            moduleItem.topCardList.forEach {
+                                topCards.add(
+                                    TopCardItemViewModel_()
+                                        .id(it.pair).topCardData(it).itemClickListener(object :
+                                            TopCardItemView.OnTopItemClickedListener {
+                                            override fun onItemClicked(coinSymbol: String) {
+                                                startActivityForResult(
+                                                    CoinDetailsActivity.buildLaunchIntent(
+                                                        requireContext(),
+                                                        coinSymbol
+                                                    ), COIN_DETAILS_CODE
+                                                )
+                                            }
+                                        })
+                                )
+                            }
+                            carousel {
+                                id("topCardList")
+                                models(topCards)
+                                numViewsToShowOnScreen(2.25F)
+                                Carousel.setDefaultGlobalSnapHelperFactory(null)
+                            }
                         }
-                        carousel {
-                            id("topCardList")
-                            models(topCards)
-                            numViewsToShowOnScreen(2.25F)
-                            Carousel.setDefaultGlobalSnapHelperFactory(null)
-                        }
-                    }
 //                    is ShortNewsItemView.ShortNewsModuleData -> shortNewsItemView {
 //                        id("shortNews")
 //                        newsDate(moduleItem.news.title ?: "")
@@ -254,28 +261,40 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
 //                            }
 //                        }
 //                    }
-                    is CoinItemView.DashboardCoinModuleData -> coinItemView {
-                        id(moduleItem.watchedCoin.coin.id)
-                        dashboardCoinModuleData(moduleItem)
-                        itemClickListener(object : CoinItemView.OnCoinItemClickListener {
-                            override fun onCoinClicked(watchedCoin: WatchedCoin) {
-                                startActivityForResult(CoinDetailsPagerActivity.buildLaunchIntent(requireContext(), watchedCoin), COIN_DETAILS_CODE)
-                            }
-                        })
-                    }
-                    is AddWalletItemView.AddWalletModuleItem -> addWalletItemView {
-                        id("wallet")
-                    }
-                    is AddCoinItemView.AddCoinModuleItem -> addCoinItemView {
-                        id("add coin")
-                        addCoinClickListener { _ ->
-                            startActivityForResult(CoinSearchActivity.buildLaunchIntent(requireContext()), COIN_SEARCH_CODE)
+                        is CoinItemView.DashboardCoinModuleData -> coinItemView {
+                            id(moduleItem.watchedCoin.coin.id)
+                            dashboardCoinModuleData(moduleItem)
+                            itemClickListener(object : CoinItemView.OnCoinItemClickListener {
+                                override fun onCoinClicked(watchedCoin: WatchedCoin) {
+                                    val intent =
+                                        Intent(context, CoinDetailsPagerActivity::class.java)
+                                    intent.putExtra(
+                                        CoinDetailsPagerActivity.WATCHED_COIN,
+                                        watchedCoin
+                                    )
+                                    startActivityForResult(intent, COIN_DETAILS_PAGER_CODE)
+                                    //startActivityForResult(CoinDetailsPagerActivity.buildLaunchIntent(requireContext(), watchedCoin), COIN_DETAILS_CODE)
+                                }
+                            })
                         }
-                    }
+                        is AddWalletItemView.AddWalletModuleItem -> addWalletItemView {
+                            id("wallet")
+                        }
+                        is AddCoinItemView.AddCoinModuleItem -> addCoinItemView {
+                            id("add coin")
+                            addCoinClickListener { _ ->
+                                startActivityForResult(
+                                    CoinSearchActivity.buildLaunchIntent(
+                                        requireContext()
+                                    ), COIN_SEARCH_CODE
+                                )
+                            }
+                        }
 //                    is GenericFooterItemView.FooterModuleData -> genericFooterItemView {
 //                        id("footer")
 //                        footerContent(moduleItem)
 //                    }
+                    }
                 }
             }
         }
@@ -293,7 +312,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        if (COIN_SEARCH_CODE == requestCode || COIN_DETAILS_CODE == requestCode) {
+        if (COIN_SEARCH_CODE == requestCode || COIN_DETAILS_CODE == requestCode || COIN_DETAILS_PAGER_CODE == requestCode) {
             if (resultCode == Activity.RESULT_OK) {
                 clearList()
                 coinDashboardPresenter.loadWatchedCoinsAndTransactions()

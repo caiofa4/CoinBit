@@ -7,7 +7,7 @@
     <string name="transactionTypeWithQuantity">%1$s (%2$s)</string>
     <string name="transactionTimeWithExchange">%1$s via %2$s</string>
     <string name="twoTextWithSpace">%1$s %2$s</string>
-    <string name="transactionCost">Essa transação vale %1$s %2$s</string>
+    <string name="transactionCost">Valor total da transação %1$s %2$s</string>
     <string name="coinPair">%1$s/%2$s</string>
     <string name="buyPriceHint">Preço de Compra %1$s</string>
     <string name="coinDayChanges">%1$.2f%%</string>
@@ -65,12 +65,13 @@
     <string name="buy">Comprar</string>
     <string name="sell">Vender</string>
     <string name="arrow"><![CDATA[>]]></string>
-    <string name="change_exchange">Mudar Exchange</string>
+    <string name="change_exchange">Exchange</string>
     <string name="change_trading_pair">Mudar par de transação</string>
     <string name="transactions">Transações</string>
     <string name="position">Posição</string>
     <string name="market_value">Valor de Mercado</string>
     <string name="total_return">Total Retorno</string>
+    <string name="try_again_exchange">Garregando Exchanges, tente novamente</string>
 
     <string name="search_coin">Buscar Moeda</string>
     <string name="crypto_compare_short">CryptoCompare.com</string>

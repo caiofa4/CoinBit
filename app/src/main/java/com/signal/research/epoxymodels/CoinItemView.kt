@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ContentLoadingProgressBar
@@ -80,7 +81,7 @@ class CoinItemView @JvmOverloads constructor(
         tvCurrentValue = findViewById(R.id.tvCurrentValue)
         tvCoinPercentChange = findViewById(R.id.tvCoinPercentChange)
         tvProfitLoss = findViewById(R.id.tvProfitLoss)
-        pbLoading = findViewById(R.id.pbLoading)
+        pbLoading = findViewById(R.id.pbCoinLoading)
         purchaseItemsGroup = findViewById(R.id.purchaseItemsGroup)
         coinCard = findViewById(R.id.coinCard)
     }
@@ -153,7 +154,7 @@ class CoinItemView @JvmOverloads constructor(
         }
 
         if (dashboardCoinModuleData.isTopCard) {
-            coinCard.background = context.getDrawable(R.drawable.ripple_background_rounded_top)
+            coinCard.background = AppCompatResources.getDrawable(context, R.drawable.ripple_background_rounded_top)
         }
     }
 

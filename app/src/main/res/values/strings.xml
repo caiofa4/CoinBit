@@ -70,6 +70,7 @@
     <string name="position">Position</string>
     <string name="market_value">Market Value</string>
     <string name="total_return">Total Return</string>
+    <string name="try_again_exchange">Try again to select Exchange</string>
 
     <string name="search_coin">Search Coin</string>
     <string name="crypto_compare_short">CryptoCompare.com</string>
