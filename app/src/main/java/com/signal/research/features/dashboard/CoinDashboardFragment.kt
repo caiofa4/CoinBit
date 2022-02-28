@@ -45,6 +45,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
     private var coinDashboardList: MutableList<ModuleItem> = ArrayList()
     private var watchedCoinList: List<WatchedCoin> = emptyList()
     private var coinTransactionList: List<CoinTransaction> = emptyList()
+    private var shouldRefresh = false
 
     private val androidResourceManager: AndroidResourceManager by lazy {
         AndroidResourceManagerImpl(requireContext())
@@ -95,20 +96,33 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
         return inflate
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (shouldRefresh) {
+            clearList()
+            coinDashboardPresenter.loadWatchedCoinsAndTransactions()
+            shouldRefresh = false
+        }
+    }
+
     private fun initializeUI(inflatedView: View) {
 
         rvDashboard = inflatedView.rvCoinDashboard
 
         inflatedView.swipeDashboardContainer.setOnRefreshListener {
-            coinDashboardList.clear()
 
-            // get top coins
-            coinDashboardPresenter.getTopCoinsByTotalVolume24hours(PreferencesManager.getDefaultCurrency(context))
-
-            coinDashboardPresenter.loadWatchedCoinsAndTransactions()
-
+            updateCoinDashboard()
             inflatedView.swipeDashboardContainer.isRefreshing = false
         }
+    }
+
+    private fun updateCoinDashboard() {
+        coinDashboardList.clear()
+
+        // get top coins
+        coinDashboardPresenter.getTopCoinsByTotalVolume24hours(PreferencesManager.getDefaultCurrency(context))
+
+        coinDashboardPresenter.loadWatchedCoinsAndTransactions()
     }
 
     override fun onWatchedCoinsAndTransactionsLoaded(watchedCoinList: List<WatchedCoin>, coinTransactionList: List<CoinTransaction>) {
@@ -297,6 +311,8 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
                     }
                 }
             }
+        } else {
+            shouldRefresh = true
         }
     }
 
