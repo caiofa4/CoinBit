@@ -21,6 +21,9 @@ interface CoinTransactionDao {
     @Delete
     suspend fun deleteTransaction(coinTransaction: CoinTransaction)
 
+    @Update
+    suspend fun updateTransaction(coinTransaction: CoinTransaction)
+
     @Query("SELECT * FROM cointransaction WHERE coinSymbol = :coinSymbol ORDER BY transactionTime ASC")
     fun getTransactionsForCoin(coinSymbol: String): Flow<List<CoinTransaction>>
 }

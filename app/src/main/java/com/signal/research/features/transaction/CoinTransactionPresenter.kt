@@ -6,6 +6,7 @@ import com.signal.research.features.BasePresenter
 import com.signal.research.features.CryptoCompareRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.math.BigDecimal
 
 /**
 Created by Pranay Airan
@@ -57,6 +58,18 @@ class CoinTransactionPresenter(
                 coinRepo.deleteTransaction(transaction)
                 Timber.d("Coin Transaction Erased")
                 currentView?.onTransactionDeleted()
+            } catch (ex: Exception) {
+                Timber.e(ex.localizedMessage)
+            }
+        }
+    }
+
+    override fun updateTransaction(transaction: CoinTransaction, previousQuantity: BigDecimal, previousTransactionType: Int) {
+        launch {
+            try {
+                coinRepo.updateTransaction(transaction, previousQuantity, previousTransactionType)
+                Timber.d("Coin Transaction Updated")
+                currentView?.onTransactionUpdated()
             } catch (ex: Exception) {
                 Timber.e(ex.localizedMessage)
             }

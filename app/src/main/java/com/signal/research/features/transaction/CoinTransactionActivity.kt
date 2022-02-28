@@ -37,11 +37,14 @@ import java.math.RoundingMode
 import java.util.*
 
 import CoinTransactionContract
+import android.util.Log
 
 class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.View, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private var exchangeName = ""
     private var pairName = ""
+    private lateinit var previousQuantity: BigDecimal
+    private var previousTransactionType = 0
 
     private val transactionDate by lazy {
         Calendar.getInstance()
@@ -229,6 +232,14 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
             }
         }
 
+        btnUpdateTransaction.setOnClickListener {
+            coinTransaction = validateAndUpdateTransaction()
+            coinTransaction?.let {
+                loading.show()
+                coinTransactionPresenter.updateTransaction(it, previousQuantity, previousTransactionType)
+            }
+        }
+
         if (!isNewTransaction) {
             populateTransactionView()
         }
@@ -254,6 +265,8 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
             exchangeName = it.exchange
             pairName = it.pair
 
+            previousQuantity = it.quantity
+            previousTransactionType = it.transactionType
         }
     }
 
@@ -274,6 +287,11 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
     }
 
     override fun onTransactionDeleted() {
+        loading.hide()
+        finish()
+    }
+
+    override fun onTransactionUpdated() {
         loading.hide()
         finish()
     }
@@ -312,6 +330,25 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
                 )
             }
         }
+        return null
+    }
+
+    private fun validateAndUpdateTransaction(): CoinTransaction? {
+        calculateCost()
+
+        coinTransaction?.let { transaction ->
+            coin?.let {
+                if (pairName.isNotEmpty() && buyPrice > BigDecimal.ZERO && buyPriceInHomeCurrency > BigDecimal.ZERO &&
+                    etAmount.text.isNotEmpty() && cost > BigDecimal.ZERO
+                ) {
+                    return CoinTransaction(
+                        transactionType, it.symbol, pairName, buyPrice, buyPriceInHomeCurrency, BigDecimal(etAmount.text.toString()),
+                        transactionDate.timeInMillis.toString(), cost.toPlainString(), exchangeName, BigDecimal.ZERO, transaction.idKey
+                    )
+                }
+            }
+        }
+
         return null
     }
 

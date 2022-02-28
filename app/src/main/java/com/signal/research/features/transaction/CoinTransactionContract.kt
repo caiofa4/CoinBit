@@ -15,12 +15,13 @@ interface CoinTransactionContract {
         fun onCoinPriceLoaded(prices: MutableMap<String, BigDecimal>)
         fun onTransactionAdded()
         fun onTransactionDeleted()
-    }
+        fun onTransactionUpdated()    }
 
     interface Presenter {
         fun getAllSupportedExchanges()
         fun getPriceForPair(fromCoin: String, toCoin: String, exchange: String, timeStamp: String)
         fun addTransaction(transaction: CoinTransaction)
         fun deleteTransaction(transaction: CoinTransaction)
+        fun updateTransaction(transaction: CoinTransaction, previousQuantity: BigDecimal, previousTransactionType: Int)
     }
 }

@@ -243,6 +243,23 @@ class CryptoCompareRepository(
         return coinBitDatabase?.coinTransactionDao()?.deleteTransaction(transaction)
     }
 
+    suspend fun updateTransaction(transaction: CoinTransaction, previousQuantity: BigDecimal, previousTransactionType: Int): Unit? {
+        val quantity = transaction.quantity
+
+        val amount = if (transaction.transactionType == TRANSACTION_TYPE_BUY && previousTransactionType == TRANSACTION_TYPE_BUY) {
+            quantity - previousQuantity
+        } else if (transaction.transactionType == TRANSACTION_TYPE_BUY && previousTransactionType == TRANSACTION_TYPE_SELL) {
+            quantity + previousQuantity
+        }  else if (transaction.transactionType == TRANSACTION_TYPE_SELL && previousTransactionType == TRANSACTION_TYPE_BUY) {
+            -quantity - previousQuantity
+        } else {
+            -quantity + previousQuantity
+        }
+
+        coinBitDatabase?.watchedCoinDao()?.addPurchaseQuantityForCoin(amount, transaction.coinSymbol)
+        return coinBitDatabase?.coinTransactionDao()?.updateTransaction(transaction)
+    }
+
     /**
      * Get list of all coins with there watched status
      */
