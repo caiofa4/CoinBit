@@ -108,6 +108,6 @@ class NewsListActivity : AppCompatActivity(), CryptoNewsContract.View {
     }
 
     override fun onNetworkError(errorMessage: String) {
-        Snackbar.make(rvNewsList, errorMessage, Snackbar.LENGTH_LONG)
+        Snackbar.make(rvNewsList, errorMessage, Snackbar.LENGTH_LONG).show()
     }
 }

@@ -1,9 +1,6 @@
 package com.signal.research.data.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.signal.research.data.database.entities.CoinTransaction
 import kotlinx.coroutines.flow.Flow
 
@@ -20,6 +17,9 @@ interface CoinTransactionDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTransaction(coinTransaction: CoinTransaction)
+
+    @Delete
+    suspend fun deleteTransaction(coinTransaction: CoinTransaction)
 
     @Query("SELECT * FROM cointransaction WHERE coinSymbol = :coinSymbol ORDER BY transactionTime ASC")
     fun getTransactionsForCoin(coinSymbol: String): Flow<List<CoinTransaction>>

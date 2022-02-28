@@ -15,9 +15,6 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity
-            android:name=".features.transactiondetails.TransactionDetailsActivity"
-            android:exported="true" />
         <activity android:name=".features.launch.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,6 +41,9 @@
             android:parentActivityName=".features.HomeActivity" />
         <activity
             android:name=".features.newslist.NewsListActivity"
+            android:parentActivityName=".features.coindetails.CoinDetailsPagerActivity" />
+        <activity
+            android:name=".features.transactiondetails.TransactionDetailsActivity"
             android:parentActivityName=".features.coindetails.CoinDetailsPagerActivity" />
         <activity
             android:name=".features.transaction.CoinTransactionActivity"

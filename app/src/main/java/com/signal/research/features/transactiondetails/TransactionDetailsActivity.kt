@@ -1,49 +1,42 @@
 package com.signal.research.features.transactiondetails
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.signal.research.CoinBitApplication
 import com.signal.research.R
-import com.signal.research.data.PreferencesManager
+import com.signal.research.data.database.entities.Coin
 import com.signal.research.data.database.entities.CoinTransaction
 import com.signal.research.epoxymodels.CoinTransactionHistoryItemView
 import com.signal.research.epoxymodels.coinTransactionHistoryView
-import com.signal.research.utils.Formaters
-import com.signal.research.utils.resourcemanager.AndroidResourceManagerImpl
+import com.signal.research.featurecomponents.transactiondetailsmodule.TransactionDetailsPresenter
+import com.signal.research.features.CryptoCompareRepository
+import com.signal.research.features.transaction.CoinTransactionActivity
+import kotlinx.android.synthetic.main.activity_news_list.*
 import kotlinx.android.synthetic.main.activity_transaction_details.*
-import java.util.*
 
-class TransactionDetailsActivity : AppCompatActivity() {
+class TransactionDetailsActivity : AppCompatActivity(), TransactionDetailsContract.View {
+
+    private var coin: Coin? = null
+    var coinTransactions: CoinTransactionHistoryItemView.CoinTransactionHistoryModuleData? = null
+    private var selectedIndex = 0
+
+    private val coinRepo by lazy {
+        CryptoCompareRepository(CoinBitApplication.database)
+    }
+
+    private val transactionDetailsPresenter: TransactionDetailsPresenter by lazy {
+        TransactionDetailsPresenter(coinRepo)
+    }
 
     companion object {
-        private const val COIN_FULL_NAME = "COIN_FULL_NAME"
         private const val COIN_SYMBOL = "COIN_SYMBOL"
-        private const val MODULE_ITEM = "MODULE_ITEM"
-
-        @JvmStatic
-        fun buildLaunchIntent(context: Context, coinName: String, coinSymbol: String): Intent {
-            val intent = Intent(context, TransactionDetailsActivity::class.java)
-            intent.putExtra(COIN_FULL_NAME, coinName)
-            intent.putExtra(COIN_SYMBOL, coinSymbol)
-            return intent
-        }
-    }
-
-    private val androidResourceManager by lazy {
-        AndroidResourceManagerImpl(this)
-    }
-
-    private val formatter: Formaters by lazy {
-        Formaters(androidResourceManager)
-    }
-
-    private val currency: Currency by lazy {
-        Currency.getInstance(PreferencesManager.getDefaultCurrency(this))
+        private const val COIN = "COIN"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,27 +47,31 @@ class TransactionDetailsActivity : AppCompatActivity() {
         setSupportActionBar(toolbar as Toolbar?)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val moduleItem = intent.getSerializableExtra(MODULE_ITEM)
-        val coinSymbol = intent.getStringExtra(COIN_SYMBOL)?.trim()
-        var coinTransactions: CoinTransactionHistoryItemView.CoinTransactionHistoryModuleData?
+        coin = intent.getParcelableExtra(COIN)
+        val coinSymbol = intent.getStringExtra(COIN_SYMBOL)
 
         supportActionBar?.title = getString(R.string.transactionsDetailsActivityTitle, coinSymbol)
 
-        showOrHideLoadingIndicatorForTicker(true)
+        transactionDetailsPresenter.attachView(this)
 
-        moduleItem?.let { item ->
-            coinTransactions = item as CoinTransactionHistoryItemView.CoinTransactionHistoryModuleData
-            coinTransactions?.let {
-                loadTransactionsOnScreen(it.coinTransactionList.reversed())
-            }
-        } ?: kotlin.run {
-            showOrHideLoadingIndicatorForTicker(false)
+        coinSymbol?.let {
+            transactionDetailsPresenter.loadRecentTransaction(it)
         }
 
         FirebaseCrashlytics.getInstance().log("TransactionDetailsActivity")
     }
 
-    fun showOrHideLoadingIndicatorForTicker(showLoading: Boolean) {
+    private fun openTransaction(coinTransaction: CoinTransaction) {
+        coin?.let {
+            val intent = Intent(this, CoinTransactionActivity::class.java)
+            intent.putExtra(CoinTransactionActivity.COIN, it)
+            intent.putExtra(CoinTransactionActivity.NEW_TRANSACTION, false)
+            intent.putExtra(CoinTransactionActivity.COIN_TRANSACTION, coinTransaction)
+            startActivity(intent)
+        } ?: Toast.makeText(this, getString(R.string.generic_error), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showOrHideLoadingIndicator(showLoading: Boolean) {
         if (!showLoading) {
             pbLoadingTransactionDetails.hide()
         } else {
@@ -82,21 +79,24 @@ class TransactionDetailsActivity : AppCompatActivity() {
         }
     }
 
-    fun loadTransactionsOnScreen(coinTransactions: List<CoinTransaction>) {
+    override fun onTransactionsLoaded(coinTransactions: List<CoinTransaction>) {
+        val reversedCoinTransactions = coinTransactions.reversed()
         rvTransactionDetails.withModels {
-            coinTransactions.forEachIndexed { index, coinTransaction ->
+            reversedCoinTransactions.forEachIndexed { index, coinTransaction ->
                 coinTransactionHistoryView {
                     id(index)
                     coinTransaction(coinTransaction)
-//                    tickerPrice(formatter.formatAmount(cryptoTicker.convertedVolumeUSD, currency, true))
-//                    tickerVolume(formatter.formatAmount(cryptoTicker.last, currency, true))
                     moreClickListener { _ ->
-                        Toast.makeText(applicationContext, "ola ${index}", Toast.LENGTH_SHORT).show()
+                        selectedIndex = index
+                        openTransaction(coinTransaction)
                     }
                 }
             }
         }
-        showOrHideLoadingIndicatorForTicker(false)
+    }
+
+    override fun onNetworkError(errorMessage: String) {
+        Snackbar.make(rvNewsList, errorMessage, Snackbar.LENGTH_LONG).show()
     }
 
 

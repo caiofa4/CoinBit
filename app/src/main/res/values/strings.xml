@@ -56,6 +56,9 @@
     <string name="recent_news">Recent News</string>
     <string name="more">More</string>
     <string name="add_transaction">Add Transaction</string>
+    <string name="update_transaction">Update</string>
+    <string name="erase_transaction">Erase</string>
+    <string name="save_transaction">SAVE</string>
     <string name="portfolio_changed_percentage">(%1$s%%)</string>
     <string name="search_hint">Coin name or Symbol</string>
     <string name="trading_pair">Trading Pair</string>

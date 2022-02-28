@@ -37,6 +37,9 @@
 
     <color name="cerise">#da0e86</color>
     <color name="bubble_gum_pink">#ff5ba4</color>
+    <color name="delete">#EE4B2B</color>
+    <color name="save">#06c134</color>
+
 
     <color name="colorBlack">#000000</color>
     <color name="colorHint">#909090</color>

@@ -425,15 +425,74 @@
 
     </ScrollView>
 
-
-    <Button
+    <androidx.cardview.widget.CardView
         android:id="@+id/btnFinishTransaction"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="@string/add_transaction"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/generic8dp"
+        android:backgroundTint="@color/save"
+        app:cardCornerRadius="6dp"
+        app:layout_constraintTop_toTopOf="@+id/glHorizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/add_transaction"
+            style="@style/CoinBitText.Body1"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnUpdateTransaction"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/generic8dp"
+        android:backgroundTint="@color/save"
+        app:cardCornerRadius="6dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/glHorizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/glVertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/update_transaction"
+            style="@style/CoinBitText.Body1"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnEraseTransaction"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/generic8dp"
+        android:backgroundTint="@color/delete"
+        app:cardCornerRadius="6dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/glHorizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/glVertical"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:layout_gravity="center"
+            android:contentDescription="@string/erase_transaction"
+            />
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/loading"
@@ -448,5 +507,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glVertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

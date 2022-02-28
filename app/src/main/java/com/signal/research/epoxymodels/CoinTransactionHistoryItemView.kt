@@ -1,6 +1,7 @@
 package com.signal.research.epoxymodels
 
 import android.content.Context
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
@@ -16,7 +17,7 @@ import com.signal.research.utils.Formaters
 import com.signal.research.utils.TRANSACTION_TYPE_SELL
 import com.signal.research.utils.resourcemanager.AndroidResourceManager
 import com.signal.research.utils.resourcemanager.AndroidResourceManagerImpl
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
@@ -160,5 +161,6 @@ class CoinTransactionHistoryItemView @JvmOverloads constructor(
         tvMore.setOnClickListener(listener)
     }
 
-    class CoinTransactionHistoryModuleData(val coinTransactionList: List<CoinTransaction>) : ModuleItem, Serializable
+    @Parcelize
+    class CoinTransactionHistoryModuleData(val coinTransactionList: List<CoinTransaction>) : ModuleItem, Parcelable
 }

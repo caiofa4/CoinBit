@@ -37,7 +37,6 @@ import com.signal.research.utils.resourcemanager.AndroidResourceManagerImpl
 import com.signal.research.utils.ui.OnVerticalScrollListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.signal.research.features.HomeActivity
 import com.signal.research.features.transactiondetails.TransactionDetailsActivity
 import kotlinx.android.synthetic.main.fragment_coin_details.*
 import java.math.BigDecimal
@@ -89,6 +88,7 @@ class CoinFragment : Fragment(), CoinContract.View, CryptoNewsContract.View, Coi
         private const val WATCHED_COIN = "WATCHED_COIN"
         private const val MODULE_ITEM = "MODULE_ITEM"
         private const val COIN_SYMBOL = "COIN_SYMBOL"
+        private const val COIN = "COIN"
 
         @JvmStatic
         fun getArgumentBundle(watchedCoin: WatchedCoin): Bundle {
@@ -313,6 +313,7 @@ class CoinFragment : Fragment(), CoinContract.View, CryptoNewsContract.View, Coi
                             watchedCoin?.coin?.let {
                                 val intent = Intent(context, TransactionDetailsActivity::class.java)
                                 intent.putExtra(MODULE_ITEM, moduleItem)
+                                intent.putExtra(COIN, it)
                                 intent.putExtra(COIN_SYMBOL, it.symbol)
                                 startActivity(intent)
                             }

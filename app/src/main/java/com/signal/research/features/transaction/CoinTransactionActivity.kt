@@ -35,12 +35,8 @@ import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
 import java.util.*
-import android.widget.CompoundButton
 
 import CoinTransactionContract
-
-
-
 
 class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.View, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -76,7 +72,9 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
 
     private var exchangeCoinMap: HashMap<String, MutableList<ExchangePair>>? = null
 
+    private var isNewTransaction: Boolean = true
     private var coin: Coin? = null
+    private var coinTransaction: CoinTransaction? = null
     private var cost = BigDecimal.ZERO
     private var buyPrice = BigDecimal.ZERO
     private var buyPriceInHomeCurrency = BigDecimal.ZERO
@@ -86,15 +84,10 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
 
     companion object {
         const val COIN = "COIN"
+        const val NEW_TRANSACTION = "NEW_TRANSACTION"
+        const val COIN_TRANSACTION = "COIN_TRANSACTION"
         private const val EXCHANGE_REQUEST = 100
         private const val PAIR_REQUEST = 101
-
-        @JvmStatic
-        fun buildLaunchIntent(context: Context, coin: Coin): Intent {
-            val intent = Intent(context, CoinTransactionActivity::class.java)
-            intent.putExtra(COIN, coin)
-            return intent
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,6 +99,7 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         coin = intent.getParcelableExtra(COIN)
+        isNewTransaction = intent.getBooleanExtra(NEW_TRANSACTION, true)
 
         checkNotNull(coin)
 
@@ -227,6 +221,40 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
                 coinTransactionPresenter.addTransaction(it)
             }
         }
+
+        btnEraseTransaction.setOnClickListener {
+            coinTransaction?.let {
+                loading.show()
+                coinTransactionPresenter.deleteTransaction(it)
+            }
+        }
+
+        if (!isNewTransaction) {
+            populateTransactionView()
+        }
+    }
+
+    private fun populateTransactionView() {
+        btnFinishTransaction.visibility = View.GONE
+        btnUpdateTransaction.visibility = View.VISIBLE
+        btnEraseTransaction.visibility = View.VISIBLE
+
+        coinTransaction = intent.getParcelableExtra(COIN_TRANSACTION)
+        coinTransaction?.let {
+            if (it.transactionType == TRANSACTION_TYPE_SELL) {
+                swBuySell.isChecked = false
+            }
+
+            tvExchange.text = it.exchange
+            tvPair.text = it.pair
+            tvDatetime.text = formatter.formatTransactionDate(it.transactionTime)
+            etBuyPrice.setText(String.format(it.buyPrice.toString()))
+            etAmount.setText(String.format(it.quantity.toString()))
+
+            exchangeName = it.exchange
+            pairName = it.pair
+
+        }
     }
 
     override fun onAllSupportedExchangesLoaded(exchangeCoinMap: HashMap<String, MutableList<ExchangePair>>) {
@@ -241,6 +269,11 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
 
     override fun onTransactionAdded() {
         setResult(Activity.RESULT_OK)
+        loading.hide()
+        finish()
+    }
+
+    override fun onTransactionDeleted() {
         loading.hide()
         finish()
     }
@@ -395,3 +428,4 @@ class CoinTransactionActivity : AppCompatActivity(), CoinTransactionContract.Vie
         Snackbar.make(svContainer, errorMessage, Snackbar.LENGTH_LONG).show()
     }
 }
+

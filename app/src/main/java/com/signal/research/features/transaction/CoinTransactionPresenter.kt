@@ -50,4 +50,16 @@ class CoinTransactionPresenter(
             }
         }
     }
+
+    override fun deleteTransaction(transaction: CoinTransaction) {
+        launch {
+            try {
+                coinRepo.deleteTransaction(transaction)
+                Timber.d("Coin Transaction Erased")
+                currentView?.onTransactionDeleted()
+            } catch (ex: Exception) {
+                Timber.e(ex.localizedMessage)
+            }
+        }
+    }
 }

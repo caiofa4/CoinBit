@@ -85,7 +85,6 @@ class CoinDetailsPagerActivity : AppCompatActivity(), CoinDetailsPagerContract.V
             watchedCoin?.coin?.coinName, watchedCoin?.coin?.symbol
         )
 
-
         watchedCoin?.let {
             val coinDetailsFragment = CoinFragment()
             coinDetailsFragment.arguments = CoinFragment.getArgumentBundle(it)

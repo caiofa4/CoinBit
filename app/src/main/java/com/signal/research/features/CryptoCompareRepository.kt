@@ -64,7 +64,7 @@ class CryptoCompareRepository(
             val coinInfoWithCurrencyList = Gson().fromJson<ArrayList<CoinInfoWithCurrency>>(json, amountCurrencyType)
 
             coinInfoWithCurrencyList.forEach {
-                coinInfoMap[it.currencyName.toLowerCase()] = it.info
+                coinInfoMap[it.currencyName.lowercase()] = it.info
             }
 
             return coinInfoMap
@@ -209,7 +209,7 @@ class CryptoCompareRepository(
      * Get all recent transactions
      */
     fun getRecentTransaction(symbol: String): Flow<List<CoinTransaction>>? {
-        return coinBitDatabase?.coinTransactionDao()?.getTransactionsForCoin(symbol.toUpperCase())
+        return coinBitDatabase?.coinTransactionDao()?.getTransactionsForCoin(symbol.uppercase())
             ?.distinctUntilChanged()
     }
 
@@ -230,6 +230,17 @@ class CryptoCompareRepository(
 
         coinBitDatabase?.watchedCoinDao()?.addPurchaseQuantityForCoin(quantity, transaction.coinSymbol)
         return coinBitDatabase?.coinTransactionDao()?.insertTransaction(transaction)
+    }
+
+    suspend fun deleteTransaction(transaction: CoinTransaction): Unit? {
+        var quantity = transaction.quantity
+
+        if (transaction.transactionType == TRANSACTION_TYPE_BUY) {
+            quantity = quantity.multiply(BigDecimal(-1)) // since this is sell we need to decrease the quantity
+        }
+
+        coinBitDatabase?.watchedCoinDao()?.addPurchaseQuantityForCoin(quantity, transaction.coinSymbol)
+        return coinBitDatabase?.coinTransactionDao()?.deleteTransaction(transaction)
     }
 
     /**
