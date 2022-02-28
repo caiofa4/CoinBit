@@ -145,7 +145,7 @@ class CoinDetailsActivity : AppCompatActivity(), CoinDetailsContract.View {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (COIN_TRANSACTION_CODE == requestCode) {
             if (resultCode == Activity.RESULT_OK) {
-                isCoinInfoChanged = true
+                //isCoinInfoChanged = true
             }
         }
 
