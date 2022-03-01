@@ -3,6 +3,7 @@ package com.signal.research.epoxymodels
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.airbnb.epoxy.ModelProp
@@ -28,6 +29,7 @@ class CoinPositionItemView @JvmOverloads constructor(
     defStyle: Int = 0,
 ) : ConstraintLayout(context, attributeSet, defStyle) {
 
+    private val llCoinPositionModule: LinearLayout
     private val tvNoOfCoins: TextView
     private val tvCoinLabel: TextView
     private val tvCoinValue: TextView
@@ -60,6 +62,7 @@ class CoinPositionItemView @JvmOverloads constructor(
         tvTotalCostValue = findViewById(R.id.tvTotalCostValue)
         tvAvgCostValue = findViewById(R.id.tvAvgCostValue)
         tvTotalReturnValue = findViewById(R.id.tvTotalReturnValue)
+        llCoinPositionModule = findViewById(R.id.llCoinPositionModule)
     }
 
     @ModelProp(options = [ModelProp.Option.IgnoreRequireHashCode])
@@ -70,33 +73,42 @@ class CoinPositionItemView @JvmOverloads constructor(
         val noOfCoins = noOfCoinsAndTotalCost.first
         val totalCost = noOfCoinsAndTotalCost.second
 
-        tvNoOfCoins.text = noOfCoins.toPlainString()
-        tvCoinLabel.text = coinPrice.fromSymbol
+        if (noOfCoins > BigDecimal.ZERO) {
+            llCoinPositionModule.visibility = View.VISIBLE
+            tvNoOfCoins.text = noOfCoins.toPlainString()
+            tvCoinLabel.text = coinPrice.fromSymbol
 
-        val totalCurrentValue = coinPrice.price?.toBigDecimal()?.multiply(noOfCoins)
-        if (totalCurrentValue != null) {
-            tvCoinValue.text = formatter.formatAmount(totalCurrentValue.toPlainString(), currency)
-        }
-
-        tvTotalCostValueLabel.text = context.getString(R.string.cost)
-        tvTotalCostValue.text = formatter.formatAmount(totalCost.toPlainString(), currency)
-        tvAvgCostValue.text = formatter.formatAmount(totalCost.divide(noOfCoins, mc).toPlainString(), currency)
-
-        val totalReturnAmount = totalCurrentValue?.subtract(totalCost)
-        val totalReturnPercentage = (totalReturnAmount?.divide(totalCost, mc))?.multiply(BigDecimal(100), mc)
-
-        if (totalReturnAmount != null && totalReturnPercentage != null) {
-
-            tvTotalReturnValue.text = androidResourceManager.getString(
-                R.string.amountWithChangePercentage,
-                formatter.formatAmount(totalReturnAmount.toPlainString(), currency), totalReturnPercentage
-            )
-
-            if (totalReturnPercentage < BigDecimal.ZERO) {
-                tvTotalReturnValue.setTextColor(androidResourceManager.getColor(R.color.colorLoss))
-            } else {
-                tvTotalReturnValue.setTextColor(androidResourceManager.getColor(R.color.colorGain))
+            val totalCurrentValue = coinPrice.price?.toBigDecimal()?.multiply(noOfCoins)
+            if (totalCurrentValue != null) {
+                tvCoinValue.text =
+                    formatter.formatAmount(totalCurrentValue.toPlainString(), currency)
             }
+
+            tvTotalCostValueLabel.text = context.getString(R.string.cost)
+            tvTotalCostValue.text = formatter.formatAmount(totalCost.toPlainString(), currency)
+            tvAvgCostValue.text =
+                formatter.formatAmount(totalCost.divide(noOfCoins, mc).toPlainString(), currency)
+
+            val totalReturnAmount = totalCurrentValue?.subtract(totalCost)
+            val totalReturnPercentage =
+                (totalReturnAmount?.divide(totalCost, mc))?.multiply(BigDecimal(100), mc)
+
+            if (totalReturnAmount != null && totalReturnPercentage != null) {
+
+                tvTotalReturnValue.text = androidResourceManager.getString(
+                    R.string.amountWithChangePercentage,
+                    formatter.formatAmount(totalReturnAmount.toPlainString(), currency),
+                    totalReturnPercentage
+                )
+
+                if (totalReturnPercentage < BigDecimal.ZERO) {
+                    tvTotalReturnValue.setTextColor(androidResourceManager.getColor(R.color.colorLoss))
+                } else {
+                    tvTotalReturnValue.setTextColor(androidResourceManager.getColor(R.color.colorGain))
+                }
+            }
+        } else {
+            llCoinPositionModule.visibility = View.GONE
         }
     }
 

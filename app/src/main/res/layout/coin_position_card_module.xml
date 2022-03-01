@@ -7,7 +7,9 @@
     android:layout_marginStart="@dimen/generic14dp"
     android:layout_marginTop="@dimen/generic16dp"
     android:layout_marginEnd="@dimen/generic14dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/llCoinPositionModule"
+    >
 
     <TextView
         style="@style/CoinBitText.Body1Alternate"

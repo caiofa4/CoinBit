@@ -368,7 +368,28 @@ class CoinFragment : Fragment(), CoinContract.View, CryptoNewsContract.View, Coi
             // add transaction module
             coinDetailList.removeAt(3)
             coinDetailList.add(3, CoinTransactionHistoryItemView.CoinTransactionHistoryModuleData(coinTransactionList))
-            showCoinDataInView(coinDetailList)
+        } else {
+            var indexesToRemove = mutableListOf<Int>()
+            for (index in 0 until coinDetailList.size) {
+                if (coinDetailList[index] is CoinPositionItemView.CoinPositionCardModuleData) {
+                    //coinDetailList.removeAt(index)
+                    //coinDetailList.remove(coinDetail)
+                    indexesToRemove.add(index)
+                }
+                if (coinDetailList[index] is CoinTransactionHistoryItemView.CoinTransactionHistoryModuleData) {
+                    //coinDetailList.remove(coinDetail)
+                    indexesToRemove.add(index)
+                }
+            }
+            if (indexesToRemove.size > 0) {
+                indexesToRemove = indexesToRemove.reversed() as MutableList<Int>
+                for (index in indexesToRemove) {
+                    coinDetailList.removeAt(index)
+                }
+            }
+
+
         }
+        showCoinDataInView(coinDetailList)
     }
 }

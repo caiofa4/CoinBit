@@ -66,7 +66,7 @@ class IntroFragment : Fragment() {
             if (page == 1) {
                 findViewById<LottieAnimationView>(R.id.animationView).speed = 1.5f
             }
-            findViewById<TextView>(R.id.tvTitle).text = headerTitle
+            findViewById<TextView>(R.id.tvIntroTitle).text = headerTitle
             findViewById<TextView>(R.id.tvSubTitle).text = headerSubtitle
             if (showbutton) {
                 findViewById<TextView>(R.id.btnChooseCurrency).visibility = View.VISIBLE

@@ -43,7 +43,7 @@ class IntroPageTransformer : ViewPager.PageTransformer {
 
             // Let's start by animating the title.
             // We want it to fade as it scrolls out
-            val title = page.findViewById<TextView>(R.id.tvTitle)
+            val title = page.findViewById<TextView>(R.id.tvIntroTitle)
             title.translationX = ((-(1 - position) * 0.1 * pageWidthTimesPosition).toFloat())
 
             // Now the description. We also want this one to

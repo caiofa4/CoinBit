@@ -32,8 +32,25 @@ import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 import CoinDashboardContract
+import androidx.core.content.ContextCompat
+import com.signal.research.utils.Formaters
+import com.signal.research.utils.getTotalCost
+import kotlinx.android.synthetic.main.fragment_dashboard.*
+import java.math.BigDecimal
 
 class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
+
+    private val toCurrency: String by lazy {
+        PreferencesManager.getDefaultCurrency(context)
+    }
+
+    private val currency by lazy {
+        Currency.getInstance(toCurrency)
+    }
+
+    private val formatter by lazy {
+        Formaters(androidResourceManager)
+    }
 
     companion object {
         const val TAG = "CoinDashboardFragment"
@@ -46,6 +63,8 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
     private var watchedCoinList: List<WatchedCoin> = emptyList()
     private var coinTransactionList: List<CoinTransaction> = emptyList()
     private var shouldRefresh = false
+    private var costList: MutableList<Pair<String, Double>> = ArrayList()
+    private var currentValueList: MutableList<Pair<String, Double>> = ArrayList()
 
     private val androidResourceManager: AndroidResourceManager by lazy {
         AndroidResourceManagerImpl(requireContext())
@@ -236,6 +255,8 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
     private fun showDashboardData(coinList: List<ModuleItem>) {
         //isResumed is used to avoid update screen if fragment is not the one showing on screen
         if (isResumed) {
+            costList = ArrayList()
+            currentValueList = ArrayList()
             rvDashboard.withModels {
                 coinList.forEachIndexed { _, moduleItem ->
                     when (moduleItem) {
@@ -280,16 +301,14 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
                             dashboardCoinModuleData(moduleItem)
                             itemClickListener(object : CoinItemView.OnCoinItemClickListener {
                                 override fun onCoinClicked(watchedCoin: WatchedCoin) {
-                                    val intent =
-                                        Intent(context, CoinDetailsPagerActivity::class.java)
-                                    intent.putExtra(
-                                        CoinDetailsPagerActivity.WATCHED_COIN,
-                                        watchedCoin
-                                    )
+                                    val intent = Intent(context, CoinDetailsPagerActivity::class.java)
+                                    intent.putExtra(CoinDetailsPagerActivity.WATCHED_COIN, watchedCoin)
                                     startActivityForResult(intent, COIN_DETAILS_PAGER_CODE)
                                     //startActivityForResult(CoinDetailsPagerActivity.buildLaunchIntent(requireContext(), watchedCoin), COIN_DETAILS_CODE)
                                 }
                             })
+                            val coinItemView = moduleItem as CoinItemView.DashboardCoinModuleData
+                            getCostAndValue(coinItemView)
                         }
                         is AddWalletItemView.AddWalletModuleItem -> addWalletItemView {
                             id("wallet")
@@ -313,6 +332,65 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
             }
         } else {
             shouldRefresh = true
+        }
+    }
+
+    private fun updateWallet() {
+//        if (totalCost != 0.0 && currentValue != 0.0) {
+//            clWallet.visibility = View.VISIBLE
+//            tvCost.text = totalCost.toString()
+//            tvWalletValue.text = currentValue.toString()
+//        } else {
+//            clWallet.visibility = View.GONE
+//        }
+
+        var totalCost = 0.0
+        var totalValue = 0.0
+
+        if (costList.size > 0 && currentValueList.size > 0) {
+            costList.forEach {
+                totalCost += it.second
+            }
+            currentValueList.forEach {
+                totalValue += it.second
+            }
+            clWallet.visibility = View.VISIBLE
+            tvCostValue.text = formatter.formatAmount(totalCost.toString(), currency)
+            tvWalletValue.text =  formatter.formatAmount(totalValue.toString(), currency)
+            context?.let {
+                if (totalCost > totalValue) {
+                    tvWalletValue.setTextColor(ContextCompat.getColor(it, R.color.colorLoss))
+                } else {
+                    tvWalletValue.setTextColor(ContextCompat.getColor(it, R.color.colorGain))
+                }
+            }
+        } else {
+            clWallet.visibility = View.GONE
+        }
+    }
+
+    private fun addTotalCost(cost: Double, symbol: String) {
+        costList.add(Pair(symbol, cost))
+    }
+
+    private fun addTotalValue(value: Double, symbol: String) {
+        currentValueList.add(Pair(symbol, value))
+    }
+
+    private fun getCostAndValue(dashboardCoinModuleData: CoinItemView.DashboardCoinModuleData) {
+
+        val coin = dashboardCoinModuleData.watchedCoin.coin
+        val purchaseQuantity = dashboardCoinModuleData.watchedCoin.purchaseQuantity
+        if (purchaseQuantity > BigDecimal.ZERO) {
+            val coinPrice = dashboardCoinModuleData.coinPrice
+            coinPrice?.let {
+                val currentWorth = purchaseQuantity.multiply(BigDecimal(it.price)).toDouble()
+                addTotalValue(currentWorth, coin.symbol)
+            }
+            val cost = getTotalCost(dashboardCoinModuleData.coinTransactionList, coin.symbol).toDouble()
+            addTotalCost(cost, coin.symbol)
+
+            updateWallet()
         }
     }
 

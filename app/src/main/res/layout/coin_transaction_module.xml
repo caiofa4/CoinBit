@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/generic14dp"
     android:layout_marginTop="@dimen/generic16dp"
-    android:layout_marginEnd="@dimen/generic14dp">
+    android:layout_marginEnd="@dimen/generic14dp"
+    android:id="@+id/clTransactionModule">
 
     <TextView
         android:id="@+id/tvAboutCoinLabel"

@@ -26,7 +26,7 @@ class CoinTransactionHistoryItemView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyle: Int = 0,
 ) : ConstraintLayout(context, attributeSet, defStyle) {
-
+    private val clTransactionModule: ConstraintLayout
     private val tvFirstTxnTypeAndQuantity: TextView
     private val tvFirstTxnTimeAndExchange: TextView
     private val tvFirstTxnCost: TextView
@@ -70,6 +70,7 @@ class CoinTransactionHistoryItemView @JvmOverloads constructor(
         tvThirdTxnCost = findViewById(R.id.tvThirdTxnCost)
         clThirdTransaction = findViewById(R.id.clThirdTransaction)
 
+        clTransactionModule = findViewById(R.id.clTransactionModule)
         dividerView = findViewById(R.id.dividerView)
         tvMore = findViewById(R.id.tvMore)
     }
@@ -81,7 +82,8 @@ class CoinTransactionHistoryItemView @JvmOverloads constructor(
 
         var transactionType: String
 
-        if (coinTransactionList.isNotEmpty()) {
+        if (coinTransactionList.size > 0) {
+            clTransactionModule.visibility = View.VISIBLE
             val coinTransaction = coinTransactionList[coinTransactionList.size - 1]
 
             transactionType = if (coinTransaction.transactionType == TRANSACTION_TYPE_SELL) {
@@ -101,8 +103,10 @@ class CoinTransactionHistoryItemView @JvmOverloads constructor(
                 R.string.transactionTimeWithExchange,
                 formatter.formatTransactionDate(coinTransaction.transactionTime), coinTransaction.exchange
             )
+            clFirstTransaction.visibility = View.VISIBLE
         } else {
             clFirstTransaction.visibility = View.GONE
+            clTransactionModule.visibility = View.GONE
         }
 
         if (coinTransactionList.size > 1) {
@@ -124,6 +128,7 @@ class CoinTransactionHistoryItemView @JvmOverloads constructor(
                 R.string.transactionTimeWithExchange,
                 formatter.formatTransactionDate(coinTransaction.transactionTime), coinTransaction.exchange
             )
+            clSecondTransaction.visibility = View.VISIBLE
         } else {
             clSecondTransaction.visibility = View.GONE
         }
@@ -146,13 +151,14 @@ class CoinTransactionHistoryItemView @JvmOverloads constructor(
                 R.string.transactionTimeWithExchange,
                 formatter.formatTransactionDate(coinTransaction.transactionTime), coinTransaction.exchange
             )
+            clThirdTransaction.visibility = View.VISIBLE
         } else {
             clThirdTransaction.visibility = View.GONE
         }
 
         if (coinTransactionList.size <= 3) {
-            dividerView.visibility = View.GONE
-            tvMore.visibility = View.GONE
+            //dividerView.visibility = View.GONE
+            //tvMore.visibility = View.GONE
         }
     }
 
