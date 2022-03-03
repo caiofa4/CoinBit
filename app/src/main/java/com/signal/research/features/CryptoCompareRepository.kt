@@ -123,11 +123,12 @@ class CryptoCompareRepository(
         return if (CoinBitCache.topCoinsByTotalVolume24Hours.isNotEmpty()) {
             CoinBitCache.topCoinsByTotalVolume24Hours
         } else {
-            getCoinPriceListFromJson(api.getTopCoinsByTotalVolume24hours(tsyms, 10)).apply {
-                if (size > 0) {
-                    CoinBitCache.topCoinsByTotalVolume24Hours = this
-                }
-            }
+            getCoinPriceListFromJson(api.getTopCoinsByTotalVolume24hours(tsyms, 10))
+//                .apply {
+//                if (size > 0) {
+//                    CoinBitCache.topCoinsByTotalVolume24Hours = this
+//                }
+//            }
         }
     }
 

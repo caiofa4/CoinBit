@@ -32,7 +32,10 @@ import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 import CoinDashboardContract
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import com.signal.research.utils.Formaters
 import com.signal.research.utils.getTotalCost
 import kotlinx.android.synthetic.main.fragment_dashboard.*
@@ -85,6 +88,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
     private val coinNews: MutableList<CryptoCompareNews> = mutableListOf()
 
     private lateinit var rvDashboard: EpoxyRecyclerView
+    private lateinit var clWallet: ConstraintLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -127,11 +131,19 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
     private fun initializeUI(inflatedView: View) {
 
         rvDashboard = inflatedView.rvCoinDashboard
+        clWallet = inflatedView.clWallet
 
         inflatedView.swipeDashboardContainer.setOnRefreshListener {
 
             updateCoinDashboard()
             inflatedView.swipeDashboardContainer.isRefreshing = false
+        }
+
+        clWallet.setOnClickListener {
+            val v = if (llHidden.visibility == View.GONE) View.VISIBLE else View.GONE
+
+            TransitionManager.beginDelayedTransition(cvWallet, AutoTransition())
+            llHidden.visibility = v
         }
     }
 
@@ -284,6 +296,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
                                 numViewsToShowOnScreen(2.25F)
                                 Carousel.setDefaultGlobalSnapHelperFactory(null)
                             }
+                            rvDashboard.smoothScrollToPosition(0)
                         }
 //                    is ShortNewsItemView.ShortNewsModuleData -> shortNewsItemView {
 //                        id("shortNews")
@@ -336,14 +349,6 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
     }
 
     private fun updateWallet() {
-//        if (totalCost != 0.0 && currentValue != 0.0) {
-//            clWallet.visibility = View.VISIBLE
-//            tvCost.text = totalCost.toString()
-//            tvWalletValue.text = currentValue.toString()
-//        } else {
-//            clWallet.visibility = View.GONE
-//        }
-
         var totalCost = 0.0
         var totalValue = 0.0
 
@@ -354,7 +359,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
             currentValueList.forEach {
                 totalValue += it.second
             }
-            clWallet.visibility = View.VISIBLE
+            cvWallet.visibility = View.VISIBLE
             tvCostValue.text = formatter.formatAmount(totalCost.toString(), currency)
             tvWalletValue.text =  formatter.formatAmount(totalValue.toString(), currency)
             context?.let {
@@ -365,7 +370,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
                 }
             }
         } else {
-            clWallet.visibility = View.GONE
+            cvWallet.visibility = View.GONE
         }
     }
 
