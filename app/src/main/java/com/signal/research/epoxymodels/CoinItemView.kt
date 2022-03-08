@@ -22,10 +22,7 @@ import com.signal.research.data.database.entities.WatchedCoin
 import com.signal.research.featurecomponents.ModuleItem
 import com.signal.research.network.BASE_CRYPTOCOMPARE_IMAGE_URL
 import com.signal.research.network.models.CoinPrice
-import com.signal.research.utils.CoinBitExtendedCurrency
-import com.signal.research.utils.Formaters
-import com.signal.research.utils.chartAnimationDuration
-import com.signal.research.utils.getTotalCost
+import com.signal.research.utils.*
 import com.signal.research.utils.resourcemanager.AndroidResourceManager
 import com.signal.research.utils.resourcemanager.AndroidResourceManagerImpl
 import kotlinx.android.synthetic.main.dashboard_coin_module.view.*
@@ -125,7 +122,8 @@ class CoinItemView @JvmOverloads constructor(
             }
 
             animateCoinPrice(coinPrice.price)
-            val purchaseQuantity = dashboardCoinModuleData.watchedCoin.purchaseQuantity
+            //val purchaseQuantity = dashboardCoinModuleData.watchedCoin.purchaseQuantity
+            val purchaseQuantity = getPurchasedQuantity(dashboardCoinModuleData.coinTransactionList, coin.symbol)
 
             tvCoinMarketCap.text = CoinBitExtendedCurrency.getAmountTextForDisplay(BigDecimal(coinPrice.marketCap), currency)
 
@@ -174,6 +172,20 @@ class CoinItemView @JvmOverloads constructor(
     @CallbackProp
     fun setItemClickListener(listener: OnCoinItemClickListener?) {
         onCoinItemClickListener = listener
+    }
+
+    private fun getPurchasedQuantity(coinTransactionList: List<CoinTransaction>, symbol: String): BigDecimal {
+        var quantity = BigDecimal.ZERO
+        for (coinTransaction in coinTransactionList) {
+            if (coinTransaction.coinSymbol == symbol) {
+                quantity = if (coinTransaction.transactionType == TRANSACTION_TYPE_BUY) {
+                    quantity + coinTransaction.quantity
+                } else {
+                    quantity - coinTransaction.quantity
+                }
+            }
+        }
+        return quantity
     }
 
     private fun animateCoinPrice(amount: String?) {

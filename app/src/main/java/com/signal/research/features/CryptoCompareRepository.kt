@@ -214,6 +214,10 @@ class CryptoCompareRepository(
             ?.distinctUntilChanged()
     }
 
+    fun getAllCoinTransaction(): Flow<List<CoinTransaction>>? {
+        return coinBitDatabase?.coinTransactionDao()?.getAllCoinTransaction()?.distinctUntilChanged()
+    }
+
     suspend fun insertCoinsInWatchList(watchedCoinList: List<WatchedCoin>): Unit? {
         return coinBitDatabase?.watchedCoinDao()?.insertCoinListIntoWatchList(watchedCoinList)
     }

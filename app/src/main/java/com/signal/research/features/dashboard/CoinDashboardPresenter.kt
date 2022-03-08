@@ -80,4 +80,18 @@ class CoinDashboardPresenter(
             }
         }
     }
+
+    override fun loadAllCoinTransactions() {
+        launch {
+            coinRepo.getAllCoinTransaction()
+                ?.catch {
+                    Timber.e(it.localizedMessage)
+                }
+                ?.collect { coinTransactionsList ->
+                    coinTransactionsList.let {
+                        currentView?.onAllCoinTransactionsLoaded(it)
+                    }
+                }
+        }
+    }
 }

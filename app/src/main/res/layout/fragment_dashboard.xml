@@ -33,6 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:cardElevation="0dp"
+        android:visibility="gone"
         android:elevation="@dimen/generic10dp"
         app:cardCornerRadius="@dimen/generic16dp"
         android:layout_marginBottom="-16dp"
@@ -112,14 +113,16 @@
                 android:text="Pega aqui na minha piroca imeeeeensa. Depois disso, vem aqui me dar uma mamada goxxxxtosa, que eu estou precisando. Por fim, vai tomar no meio do olho do seu cu. Obrigado"
                 />
 
-            <ImageView
-                android:id="@+id/ivTest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/google_button"
+            <com.robinhood.spark.SparkView
+                android:id="@+id/walletChartView"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginTop="@dimen/generic16dp"
                 android:layout_marginStart="@dimen/generic16dp"
                 android:layout_marginEnd="@dimen/generic16dp"
-                />
+                app:spark_animateChanges="true"
+                app:spark_lineColor="@color/save"
+                app:spark_scrubEnabled="true" />
 
         </LinearLayout>
 

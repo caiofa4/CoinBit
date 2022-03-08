@@ -36,6 +36,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import com.robinhood.spark.SparkView
+import com.signal.research.featurecomponents.historicalchartmodule.WalletChartAdapter
 import com.signal.research.utils.Formaters
 import com.signal.research.utils.getTotalCost
 import kotlinx.android.synthetic.main.fragment_dashboard.*
@@ -65,6 +67,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
     private var coinDashboardList: MutableList<ModuleItem> = ArrayList()
     private var watchedCoinList: List<WatchedCoin> = emptyList()
     private var coinTransactionList: List<CoinTransaction> = emptyList()
+    private var allCoinTransactionList: List<CoinTransaction> = emptyList()
     private var shouldRefresh = false
     private var costList: MutableList<Pair<String, Double>> = ArrayList()
     private var currentValueList: MutableList<Pair<String, Double>> = ArrayList()
@@ -89,6 +92,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
 
     private lateinit var rvDashboard: EpoxyRecyclerView
     private lateinit var clWallet: ConstraintLayout
+    private lateinit var walletChartView: SparkView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -114,6 +118,9 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
         // get prices for watched coin
         coinDashboardPresenter.loadWatchedCoinsAndTransactions()
 
+        //get all transaction history to make wallet evolution
+        coinDashboardPresenter.loadAllCoinTransactions()
+
         FirebaseCrashlytics.getInstance().log("CoinDashboardFragment")
 
         return inflate
@@ -132,6 +139,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
 
         rvDashboard = inflatedView.rvCoinDashboard
         clWallet = inflatedView.clWallet
+        walletChartView = inflatedView.walletChartView
 
         inflatedView.swipeDashboardContainer.setOnRefreshListener {
 
@@ -264,6 +272,11 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
         showDashboardData(coinDashboardList)
     }
 
+    override fun onAllCoinTransactionsLoaded(coinTransactionList: List<CoinTransaction>) {
+        this.allCoinTransactionList = coinTransactionList
+        updateWallet()
+    }
+
     private fun showDashboardData(coinList: List<ModuleItem>) {
         //isResumed is used to avoid update screen if fragment is not the one showing on screen
         if (isResumed) {
@@ -353,6 +366,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
         var totalValue = 0.0
 
         if (costList.size > 0 && currentValueList.size > 0) {
+            setChartData()
             costList.forEach {
                 totalCost += it.second
             }
@@ -374,6 +388,48 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
         }
     }
 
+    private fun setChartData() {
+        var list: MutableList<Double> = mutableListOf()
+        list.add(0.0)
+        list.add(35.0)
+        list.add(15.0)
+        list.add(57.0)
+        list.add(35.0)
+        list.add(86.0)
+        list.add(104.0)
+        list.add(65.0)
+        list.add(123.0)
+        list.add(0.0)
+        list.add(35.0)
+        list.add(15.0)
+        list.add(57.0)
+        list.add(35.0)
+        list.add(86.0)
+        list.add(104.0)
+        list.add(65.0)
+        list.add(123.0)
+        list.add(0.0)
+        list.add(35.0)
+        list.add(15.0)
+        list.add(57.0)
+        list.add(35.0)
+        list.add(86.0)
+        list.add(104.0)
+        list.add(65.0)
+        list.add(123.0)
+        list.add(0.0)
+        list.add(35.0)
+        list.add(15.0)
+        list.add(57.0)
+        list.add(35.0)
+        list.add(86.0)
+        list.add(104.0)
+        list.add(65.0)
+        list.add(123.0)
+
+        walletChartView.adapter = WalletChartAdapter(list)
+    }
+
     private fun addTotalCost(cost: Double, symbol: String) {
         costList.add(Pair(symbol, cost))
     }
@@ -383,7 +439,6 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
     }
 
     private fun getCostAndValue(dashboardCoinModuleData: CoinItemView.DashboardCoinModuleData) {
-
         val coin = dashboardCoinModuleData.watchedCoin.coin
         val purchaseQuantity = dashboardCoinModuleData.watchedCoin.purchaseQuantity
         if (purchaseQuantity > BigDecimal.ZERO) {

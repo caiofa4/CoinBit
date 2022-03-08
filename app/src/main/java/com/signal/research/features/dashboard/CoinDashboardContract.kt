@@ -15,6 +15,7 @@ interface CoinDashboardContract {
         fun onCoinPricesLoaded(coinPriceListMap: HashMap<String, CoinPrice>)
         fun onTopCoinsByTotalVolumeLoaded(topCoins: List<CoinPrice>)
         fun onCoinNewsLoaded(coinNews: List<CryptoCompareNews>)
+        fun onAllCoinTransactionsLoaded(coinTransactionList: List<CoinTransaction>)
     }
 
     interface Presenter {
@@ -22,5 +23,6 @@ interface CoinDashboardContract {
         fun loadCoinsPrices(fromCurrencySymbol: String, toCurrencySymbol: String)
         fun getTopCoinsByTotalVolume24hours(toCurrencySymbol: String)
         fun getLatestNewsFromCryptoCompare()
+        fun loadAllCoinTransactions()
     }
 }
