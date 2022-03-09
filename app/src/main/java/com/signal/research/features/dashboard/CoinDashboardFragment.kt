@@ -400,23 +400,27 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
         return false
     }
 
-    private fun getWalletCost(): List<CoinTransaction> {
+    private fun getWalletCost(date: Date = Date("3/1/2022")): List<CoinTransaction> {
         val walletTransactions = mutableListOf<CoinTransaction>()
         for (coinTransaction in this.allCoinTransactionList) {
-            if (walletTransactions.any {it.coinSymbol == coinTransaction.coinSymbol}) {
-                val walletTransaction = walletTransactions.first { it.coinSymbol == coinTransaction.coinSymbol }
-                if (walletTransaction.transactionType == TRANSACTION_TYPE_BUY) {
-                    walletTransaction.quantity = walletTransaction.quantity + coinTransaction.quantity
-                    walletTransaction.cost =
-                        (walletTransaction.cost.toDouble() + coinTransaction.cost.toDouble()).toString()
+            val transactionDate = coinTransaction.transactionTime.toLong()
+            if (transactionDate > date.time) {
+                if (walletTransactions.any { it.coinSymbol == coinTransaction.coinSymbol }) {
+                    val walletTransaction =
+                        walletTransactions.first { it.coinSymbol == coinTransaction.coinSymbol }
+                    if (walletTransaction.transactionType == TRANSACTION_TYPE_BUY) {
+                        walletTransaction.quantity = walletTransaction.quantity + coinTransaction.quantity
+                        walletTransaction.cost =
+                            (walletTransaction.cost.toDouble() + coinTransaction.cost.toDouble()).toString()
+                    } else {
+                        walletTransaction.quantity = walletTransaction.quantity - coinTransaction.quantity
+                        walletTransaction.cost =
+                            (walletTransaction.cost.toDouble() - coinTransaction.cost.toDouble()).toString()
+                    }
                 } else {
-                    walletTransaction.quantity = walletTransaction.quantity - coinTransaction.quantity
-                    walletTransaction.cost =
-                        (walletTransaction.cost.toDouble() - coinTransaction.cost.toDouble()).toString()
+                    val transaction = coinTransaction.copy()
+                    walletTransactions.add(transaction)
                 }
-            } else {
-                val transaction = coinTransaction.copy()
-                walletTransactions.add(transaction)
             }
         }
         return walletTransactions
