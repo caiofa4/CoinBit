@@ -39,6 +39,7 @@ import androidx.transition.TransitionManager
 import com.robinhood.spark.SparkView
 import com.signal.research.featurecomponents.historicalchartmodule.WalletChartAdapter
 import com.signal.research.utils.Formaters
+import com.signal.research.utils.TRANSACTION_TYPE_BUY
 import com.signal.research.utils.getTotalCost
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import java.math.BigDecimal
@@ -67,9 +68,10 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
     private var coinDashboardList: MutableList<ModuleItem> = ArrayList()
     private var watchedCoinList: List<WatchedCoin> = emptyList()
     private var coinTransactionList: List<CoinTransaction> = emptyList()
-    private var allCoinTransactionList: List<CoinTransaction> = emptyList()
+    private var allCoinTransactionList: MutableList<CoinTransaction> = ArrayList()
     private var shouldRefresh = false
     private var costList: MutableList<Pair<String, Double>> = ArrayList()
+    private var valueList: MutableList<Pair<String, Double>> = ArrayList()
     private var currentValueList: MutableList<Pair<String, Double>> = ArrayList()
 
     private val androidResourceManager: AndroidResourceManager by lazy {
@@ -273,7 +275,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
     }
 
     override fun onAllCoinTransactionsLoaded(coinTransactionList: List<CoinTransaction>) {
-        this.allCoinTransactionList = coinTransactionList
+        this.allCoinTransactionList = coinTransactionList.toMutableList()
         updateWallet()
     }
 
@@ -333,8 +335,9 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
                                     //startActivityForResult(CoinDetailsPagerActivity.buildLaunchIntent(requireContext(), watchedCoin), COIN_DETAILS_CODE)
                                 }
                             })
-                            val coinItemView = moduleItem as CoinItemView.DashboardCoinModuleData
-                            getCostAndValue(coinItemView)
+
+                            saveCoinValue(moduleItem.coinPrice)
+                            //getCostAndValue(coinItemView)
                         }
                         is AddWalletItemView.AddWalletModuleItem -> addWalletItemView {
                             id("wallet")
@@ -359,17 +362,83 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
         } else {
             shouldRefresh = true
         }
+        updateWallet()
+    }
+
+    private fun saveCoinValue(coinPrice: CoinPrice?) {
+        coinPrice?.let { coin ->
+            coin.fromSymbol?.let { symbol ->
+                coin.price?.let { price ->
+                    if (!this.valueList.any { it.first == symbol }) {
+                        this.valueList.add(Pair(symbol, price.toDouble()))
+                    }
+                }
+            }
+        }
+    }
+
+    private fun shouldShowWallet(): Boolean {
+        var symbol = ""
+        var amount = 0
+        this.allCoinTransactionList.sortBy { it.coinSymbol }
+        this.allCoinTransactionList.forEach {
+            if (it.coinSymbol != symbol) {
+                if (amount != 0) {
+                    return true
+                }
+                symbol = it.coinSymbol
+            }
+            amount = if (it.transactionType == TRANSACTION_TYPE_BUY) {
+                amount + it.quantity.toInt()
+            } else {
+                amount - it.quantity.toInt()
+            }
+        }
+        if (amount > 0) {
+            return true
+        }
+        return false
+    }
+
+    private fun getWalletCost(): List<CoinTransaction> {
+        val walletTransactions = mutableListOf<CoinTransaction>()
+        for (coinTransaction in this.allCoinTransactionList) {
+            if (walletTransactions.any {it.coinSymbol == coinTransaction.coinSymbol}) {
+                val walletTransaction = walletTransactions.first { it.coinSymbol == coinTransaction.coinSymbol }
+                if (walletTransaction.transactionType == TRANSACTION_TYPE_BUY) {
+                    walletTransaction.quantity = walletTransaction.quantity + coinTransaction.quantity
+                    walletTransaction.cost =
+                        (walletTransaction.cost.toDouble() + coinTransaction.cost.toDouble()).toString()
+                } else {
+                    walletTransaction.quantity = walletTransaction.quantity - coinTransaction.quantity
+                    walletTransaction.cost =
+                        (walletTransaction.cost.toDouble() - coinTransaction.cost.toDouble()).toString()
+                }
+            } else {
+                val transaction = coinTransaction.copy()
+                walletTransactions.add(transaction)
+            }
+        }
+        return walletTransactions
     }
 
     private fun updateWallet() {
         var totalCost = 0.0
         var totalValue = 0.0
 
-        if (costList.size > 0 && currentValueList.size > 0) {
+        //val shouldShowWallet = shouldShowWallet()
+
+        if (shouldShowWallet() && this.valueList.size > 0) {
+            val walletTransactions = getWalletCost()
             setChartData()
-            costList.forEach {
-                totalCost += it.second
+            walletTransactions.forEach { coinTransaction ->
+                totalCost += coinTransaction.cost.toDouble()
+                val currentValue = this.valueList.first {it.first == coinTransaction.coinSymbol}
+                totalValue += (coinTransaction.quantity.toDouble() * currentValue.second)
             }
+//            costList.forEach {
+//                totalCost += it.second
+//            }
             currentValueList.forEach {
                 totalValue += it.second
             }
@@ -450,7 +519,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
             val cost = getTotalCost(dashboardCoinModuleData.coinTransactionList, coin.symbol).toDouble()
             addTotalCost(cost, coin.symbol)
 
-            updateWallet()
+            //updateWallet()
         }
     }
 
