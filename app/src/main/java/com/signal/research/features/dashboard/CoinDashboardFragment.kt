@@ -335,9 +335,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
                                     //startActivityForResult(CoinDetailsPagerActivity.buildLaunchIntent(requireContext(), watchedCoin), COIN_DETAILS_CODE)
                                 }
                             })
-
                             saveCoinValue(moduleItem.coinPrice)
-                            //getCostAndValue(coinItemView)
                         }
                         is AddWalletItemView.AddWalletModuleItem -> addWalletItemView {
                             id("wallet")
@@ -400,7 +398,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
         return false
     }
 
-    private fun getWalletCost(date: Date = Date("3/1/2022")): List<CoinTransaction> {
+    private fun getWalletCost(date: Date = Date(0)): List<CoinTransaction> {
         val walletTransactions = mutableListOf<CoinTransaction>()
         for (coinTransaction in this.allCoinTransactionList) {
             val transactionDate = coinTransaction.transactionTime.toLong()
