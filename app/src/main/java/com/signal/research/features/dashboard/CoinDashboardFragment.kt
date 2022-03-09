@@ -426,8 +426,6 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
         var totalCost = 0.0
         var totalValue = 0.0
 
-        //val shouldShowWallet = shouldShowWallet()
-
         if (shouldShowWallet() && this.valueList.size > 0) {
             val walletTransactions = getWalletCost()
             setChartData()
@@ -436,20 +434,17 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
                 val currentValue = this.valueList.first {it.first == coinTransaction.coinSymbol}
                 totalValue += (coinTransaction.quantity.toDouble() * currentValue.second)
             }
-//            costList.forEach {
-//                totalCost += it.second
-//            }
-            currentValueList.forEach {
-                totalValue += it.second
-            }
+
             cvWallet.visibility = View.VISIBLE
             tvCostValue.text = formatter.formatAmount(totalCost.toString(), currency)
             tvWalletValue.text =  formatter.formatAmount(totalValue.toString(), currency)
             context?.let {
                 if (totalCost > totalValue) {
                     tvWalletValue.setTextColor(ContextCompat.getColor(it, R.color.colorLoss))
-                } else {
+                } else if (totalCost < totalValue) {
                     tvWalletValue.setTextColor(ContextCompat.getColor(it, R.color.colorGain))
+                } else {
+                    tvWalletValue.setTextColor(ContextCompat.getColor(it, R.color.primaryTextColor))
                 }
             }
         } else {
