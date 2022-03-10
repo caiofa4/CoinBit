@@ -2,6 +2,7 @@ package com.signal.research.features.dashboard
 
 import CoinDashboardContract
 import com.signal.research.data.CoinBitCache
+import com.signal.research.featurecomponents.historicalchartmodule.ChartRepository
 import com.signal.research.features.BasePresenter
 import com.signal.research.features.CryptoCompareRepository
 import com.signal.research.network.models.CoinPrice
@@ -17,6 +18,7 @@ Created by Pranay Airan
 
 class CoinDashboardPresenter(
     private val dashboardRepository: DashboardRepository,
+    private val chartRepo: ChartRepository,
     private val coinRepo: CryptoCompareRepository
 ) : BasePresenter<CoinDashboardContract.View>(),
     CoinDashboardContract.Presenter {
@@ -92,6 +94,19 @@ class CoinDashboardPresenter(
                         currentView?.onAllCoinTransactionsLoaded(it)
                     }
                 }
+        }
+    }
+
+    /**
+     * Load historical data for the coin to show the chart.
+     */
+    override fun loadHistoricalData(period: String, fromCurrency: String, toCurrency: String, numberOfCoins: Int) {
+        launch {
+            try {
+                currentView?.onHistoricalDataLoaded(fromCurrency, period, numberOfCoins, chartRepo.getCryptoHistoricalData(period, fromCurrency, toCurrency))
+            } catch (ex: Exception) {
+                Timber.e(ex.localizedMessage)
+            }
         }
     }
 }

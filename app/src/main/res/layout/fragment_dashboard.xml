@@ -105,24 +105,21 @@
             android:layout_marginTop="@dimen/generic10dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvTest"
+            <com.airbnb.epoxy.EpoxyRecyclerView
+                android:id="@+id/rvWallet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/generic10dp"
+                android:orientation="vertical">
+
+            </com.airbnb.epoxy.EpoxyRecyclerView>
+
+            <ProgressBar
+                android:id="@+id/pbLoadChart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/CoinBitText.Body4"
-                android:text="Pega aqui na minha piroca imeeeeensa. Depois disso, vem aqui me dar uma mamada goxxxxtosa, que eu estou precisando. Por fim, vai tomar no meio do olho do seu cu. Obrigado"
+                android:layout_gravity="center"
                 />
-
-            <com.robinhood.spark.SparkView
-                android:id="@+id/walletChartView"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:layout_marginTop="@dimen/generic16dp"
-                android:layout_marginStart="@dimen/generic16dp"
-                android:layout_marginEnd="@dimen/generic16dp"
-                app:spark_animateChanges="true"
-                app:spark_lineColor="@color/save"
-                app:spark_scrubEnabled="true" />
 
         </LinearLayout>
 

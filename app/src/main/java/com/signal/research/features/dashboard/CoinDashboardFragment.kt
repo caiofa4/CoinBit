@@ -32,12 +32,16 @@ import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 import CoinDashboardContract
+import android.util.Log
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.robinhood.spark.SparkView
+import com.signal.research.featurecomponents.historicalchartmodule.ChartRepository
 import com.signal.research.featurecomponents.historicalchartmodule.WalletChartAdapter
+import com.signal.research.network.HOUR
+import com.signal.research.network.models.CryptoCompareHistoricalResponse
 import com.signal.research.utils.Formaters
 import com.signal.research.utils.TRANSACTION_TYPE_BUY
 import com.signal.research.utils.getTotalCost
@@ -73,6 +77,10 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
     private var costList: MutableList<Pair<String, Double>> = ArrayList()
     private var valueList: MutableList<Pair<String, Double>> = ArrayList()
     private var currentValueList: MutableList<Pair<String, Double>> = ArrayList()
+    private var historicalValueList: MutableList<List<CryptoCompareHistoricalResponse.Data>> = ArrayList()
+    private var coinSymbolList: MutableList<String> = ArrayList()
+    private var coinAmount = 0
+    private var totalValue = 0.0
 
     private val androidResourceManager: AndroidResourceManager by lazy {
         AndroidResourceManagerImpl(requireContext())
@@ -82,17 +90,22 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
         DashboardRepository(CoinBitApplication.database)
     }
 
+    private val chartRepo by lazy {
+        ChartRepository()
+    }
+
     private val coinRepo by lazy {
         CryptoCompareRepository(CoinBitApplication.database)
     }
 
     private val coinDashboardPresenter: CoinDashboardPresenter by lazy {
-        CoinDashboardPresenter(dashboardRepository, coinRepo)
+        CoinDashboardPresenter(dashboardRepository, chartRepo, coinRepo)
     }
 
     private val coinNews: MutableList<CryptoCompareNews> = mutableListOf()
 
     private lateinit var rvDashboard: EpoxyRecyclerView
+    private lateinit var rvWallet: EpoxyRecyclerView
     private lateinit var clWallet: ConstraintLayout
     private lateinit var walletChartView: SparkView
 
@@ -141,7 +154,8 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
 
         rvDashboard = inflatedView.rvCoinDashboard
         clWallet = inflatedView.clWallet
-        walletChartView = inflatedView.walletChartView
+        //walletChartView = inflatedView.walletChartView
+        rvWallet = inflatedView.rvWallet
 
         inflatedView.swipeDashboardContainer.setOnRefreshListener {
 
@@ -201,7 +215,7 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
         // get news
         coinDashboardPresenter.getLatestNewsFromCryptoCompare()
 
-        // cryptocompare support only 100 coins in 1 shot. For safety we will support 95 and paginate
+        // crypto compare support only 100 coins in 1 shot. For safety we will support 95 and paginate
         val chunkWatchedList: List<List<WatchedCoin>> = watchedCoinList.chunked(95)
 
         chunkWatchedList.forEach {
@@ -277,6 +291,52 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
     override fun onAllCoinTransactionsLoaded(coinTransactionList: List<CoinTransaction>) {
         this.allCoinTransactionList = coinTransactionList.toMutableList()
         updateWallet()
+    }
+
+    private fun getWalletValueList(coinSymbolList: List<String>, historicalDataPairList: List<List<CryptoCompareHistoricalResponse.Data>>): List<Double> {
+        val valueList: MutableList<Double> = mutableListOf()
+
+        historicalDataPairList.first().forEachIndexed { timeIndex, element ->
+            val walletTransactions = getWalletCost(element.time.toLong())
+
+            var timeStampValue = 0.0
+            coinSymbolList.forEachIndexed { coinIndex, symbol ->
+                val coinQuantity = (walletTransactions.first { it.coinSymbol == symbol }).quantity
+                timeStampValue += coinQuantity.toDouble() * historicalDataPairList[coinIndex][timeIndex].close.toDouble()
+            }
+            valueList.add(timeStampValue)
+        }
+        if (this.totalValue > 0) {
+            Log.i("tagTestegetWalletValueList", this.totalValue.toString())
+            valueList.add(this.totalValue)
+        }
+        return valueList
+    }
+
+    override fun onHistoricalDataLoaded(coinSymbol: String, period: String, numberOfCoins: Int, historicalDataPair: Pair<List<CryptoCompareHistoricalResponse.Data>, CryptoCompareHistoricalResponse.Data?>) {
+        this.coinAmount++
+        this.historicalValueList.add(historicalDataPair.first)
+        this.coinSymbolList.add(coinSymbol)
+        if (this.coinAmount == numberOfCoins) {
+            val walletValueList = getWalletValueList(this.coinSymbolList, this.historicalValueList)
+            val moduleItem = WalletHistoricalChartItemView
+                .HistoricalChartModuleData(walletValueList.last().toString(), period, coinSymbol, walletValueList)
+            rvWallet.withModels {
+                walletHistoricalChartItemView {
+                    id("walletHistoricalChartItem")
+                    chartData(moduleItem)
+                    onChartRangeSelected(object :
+                        WalletHistoricalChartItemView.OnHistoricalChardRangeSelectionListener {
+                        override fun onRangeSelected(period: String, fromCurrency: String, toCurrency: String) {
+                            coinDashboardPresenter.loadHistoricalData(period, fromCurrency, toCurrency, numberOfCoins)
+                        }
+                    })
+                    pbLoadChart.visibility = View.GONE
+                }
+            }
+            coinAmount = 0
+            this.historicalValueList = ArrayList()
+        }
     }
 
     private fun showDashboardData(coinList: List<ModuleItem>) {
@@ -398,7 +458,8 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
         return false
     }
 
-    private fun getWalletCost(date: Date = Date(0)): List<CoinTransaction> {
+    private fun getWalletCost(dateValue: Long = 0): List<CoinTransaction> {
+        val date = Date(dateValue)
         val walletTransactions = mutableListOf<CoinTransaction>()
         for (coinTransaction in this.allCoinTransactionList) {
             val transactionDate = coinTransaction.transactionTime.toLong()
@@ -424,99 +485,45 @@ class CoinDashboardFragment : Fragment(), CoinDashboardContract.View {
         return walletTransactions
     }
 
+    private fun loadHistoricalData(walletTransactions: List<CoinTransaction>) {
+        walletTransactions.forEachIndexed { index, transaction ->
+            coinDashboardPresenter.loadHistoricalData(HOUR, transaction.coinSymbol, toCurrency, walletTransactions.size)
+        }
+    }
+
     private fun updateWallet() {
         var totalCost = 0.0
-        var totalValue = 0.0
+        this.totalValue = 0.0
 
         if (shouldShowWallet() && this.valueList.size > 0) {
             val walletTransactions = getWalletCost()
-            setChartData()
+            loadHistoricalData(walletTransactions)
+
             walletTransactions.forEach { coinTransaction ->
                 totalCost += coinTransaction.cost.toDouble()
                 val currentValue = this.valueList.first {it.first == coinTransaction.coinSymbol}
-                totalValue += (coinTransaction.quantity.toDouble() * currentValue.second)
+                this.totalValue += (coinTransaction.quantity.toDouble() * currentValue.second)
             }
 
             cvWallet.visibility = View.VISIBLE
             tvCostValue.text = formatter.formatAmount(totalCost.toString(), currency)
-            tvWalletValue.text =  formatter.formatAmount(totalValue.toString(), currency)
+            tvWalletValue.text =  formatter.formatAmount(this.totalValue.toString(), currency)
+            Log.i("tagTesteupdateWallet", this.totalValue.toString())
             context?.let {
-                if (totalCost > totalValue) {
-                    tvWalletValue.setTextColor(ContextCompat.getColor(it, R.color.colorLoss))
-                } else if (totalCost < totalValue) {
-                    tvWalletValue.setTextColor(ContextCompat.getColor(it, R.color.colorGain))
-                } else {
-                    tvWalletValue.setTextColor(ContextCompat.getColor(it, R.color.primaryTextColor))
+                when {
+                    totalCost > this.totalValue -> {
+                        tvWalletValue.setTextColor(ContextCompat.getColor(it, R.color.colorLoss))
+                    }
+                    totalCost < this.totalValue -> {
+                        tvWalletValue.setTextColor(ContextCompat.getColor(it, R.color.colorGain))
+                    }
+                    else -> {
+                        tvWalletValue.setTextColor(ContextCompat.getColor(it, R.color.primaryTextColor))
+                    }
                 }
             }
         } else {
             cvWallet.visibility = View.GONE
-        }
-    }
-
-    private fun setChartData() {
-        var list: MutableList<Double> = mutableListOf()
-        list.add(0.0)
-        list.add(35.0)
-        list.add(15.0)
-        list.add(57.0)
-        list.add(35.0)
-        list.add(86.0)
-        list.add(104.0)
-        list.add(65.0)
-        list.add(123.0)
-        list.add(0.0)
-        list.add(35.0)
-        list.add(15.0)
-        list.add(57.0)
-        list.add(35.0)
-        list.add(86.0)
-        list.add(104.0)
-        list.add(65.0)
-        list.add(123.0)
-        list.add(0.0)
-        list.add(35.0)
-        list.add(15.0)
-        list.add(57.0)
-        list.add(35.0)
-        list.add(86.0)
-        list.add(104.0)
-        list.add(65.0)
-        list.add(123.0)
-        list.add(0.0)
-        list.add(35.0)
-        list.add(15.0)
-        list.add(57.0)
-        list.add(35.0)
-        list.add(86.0)
-        list.add(104.0)
-        list.add(65.0)
-        list.add(123.0)
-
-        walletChartView.adapter = WalletChartAdapter(list)
-    }
-
-    private fun addTotalCost(cost: Double, symbol: String) {
-        costList.add(Pair(symbol, cost))
-    }
-
-    private fun addTotalValue(value: Double, symbol: String) {
-        currentValueList.add(Pair(symbol, value))
-    }
-
-    private fun getCostAndValue(dashboardCoinModuleData: CoinItemView.DashboardCoinModuleData) {
-        val coin = dashboardCoinModuleData.watchedCoin.coin
-        val purchaseQuantity = dashboardCoinModuleData.watchedCoin.purchaseQuantity
-        if (purchaseQuantity > BigDecimal.ZERO) {
-            val coinPrice = dashboardCoinModuleData.coinPrice
-            coinPrice?.let {
-                val currentWorth = purchaseQuantity.multiply(BigDecimal(it.price)).toDouble()
-                addTotalValue(currentWorth, coin.symbol)
-            }
-            val cost = getTotalCost(dashboardCoinModuleData.coinTransactionList, coin.symbol).toDouble()
-            addTotalCost(cost, coin.symbol)
-
-            //updateWallet()
         }
     }
 
